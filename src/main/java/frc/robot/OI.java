@@ -34,6 +34,8 @@ public class OI {
 	private Button p_btn_X = new JoystickButton(p_gp, Gamepad.BTN_X);
 	private Button p_btn_B = new JoystickButton(p_gp, Gamepad.BTN_B);
   private Button p_btn_Y = new JoystickButton(p_gp, Gamepad.BTN_Y);
+  private Button d_btn_L2 = new AXISButton(p_gp, Gamepad.AXIS_LY,0.1);
+  private Button d_btn_R2 = new AXISButton(p_gp, Gamepad.AXIS_RY,0.1);
   /*
 	private Button p_dpad_up = new DPADButton(p_gp, POV.UP);
 	private Button p_dpad_down = new DPADButton(p_gp, POV.DOWN);
@@ -69,7 +71,7 @@ public class OI {
   // button.whenReleased(new ExampleCommand());
   public OI() {
 		
-		switch(Dashboard.controllerChooser.getSelected()) {
+		/*switch(Dashboard.controllerChooser.getSelected()) {
 			case XBOX:
 				p_gp = new Xbox(0, "Primary");
 				p_btn_RT = new AXISButton(p_gp, Gamepad.BTN_RT);
@@ -78,27 +80,30 @@ public class OI {
 			case DUALSHOCK:
 				break;
 		}
+		*/
 
-		p_btn_B.whenPressed(new Launch(Launch.type.SCALE));
-		p_btn_X.whenPressed(new Launch(Launch.type.SWITCH));
 		
-		p_dpad_right.whenPressed(new IntakeToggle());
+
+		//p_btn_B.whenPressed(new Launch(Launch.type.SCALE));
+		//p_btn_X.whenPressed(new Launch(Launch.type.SWITCH));
 		
-		p_btn_RB.whenPressed(new IntakeSet(-1));
-		p_btn_RB.whenReleased(new IntakeSet(0));
+		//p_dpad_right.whenPressed(new IntakeToggle());
 		
-		p_btn_RT.whenPressed(new IntakeSet(1));
-		p_btn_RT.whenReleased(new IntakeSet(0));
+		//p_btn_RB.whenPressed(new IntakeSet(-1));
+		//p_btn_RB.whenReleased(new IntakeSet(0));
 		
-		p_btn_start.whenPressed(new GearShift(Drivetrain.shift.LOW));
-		p_btn_back.whenPressed(new GearShift(Drivetrain.shift.HIGH));
+		//p_btn_RT.whenPressed(new IntakeSet(1));
+		//p_btn_RT.whenReleased(new IntakeSet(0));
+		
+		//p_btn_start.whenPressed(new GearShift(Drivetrain.shift.LOW));
+		//p_btn_back.whenPressed(new GearShift(Drivetrain.shift.HIGH));
 		
 		//p_btn_LB.whenPressed(new ArmSet(-1));
 		//p_btn_LB.whenReleased(new ArmSet(0));
 		
 		//p_btn_LT.whenPressed(new ArmSet(1));
 		//p_btn_LT.whenReleased(new ArmSet(0));
-		
+		/*
 		p_btn_LB.whenPressed(new ArmMove(true));
 		
 		p_btn_LT.whenPressed(new ArmMove(false));
@@ -116,6 +121,7 @@ public class OI {
 		
 		s_btn_R3.whenPressed(new ArmPIDReset());
 		s_btn_Y.whenPressed(new IntakeToggle());
+		*/
 		
 		//s_btn_B.whenPressed(new SwitchDrop());
 		
@@ -130,8 +136,9 @@ public class OI {
 				return true;
 			}
 		});*/
-		
+		/*
 		s_btn_X.whenPressed(new LaunchWaitChange(Launch.type.SCALE, 5));
 		s_btn_A.whenPressed(new LaunchWaitChange(Launch.type.SCALE, -5));
+		*/
 	}
 }
