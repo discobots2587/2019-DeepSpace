@@ -7,11 +7,12 @@
 
 package frc.robot;
 import frc.robot.lib.Gamepad;
+import frc.robot.lib.AXISButton;
 import frc.robot.lib.DPADButton;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
-
+import frc.robot.lib.Xbox;
 //importing all the commands
 
 
@@ -66,4 +67,71 @@ public class OI {
   // Start the command when the button is released and let it run the command
   // until it is finished as determined by it's isFinished method.
   // button.whenReleased(new ExampleCommand());
+  public OI() {
+		
+		switch(Dashboard.controllerChooser.getSelected()) {
+			case XBOX:
+				p_gp = new Xbox(0, "Primary");
+				p_btn_RT = new AXISButton(p_gp, Gamepad.BTN_RT);
+				p_btn_LT = new AXISButton(p_gp, Gamepad.BTN_LT);
+				break;
+			case DUALSHOCK:
+				break;
+		}
+
+		p_btn_B.whenPressed(new Launch(Launch.type.SCALE));
+		p_btn_X.whenPressed(new Launch(Launch.type.SWITCH));
+		
+		p_dpad_right.whenPressed(new IntakeToggle());
+		
+		p_btn_RB.whenPressed(new IntakeSet(-1));
+		p_btn_RB.whenReleased(new IntakeSet(0));
+		
+		p_btn_RT.whenPressed(new IntakeSet(1));
+		p_btn_RT.whenReleased(new IntakeSet(0));
+		
+		p_btn_start.whenPressed(new GearShift(Drivetrain.shift.LOW));
+		p_btn_back.whenPressed(new GearShift(Drivetrain.shift.HIGH));
+		
+		//p_btn_LB.whenPressed(new ArmSet(-1));
+		//p_btn_LB.whenReleased(new ArmSet(0));
+		
+		//p_btn_LT.whenPressed(new ArmSet(1));
+		//p_btn_LT.whenReleased(new ArmSet(0));
+		
+		p_btn_LB.whenPressed(new ArmMove(true));
+		
+		p_btn_LT.whenPressed(new ArmMove(false));
+		
+		s_btn_L1.whenPressed(new ArmMove(true));
+		s_btn_L2.whenPressed(new ArmMove(false));
+		
+		s_btn_R1.whenPressed(new IntakeSet(-1));
+		s_btn_R1.whenReleased(new IntakeSet(0));
+		
+		s_btn_R2.whenPressed(new IntakeSet(1));
+		s_btn_R2.whenReleased(new IntakeSet(0));
+		
+		s_btn_L3.whenPressed(new ArmPIDToggle());
+		
+		s_btn_R3.whenPressed(new ArmPIDReset());
+		s_btn_Y.whenPressed(new IntakeToggle());
+		
+		//s_btn_B.whenPressed(new SwitchDrop());
+		
+		/*s_btn_B.whenPressed(new Command() {
+			@Override
+			public void initialize() {
+				Robot.arm.setIndex(1);
+			}
+			
+			@Override
+			protected boolean isFinished() {
+				return true;
+			}
+		});*/
+		
+		s_btn_X.whenPressed(new LaunchWaitChange(Launch.type.SCALE, 5));
+		s_btn_A.whenPressed(new LaunchWaitChange(Launch.type.SCALE, -5));
+	}
 }
