@@ -39,7 +39,7 @@ public class TankDrive extends Command {
 	// Called once after isFinished returns true
 	@Override
 	protected void end() {
-		Robot.drive.TankDrive(0, 0);
+		Robot.drive.tankDrive(0, 0);
 	}
 
 	// Called when another command which requires one or more of the same
