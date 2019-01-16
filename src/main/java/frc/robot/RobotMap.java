@@ -14,49 +14,33 @@ package frc.robot;
  * floating around.
  */
 public class RobotMap {
-    //PWM ports
-    public static int rightDrive  = 0;
-    public static int leftDrive   = 9;
-    
-    //CAN ports
-    //public static int talonsrx_pigeon = 1; //CAN id
-    
-    //PCM (12V) ports
-    /*
-    public static int pcm12v    = 0; //CAN id
-    public static int launcher1 = 0;
-    public static int launcher2 = 1;
-    public static int launcher3 = 3;
-    */
+  /* PWM ports */
+  public static int m_rightDrive      = 0;
+  /* TODO: Add motors from other subsystems */
+  public static int m_leftDrive       = 9;
 
-    /*public static int claw1 = 3;
-    public static int claw2 = 4;
-    public static int shifter1 = 6;
-    public static int shifter2 = 7;
-    
-    public static int pcm24v = 0;*/
-    
-    //PCM (24V) ports
-    /*
-    public static int pcm24v   = 1; //CAN id
-    public static int claw1    = 0;
-    public static int claw2    = 1;
-    public static int shifter1 = 6;
-    public static int shifter2 = 7;
-    
-    //DIO ports
-    public static int right_encoderA    = 0;
-    public static int right_encoderB    = 1;
-    public static int left_encoderA     = 2;
-    public static int left_encoderB     = 3;
-    
-    public static int ultrasonic1       = 4;
-    public static int ultrasonic2       = 5;
-    public static int arm_switch_top    = 8;
-    public static int arm_switch_bottom = 9;
-    
-    //Analog ports
-    public static int lowPressureSensor = 2;
-    public static int potentiometer1    = 3;
-    */
+  /* CAN ports */
+  public static int m_talonSrxPigeon  = 1; // CAN id
+
+  /*
+   * The PCM is capable of powering either 12V or 24V solenoids, but all
+   * solenoids connected to a single PCM must be the same voltage.
+   */
+  /* PCM (12V) ports */
+  public static int m_pcm12v          = 0; // CAN id
+  /* TODO: Add solenoids from other subsystems */
+
+  /* PCM (24V) ports */
+  public static int m_pcm24v          = 1; // CAN id
+  /* TODO: Add solenoids from other subsystems */
+
+  /* DIO ports */
+  public static int m_rightEncoderA   = 0;
+  public static int m_rightEncoderB   = 1;
+  public static int m_leftEncoderA    = 2;
+  public static int m_leftEncoderB    = 3;
+  /* TODO: Add digital sensors (ultrasonic/limit switch) from other subsystems */
+
+  /* Analog ports */
+  /* TODO: Add analog sensors (pressure/potentiometer) from other subsystems */
 }
