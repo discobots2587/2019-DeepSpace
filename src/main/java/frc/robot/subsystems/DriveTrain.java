@@ -6,67 +6,64 @@
 /*----------------------------------------------------------------------------*/
 
 package frc.robot.subsystems;
-import frc.robot.util.Constants;
-import frc.robot.RobotMap;
-import frc.robot.commands.TankDrive;
-import frc.robot.lib.Gamepad;
-import frc.robot.lib.RampedMotor;
+
 import edu.wpi.first.wpilibj.CounterBase;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.command.Subsystem;
-import edu.wpi.first.wpilibj.drive.DifferentialDrive; //west coast / tank
-import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+
+import frc.robot.RobotMap;
+import frc.robot.lib.Gamepad;
+import frc.robot.lib.RampedMotor;
+import frc.robot.util.Constants;
+
+import frc.robot.commands.TankDrive;
 
 /**
- * Add your docs here.
+ * Contains objects and capabilities related to the drivetrain
  */
 public class DriveTrain extends Subsystem {
-  public Spark m_left;
-  public Spark m_right;
-  public RampedMotor leftDrive;
-  public RampedMotor rightDrive;
-  public DifferentialDrive drive;
-
-  // Put methods for controlling this subsystem
-  // here. Call these from Commands.
+  private Spark m_left;
+  private Spark m_right;
+  private RampedMotor m_leftDrive;
+  private RampedMotor m_rightDrive;
+  private DifferentialDrive m_drive;
 
   public DriveTrain() {
-    m_left = new Spark(RobotMap.leftDrive);
-    leftDrive = new RampedMotor(m_left, Constants.kRampband);
-		leftDrive.setInverted(true);
-    m_right = new Spark(RobotMap.rightDrive);  
-		rightDrive = new RampedMotor(m_right,Constants.kRampband);
-    rightDrive.setInverted(true);
+    this.m_left = new Spark(RobotMap.m_leftDrive);
+    this.m_leftDrive = new RampedMotor(m_left, Constants.kRampband);
+    this.m_leftDrive.setInverted(true); // since motors are wired backwards
+    this.m_right = new Spark(RobotMap.m_rightDrive);
+    this.m_rightDrive = new RampedMotor(m_right,Constants.kRampband);
+    this.m_rightDrive.setInverted(true); // since motors are wired backwards
 
-    drive = new DifferentialDrive(leftDrive, rightDrive);
-  
-    drive.setExpiration(0.5);
+    this.m_drive = new DifferentialDrive(m_leftDrive, m_rightDrive);
+    this.m_drive.setExpiration(Constants.kDriveTimeout);
+    this.m_drive.setSafetyEnabled(Constants.kSafetyEnabled);
   }
+
   @Override
   public void initDefaultCommand() {
-    //Set the default command for a subsystem here.
+    /* TODO: Make this extensible to use any kind of drive (e.g., arcade/curvature) */
     setDefaultCommand(new TankDrive());
   }
 
   public void teleopInit() {
   }
 
-  public void tankDrive(Joystick joystick) {
-    drive.tankDrive(joystick.getY(), joystick.getRawAxis(4));
-  }
-  public void tankDrive(Gamepad gamepad) {
-    drive.tankDrive(gamepad.getLY(), gamepad.getLX());
-    // Seems getRX() and getRY() don't work. getRawAxis(4) is the RX axis and works
+  public void tankDrive(Gamepad gp) {
+    /* TODO: Investigate why gamepad.getRX() and gamepad.getRY() don't work */
+    /* NOTE: gamepad.getRawAxis(4) = gamepad.getRX() expected function */
+    this.m_drive.tankDrive(gp.getLY(), gp.getLX());
   }
   public void tankDrive(double left, double right) {
-		drive.tankDrive(left, right, true); //forward = positive; decrease sensitivity at low speed is TRUE
-  }
-  
-  public void stop() {
-    drive.tankDrive(0, 0, true);
+    this.m_drive.tankDrive(left, right, true); //forward = positive; decrease sensitivity at low speed is TRUE
   }
 
+  public void stop() {
+    this.m_drive.stopMotor();
+  }
 }

@@ -7,16 +7,15 @@
 
 package frc.robot;
 
+import edu.wpi.cscore.UsbCamera;
+import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-
-import frc.robot.commands.TankDrive;
-import frc.robot.subsystems.DriveTrain;
-
+import frc.robot.subsystems.*;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -27,11 +26,9 @@ import frc.robot.subsystems.DriveTrain;
  */
 public class Robot extends TimedRobot {
   public static OI m_oi;
-  public static Command driveCommand;
 
-  // Initialize the subsystems
-  public static DriveTrain drive = new DriveTrain();
-
+  /* Setup each subsystem */
+  public static DriveTrain m_drive = new DriveTrain();
 
   /**
    * This function is run when the robot is first started up and should be
@@ -44,13 +41,16 @@ public class Robot extends TimedRobot {
     // which commands extend), subsystems are not guaranteed to be
     // yet. Thus, their requires() statements may grab null pointers. Bad
     // news. Don't move it.
-    m_oi = new OI();
+    this.m_oi = new OI();
 
-    //m_chooser.setDefaultOption("Default Auto", new ExampleCommand());
-    // chooser.addOption("My Auto", new MyAutoCommand());
-    //SmartDashboard.putData("Auto mode", m_chooser);
+    /* TODO: Initialize Dashboard */
 
-    //SmartDashboard.putData(drive);
+    /* TODO: Determine in boiler-plate camera code is sufficient */
+    new Thread(() -> {
+      UsbCamera camera = CameraServer.getInstance().startAutomaticCapture();
+      camera.setResolution(320, 240);
+      camera.setFPS(30);
+    }).start();
   }
 
   /**
@@ -63,6 +63,8 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotPeriodic() {
+    /* TODO: Get Pigeon values (if needed) */
+    /* TODO: Update Dashboard */
   }
 
   /**
@@ -92,6 +94,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousInit() {
+    /* TODO: Move to Autonomous.java file (if any) */
     //m_autonomousCommand = m_chooser.getSelected();
 
     /*
@@ -104,8 +107,7 @@ public class Robot extends TimedRobot {
     // schedule the autonomous command (example)
     /*if (m_autonomousCommand != null) {
       m_autonomousCommand.start();
-    }
-    */
+    }*/
   }
 
   /**
@@ -113,11 +115,13 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousPeriodic() {
+    /* TODO: Move to Autonomous.java file (if any) */
     Scheduler.getInstance().run();
   }
 
   @Override
   public void teleopInit() {
+    /* TODO: Move to Teleop.java file (if any) */
     // This makes sure that the autonomous stops running when
     // teleop starts running. If you want the autonomous to
     // continue until interrupted by another command, remove
@@ -134,6 +138,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void teleopPeriodic() {
+    /* TODO: Move to Teleop.java file (if any) */
     Scheduler.getInstance().run();
   }
 

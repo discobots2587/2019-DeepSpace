@@ -1,16 +1,15 @@
 package frc.robot.lib;
 
-
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.Button;
 
 public class AXISButton extends Button {
-	
+
 	private Joystick js;
 	private double triggerValue;
 	private boolean greaterThan;
 	private int port;
-	
+
 	/**
 	 * AXISButton from axis port <i>port</i> of Joystick <i>js</i>
 	 * <p>
@@ -26,7 +25,7 @@ public class AXISButton extends Button {
 		this.triggerValue = tValue;
 		this.greaterThan = gThan;
 	}
-	
+
 	/**
 	 * AXISButton from axis port <i>port</i> of Joystick <i>js</i>
 	 * <p>
@@ -38,7 +37,7 @@ public class AXISButton extends Button {
 	public AXISButton(Joystick js, int port, double tValue) {
 		this(js,port,tValue,true);
 	}
-	
+
 	/**
 	 * AXISButton from axis port <i>port</i> of Joystick <i>js</i>
 	 * <p>
@@ -49,14 +48,13 @@ public class AXISButton extends Button {
 	public AXISButton(Joystick js, int port) {
 		this(js,port,1,true);
 	}
-	
+
 	@Override
 	public boolean get() {
-		if(greaterThan)
+		if (greaterThan)
 			return (Math.abs(js.getRawAxis(port))>=triggerValue);
 		else
 			return (Math.abs(js.getRawAxis(port))<=triggerValue);
 	}
-	
 
 }

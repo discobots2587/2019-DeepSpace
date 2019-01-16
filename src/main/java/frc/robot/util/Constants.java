@@ -1,7 +1,6 @@
 package frc.robot.util;
 
-
-//Constants - useful numbers put into a place that makes them easy to change
+//Constants - useful numbers put into a place that makes them easy to change (no magic numbers!)
 public class Constants {
 	
 	//kDeadband - driving ignores this value and lower for the controller inputs
@@ -9,6 +8,10 @@ public class Constants {
 	
 	//kRampband - used only in auton, this is the most the drive motor can change by (2.0 or higher makes this negligible)
 	public static double kRampband = 0.05;
+
+	//kDriveExpiration - timeout with regards to motor safety
+	public static double kDriveTimeout = 0.5;
+	public static boolean kSafetyEnabled = true;
 	
 	//kScaleWait and kLaunchWait - the delay for launching with the switch versus launching with the scale
 	public static long kScaleWait = 150;
