@@ -27,7 +27,9 @@ public class TankDrive extends Command {
 	// Called repeatedly when this Command is scheduled to run
 	@Override
 	protected void execute() {
-		Robot.drive.tankDrive(Robot.m_oi.p_gp.getLY(), Robot.m_oi.p_gp.getRY());
+		//Robot.drive.tankDrive(Robot.m_oi.getJoystick());
+		Robot.drive.tankDrive(Robot.m_oi.getGamepad());
+		//Robot.drive.tankDrive(Robot.m_oi.p_gp.getLY(), Robot.m_oi.p_gp.getRY());
 	}
 
 	// Make this return true when this Command no longer needs to run execute()
@@ -46,6 +48,6 @@ public class TankDrive extends Command {
 	// subsystems is scheduled to run
 	@Override
 	protected void interrupted() {
-		//end();
+		end();
 	}
 }
