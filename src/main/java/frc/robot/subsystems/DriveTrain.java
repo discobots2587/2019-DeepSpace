@@ -8,6 +8,7 @@
 package frc.robot.subsystems;
 import frc.robot.util.Constants;
 import frc.robot.RobotMap;
+import frc.robot.commands.TankDrive;
 import frc.robot.lib.RampedMotor;
 import edu.wpi.first.wpilibj.CounterBase;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
@@ -32,6 +33,7 @@ public class DriveTrain extends Subsystem {
 
   @Override
   public void initDefaultCommand() {
+    /*
     m_left = new Spark(RobotMap.leftDrive);
     leftDrive = new RampedMotor(m_left, Constants.kRampband);
 		leftDrive.setInverted(true);
@@ -39,13 +41,13 @@ public class DriveTrain extends Subsystem {
 		rightDrive = new RampedMotor(m_right,Constants.kRampband);
     rightDrive.setInverted(true);
     drive.setExpiration(0.5);
+    */
     
-    drive = new DifferentialDrive(leftDrive, rightDrive);
+    //drive = new DifferentialDrive(leftDrive, rightDrive);
   
 
-    // Set the default command for a subsystem here.
-    // setDefaultCommand(new MySpecialCommand());
-  
+    //Set the default command for a subsystem here.
+    setDefaultCommand(new TankDrive());
   }
   public void teleopInit() {
 

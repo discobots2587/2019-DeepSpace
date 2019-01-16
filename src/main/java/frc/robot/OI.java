@@ -6,12 +6,15 @@
 /*----------------------------------------------------------------------------*/
 
 package frc.robot;
-import frc.robot.lib.Gamepad;
-import frc.robot.lib.AXISButton;
-import frc.robot.lib.DPADButton;
+
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
+import frc.robot.lib.Gamepad;
+import frc.robot.lib.AXISButton;
+import frc.robot.lib.DPADButton;
 import frc.robot.lib.Xbox;
 //importing all the commands
 
@@ -140,5 +143,8 @@ public class OI {
 		s_btn_X.whenPressed(new LaunchWaitChange(Launch.type.SCALE, 5));
 		s_btn_A.whenPressed(new LaunchWaitChange(Launch.type.SCALE, -5));
 		*/
+	}
+	public Gamepad getGamepad(){
+		return p_gp;
 	}
 }
