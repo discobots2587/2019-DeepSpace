@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.Joystick;
 
 import frc.robot.lib.Gamepad;
 import frc.robot.lib.AXISButton;
@@ -26,6 +27,7 @@ import frc.robot.lib.Xbox;
 public class OI {
 
   public Gamepad p_gp = new Gamepad(0, "Primary");
+  public Joystick p_joystick = new Joystick(0); 
   //create all the buttons for primary controller
 	private Button p_btn_RB = new JoystickButton(p_gp, Gamepad.BTN_RB);
 	private Button p_btn_LB = new JoystickButton(p_gp, Gamepad.BTN_LB);
@@ -146,5 +148,9 @@ public class OI {
 	}
 	public Gamepad getGamepad(){
 		return p_gp;
+	}
+
+	public Joystick getJoystick(){
+		return p_joystick;
 	}
 }

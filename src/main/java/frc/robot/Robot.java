@@ -26,9 +26,12 @@ import frc.robot.subsystems.DriveTrain;
  * project.
  */
 public class Robot extends TimedRobot {
-  public static DriveTrain drive;
   public static OI m_oi;
   public static Command driveCommand;
+
+  // Initialize the subsystems
+  public static DriveTrain drive = new DriveTrain();
+
 
   /**
    * This function is run when the robot is first started up and should be
@@ -36,14 +39,18 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotInit() {
+    // This MUST be here. If the OI creates Commands (which it very likely
+    // will), constructing it during the construction of CommandBase (from
+    // which commands extend), subsystems are not guaranteed to be
+    // yet. Thus, their requires() statements may grab null pointers. Bad
+    // news. Don't move it.
     m_oi = new OI();
-    drive = new DriveTrain();
 
     //m_chooser.setDefaultOption("Default Auto", new ExampleCommand());
     // chooser.addOption("My Auto", new MyAutoCommand());
     //SmartDashboard.putData("Auto mode", m_chooser);
 
-    SmartDashboard.putData(drive);
+    //SmartDashboard.putData(drive);
   }
 
   /**
@@ -111,9 +118,6 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopInit() {
-      Teleop.init();
-
-
     // This makes sure that the autonomous stops running when
     // teleop starts running. If you want the autonomous to
     // continue until interrupted by another command, remove
@@ -131,7 +135,6 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopPeriodic() {
     Scheduler.getInstance().run();
-    Teleop.periodic();
   }
 
   /**
