@@ -21,6 +21,7 @@ import frc.robot.lib.RampedMotor;
 import frc.robot.util.Constants;
 
 import frc.robot.commands.TankDrive;
+import frc.robot.commands.ArcadeDrive;
 
 /**
  * Contains objects and capabilities related to the drivetrain
@@ -48,16 +49,24 @@ public class DriveTrain extends Subsystem {
   @Override
   public void initDefaultCommand() {
     /* TODO: Make this extensible to use any kind of drive (e.g., arcade/curvature) */
-    setDefaultCommand(new TankDrive());
+    setDefaultCommand(new ArcadeDrive());
   }
 
   public void teleopInit() {
   }
 
+  public void arcadeDrive(Gamepad gp) {
+    this.m_drive.arcadeDrive(gp.getLY(), gp.getRX());
+  }
+
+  public void arcadeDrive(double xSpeed, double zRotation) { //contrary to the documentation, but that is ok
+		m_drive.arcadeDrive(xSpeed, zRotation, true); //forward, clockwise = positive; decrease sensitivity at low speed is TRUE
+	}
+
   public void tankDrive(Gamepad gp) {
     /* TODO: Investigate why gamepad.getRX() and gamepad.getRY() don't work */
     /* NOTE: gamepad.getRawAxis(4) = gamepad.getRX() expected function */
-    this.m_drive.tankDrive(gp.getLY(), gp.getLX());
+    this.m_drive.tankDrive(gp.getLY(), gp.getRawAxis(5));
   }
   public void tankDrive(double left, double right) {
     this.m_drive.tankDrive(left, right, true); //forward = positive; decrease sensitivity at low speed is TRUE
