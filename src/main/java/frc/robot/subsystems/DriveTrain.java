@@ -48,7 +48,7 @@ public class DriveTrain extends Subsystem {
   @Override
   public void initDefaultCommand() {
     /* TODO: Make this extensible to use any kind of drive (e.g., arcade/curvature) */
-    setDefaultCommand(new ArcadeDrive());
+    setDefaultCommand(new TankDrive());
   }
 
   public void teleopInit() {
@@ -56,7 +56,7 @@ public class DriveTrain extends Subsystem {
 
   public double adjustedAfterDeadband (double input){
     double adjustedInput;
-    if (input <= Constants.kDeadband || input >= -1 * Constants.kDeadband)
+    if (input <= Constants.kDeadband && input >= -1 * Constants.kDeadband)
       adjustedInput = 0;
     else
       adjustedInput = input;
@@ -87,10 +87,14 @@ public class DriveTrain extends Subsystem {
 		m_drive.arcadeDrive(xSpeed, zRotation, true); //forward, clockwise = positive; decrease sensitivity at low speed is TRUE
 	}
 
-  public void tankDrive(Gamepad gp) {
+  public void rampedTankDrive(double leftSide, double rightSide) {
     /* TODO: Investigate why gamepad.getRX() and gamepad.getRY() don't work */
     /* NOTE: gamepad.getRawAxis(4) = gamepad.getRX() expected function */
-    this.m_drive.tankDrive(gp.getLY(), gp.getRawAxis(5));
+    double deadbandLY = adjustedAfterDeadband(leftSide);
+    double deadbandRX = adjustedAfterDeadband(rightSide);
+    double rampedLY = adjustedAfterRampingFunction(deadbandLY);
+    double rampedRX = adjustedAfterRampingFunction(deadbandRX);
+    this.m_drive.tankDrive(rampedLY, rampedRX);
   }
   public void tankDrive(double left, double right) {
     this.m_drive.tankDrive(left, right, true); //forward = positive; decrease sensitivity at low speed is TRUE

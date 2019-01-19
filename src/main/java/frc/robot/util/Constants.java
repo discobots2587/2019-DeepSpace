@@ -4,7 +4,7 @@ package frc.robot.util;
 public class Constants {
 	
 	//kDeadband - driving ignores this value and lower for the controller inputs
-	public static double kDeadband = 0.05;
+	public static double kDeadband = 0.1;
 	
 	//kRampband - used only in auton, this is the most the drive motor can change by (2.0 or higher makes this negligible)
 	public static double kRampband = 0.05;
