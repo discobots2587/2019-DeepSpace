@@ -16,9 +16,11 @@ package frc.robot;
 public class RobotMap {
   /* PWM ports */
   public static int m_rightDrive      = 0;
+  public static int m_rightIntake     = 1;
+  public static int m_leftIntake      = 2;
   /* TODO: Add motors from other subsystems */
   public static int m_leftDrive       = 9;
-
+  
   /* CAN ports */
   public static int m_talonSrxPigeon  = 1; // CAN id
 

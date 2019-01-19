@@ -9,8 +9,17 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
 
+import frc.robot.Robot;
+
 public class IntakeSet extends Command {
+  private double m_speed;
+
   public IntakeSet() {
+    // Use requires() here to declare subsystem dependencies
+    // eg. requires(chassis);
+  }
+  public IntakeSet(double speed) {
+    m_speed = speed;
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
   }
@@ -23,6 +32,7 @@ public class IntakeSet extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
+    Robot.m_intake.setMotorSpeeds(m_speed,m_speed);
   }
 
   // Make this return true when this Command no longer needs to run execute()
