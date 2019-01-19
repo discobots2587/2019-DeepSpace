@@ -23,6 +23,7 @@ public class Intake extends Subsystem {
   public Intake(){
     this.m_rightIntake = new Spark(RobotMap.m_rightIntake);
     this.m_leftIntake = new Spark(RobotMap.m_leftIntake);
+    this.m_leftIntake.setInverted(true); // Want to have -1 = feed, +1 eject
   }
   
   public void setRightMotorSpeed(double speed){
