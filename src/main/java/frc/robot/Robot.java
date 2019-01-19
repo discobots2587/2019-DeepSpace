@@ -51,6 +51,7 @@ public class Robot extends TimedRobot {
       camera.setResolution(320, 240);
       camera.setFPS(30);
     }).start();
+
   }
 
   /**

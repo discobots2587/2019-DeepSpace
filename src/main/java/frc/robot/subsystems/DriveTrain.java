@@ -19,7 +19,6 @@ import frc.robot.RobotMap;
 import frc.robot.lib.Gamepad;
 import frc.robot.lib.RampedMotor;
 import frc.robot.util.Constants;
-
 import frc.robot.commands.TankDrive;
 import frc.robot.commands.ArcadeDrive;
 
@@ -55,8 +54,33 @@ public class DriveTrain extends Subsystem {
   public void teleopInit() {
   }
 
-  public void arcadeDrive(Gamepad gp) {
-    this.m_drive.arcadeDrive(gp.getLY(), gp.getRX());
+  public double adjustedAfterDeadband (double input){
+    double adjustedInput;
+    if (input <= Constants.kDeadband || input >= -1 * Constants.kDeadband)
+      adjustedInput = 0;
+    else
+      adjustedInput = input;
+    return adjustedInput;
+  }
+
+  public double adjustedAfterRampingFunction (double input){
+    double adjustedInput;
+    adjustedInput = input * input;
+    return adjustedInput;
+  }
+
+
+
+
+  public void rampedArcadeDrive(double xSpeed, double zRotation) {
+    
+    double deadbandLY = adjustedAfterDeadband(xSpeed);
+    double deadbandRX = adjustedAfterDeadband(zRotation);
+    double rampedLY = adjustedAfterRampingFunction(deadbandLY);
+    double rampedRX = adjustedAfterRampingFunction(deadbandRX);
+
+    this.m_drive.arcadeDrive(rampedLY, rampedRX);
+
   }
 
   public void arcadeDrive(double xSpeed, double zRotation) { //contrary to the documentation, but that is ok
