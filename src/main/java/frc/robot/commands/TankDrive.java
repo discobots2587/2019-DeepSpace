@@ -9,6 +9,7 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
 
+import frc.robot.lib.Gamepad;
 import frc.robot.Robot;
 
 /**
@@ -28,7 +29,8 @@ public class TankDrive extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    Robot.m_drive.tankDrive(Robot.m_oi.getDriverOI());
+    Gamepad gp = Robot.m_oi.getDriverOI();
+    Robot.m_drive.tankDrive(gp.getLY(),gp.getRY());
   }
 
   // Make this return true when this Command no longer needs to run execute()
