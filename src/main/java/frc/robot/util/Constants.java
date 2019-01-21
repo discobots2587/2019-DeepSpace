@@ -12,6 +12,9 @@ public class Constants {
 	//kDriveExpiration - timeout with regards to motor safety
 	public static double kDriveTimeout = 0.5;
 	public static boolean kSafetyEnabled = true;
+
+	//kDriveLowPassFilter - constant for ramping drive with a low pass filter
+	public static double kDriveLowPassFilter = 0.5;
 	
 	//kScaleWait and kLaunchWait - the delay for launching with the switch versus launching with the scale
 	public static long kScaleWait = 150;

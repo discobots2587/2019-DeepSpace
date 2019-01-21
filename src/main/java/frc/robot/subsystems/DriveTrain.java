@@ -32,6 +32,8 @@ public class DriveTrain extends Subsystem {
   private RampedMotor m_rightDrive;
   private DifferentialDrive m_drive;
 
+  private double[] lastInputs;
+
   public DriveTrain() {
     this.m_left = new Spark(RobotMap.m_leftDrive);
     this.m_leftDrive = new RampedMotor(m_left, Constants.kRampband);
@@ -43,6 +45,8 @@ public class DriveTrain extends Subsystem {
     this.m_drive = new DifferentialDrive(m_leftDrive, m_rightDrive);
     this.m_drive.setExpiration(Constants.kDriveTimeout);
     this.m_drive.setSafetyEnabled(Constants.kSafetyEnabled);
+
+    lastInputs = new double[2];
   }
 
   @Override
@@ -54,33 +58,50 @@ public class DriveTrain extends Subsystem {
   public void teleopInit() {
   }
 
-  public double adjustedAfterDeadband (double input){
+  public double applyDeadzone (double input){
     double adjustedInput;
-    if (input <= Constants.kDeadband && input >= -1 * Constants.kDeadband)
+
+    if (Math.abs(input) <= Constants.kDeadband)
       adjustedInput = 0;
     else
       adjustedInput = input;
+
     return adjustedInput;
   }
 
-  public double adjustedAfterRampingFunction (double input){
+  public double applySquaredRamping (double input){
     double adjustedInput;
+
     adjustedInput = input * input;
+
     return adjustedInput;
   }
 
+  public double[] applyLowPassRamping (double[] inputs){
+    /* TODO: Adjust Constants.kDriveLowPassFilter to make drive accel/decel at desired rate*/
+    double[] adjustedInputs = new double[2];
 
+    for (int i = 0; i < 2; i++){
+      adjustedInputs[i] = (inputs[i] * (1-Constants.kDriveLowPassFilter)) + (Constants.kDriveLowPassFilter * lastInputs[i]);
+    }
+    
+    return adjustedInputs;
+  }
 
 
   public void rampedArcadeDrive(double xSpeed, double zRotation) {
     
-    double deadbandLY = adjustedAfterDeadband(xSpeed);
-    double deadbandRX = adjustedAfterDeadband(zRotation);
-    double rampedLY = adjustedAfterRampingFunction(deadbandLY);
-    double rampedRX = adjustedAfterRampingFunction(deadbandRX);
+    double deadbandLY = applyDeadzone(xSpeed);
+    double deadbandRX = applyDeadzone(zRotation);
+    double[] rampedInput = applyLowPassRamping(new double[]{deadbandLY, deadbandRX});
 
-    this.m_drive.arcadeDrive(rampedLY, rampedRX);
+    // double rampedLY = adjustForSquareRamping(deadbandLY);
+    // double rampedRX = adjustForSquareRamping(deadbandRX);
 
+    this.m_drive.arcadeDrive(rampedInput[0], rampedInput[1]);
+
+    lastInputs[0] = xSpeed;
+    lastInputs[1] = zRotation;
   }
 
   public void arcadeDrive(double xSpeed, double zRotation) { //contrary to the documentation, but that is ok
@@ -90,11 +111,14 @@ public class DriveTrain extends Subsystem {
   public void rampedTankDrive(double leftSide, double rightSide) {
     /* TODO: Investigate why gamepad.getRX() and gamepad.getRY() don't work */
     /* NOTE: gamepad.getRawAxis(4) = gamepad.getRX() expected function */
-    double deadbandLY = adjustedAfterDeadband(leftSide);
-    double deadbandRX = adjustedAfterDeadband(rightSide);
-    double rampedLY = adjustedAfterRampingFunction(deadbandLY);
-    double rampedRX = adjustedAfterRampingFunction(deadbandRX);
-    this.m_drive.tankDrive(rampedLY, rampedRX);
+    double deadbandLY = applyDeadzone(leftSide);
+    double deadbandRY = applyDeadzone(rightSide);
+    double[] rampedInput = applyLowPassRamping(new double[]{deadbandLY, deadbandRY});
+
+    // double rampedLY = adjustForSquareRamping(deadbandLY);
+    // double rampedRX = adjustForSquareRamping(deadbandRY);
+
+    this.m_drive.tankDrive(rampedInput[0], rampedInput[1]);
   }
   public void tankDrive(double left, double right) {
     this.m_drive.tankDrive(left, right, true); //forward = positive; decrease sensitivity at low speed is TRUE
