@@ -11,11 +11,7 @@ import edu.wpi.first.wpilibj.command.Command;
 
 import frc.robot.Robot;
 
-
-
-
 // This is a commands to toggle the open and close of the intake.
-
 
 public class Grab extends Command {
   public Grab() {

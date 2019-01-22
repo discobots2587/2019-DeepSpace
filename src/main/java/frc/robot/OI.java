@@ -104,11 +104,14 @@ public class OI {
     */
 
     /* TODO: Add d_driverOI button commands (if any) */
-    d_btn_RT.whenPressed(new Eject());
-    d_btn_RT.whenReleased(new IntakeSet(0));
+    d_btn_A.whenPressed(new IntakeSet(1));
+    d_btn_A.whenReleased(new IntakeSet(0));
 
-    d_btn_LT.whenPressed(new Feed());
-    d_btn_LT.whenReleased(new IntakeSet(0));
+    d_btn_X.whenPressed(new IntakeSet(1));
+    d_btn_X.whenReleased(new IntakeSet(0));
+
+    d_btn_B.whenPressed(new Feed());
+    d_btn_B.whenReleased(new IntakeSet(0));
 
     d_btn_X.whenPressed(new Grab());
 
