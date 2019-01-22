@@ -34,6 +34,9 @@ public class RobotMap {
 
   /* PCM (24V) ports */
   public static int m_pcm24v          = 1; // CAN id
+  public static int gripIn            = 0;
+	public static int gripOut           = 1;
+
   /* TODO: Add solenoids from other subsystems */
 
   /* DIO ports */

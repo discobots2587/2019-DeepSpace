@@ -7,10 +7,12 @@
 
 package frc.robot.subsystems;
 
+import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Spark;
+import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.robot.RobotMap;
-
+import frc.robot.RobotMap;
 /**
  * Add your docs here.
  */
@@ -19,10 +21,14 @@ public class Intake extends Subsystem {
   // here. Call these from Commands.
   private Spark m_rightIntake;
   private Spark m_leftIntake;
+  private DoubleSolenoid m_grip;
+
 
   public Intake(){
     this.m_rightIntake = new Spark(RobotMap.m_rightIntake);
     this.m_leftIntake = new Spark(RobotMap.m_leftIntake);
+    this.m_grip = new DoubleSolenoid(RobotMap.m_pcm24v, RobotMap.gripIn, RobotMap.gripOut);
+
   }
   
   public void setRightMotorSpeed(double speed){
@@ -37,6 +43,23 @@ public class Intake extends Subsystem {
     setLeftMotorSpeed(leftSpeed);
     setRightMotorSpeed(rightSpeed);
   }
+
+  public void openIntake(){
+    m_grip.set(DoubleSolenoid.Value.kReverse);
+  }
+  
+  public void closeIntake(){
+    m_grip.set(DoubleSolenoid.Value.kForward);
+  }
+  
+  public void toggleGrip(){
+    if(m_grip.get().equals(DoubleSolenoid.Value.kReverse)) {
+			m_grip.set(DoubleSolenoid.Value.kForward);
+		} else {
+			m_grip.set(DoubleSolenoid.Value.kReverse);
+		}
+  }
+
   
   @Override
   public void initDefaultCommand() {

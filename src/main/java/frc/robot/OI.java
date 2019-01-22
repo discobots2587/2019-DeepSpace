@@ -110,6 +110,8 @@ public class OI {
     d_btn_LT.whenPressed(new Feed());
     d_btn_LT.whenReleased(new IntakeSet(0));
 
+    d_btn_X.whenPressed(new Grab());
+
     /* TODO: Add o_operaterOI button commands */
   }
 
