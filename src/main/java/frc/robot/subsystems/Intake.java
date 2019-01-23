@@ -22,7 +22,7 @@ public class Intake extends Subsystem {
   private Spark m_rightIntake;
   private Spark m_leftIntake;
   private DoubleSolenoid m_grip;
-
+  private DoubleSolenoid m_initCompressor;
 
   public Intake(){
     this.m_rightIntake = new Spark(RobotMap.m_rightIntake);
@@ -30,6 +30,8 @@ public class Intake extends Subsystem {
     this.m_leftIntake.setInverted(true); // Want to have -1 = feed, +1 eject
     this.m_grip = new DoubleSolenoid(RobotMap.m_pcm24v, RobotMap.gripIn, RobotMap.gripOut);
 
+    //have compressor on by creating a solenoid object for 12v pcm
+    this.m_initCompressor = new DoubleSolenoid(RobotMap.m_pcm12v, 3, 4); //3,4 are dummy values
   }
   
   public void setRightMotorSpeed(double speed){
@@ -55,7 +57,7 @@ public class Intake extends Subsystem {
   
   public void toggleGrip(){
     if(m_grip.get().equals(DoubleSolenoid.Value.kReverse)) {
-			m_grip.set(DoubleSolenoid.Value.kForward);
+		  m_grip.set(DoubleSolenoid.Value.kForward);
 		} else {
 			m_grip.set(DoubleSolenoid.Value.kReverse);
 		}
