@@ -8,6 +8,7 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 import frc.robot.RobotMap;
@@ -33,7 +34,18 @@ public class HatchIntake extends Subsystem {
     this.m_hatchPusher3 = new DoubleSolenoid(RobotMap.m_pcm12v, 4, 5);
   }
 
+  // simple solenoid operation: push out and turn off immediately
+  public void pushOneSol(DoubleSolenoid solenoid){
+    solenoid.set(DoubleSolenoid.Value.kForward);
+    solenoid.set(DoubleSolenoid.Value.kOff);
+  }
 
+  public void pushHatch(){
+    pushOneSol(m_hatchPusher1);
+    pushOneSol(m_hatchPusher2);
+    pushOneSol(m_hatchPusher3);
+  }
+  
   @Override
   public void initDefaultCommand() {
     // Set the default command for a subsystem here.
