@@ -7,14 +7,32 @@
 
 package frc.robot.subsystems;
 
+import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
+
+import frc.robot.RobotMap;
 
 /**
  * Add your docs here.
  */
-public class hatchIntake extends Subsystem {
+public class HatchIntake extends Subsystem {
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
+
+  // initiating three pnumatic solenoid that pushes the hatch out
+  // using three souble solenoids for now
+  private DoubleSolenoid m_hatchPusher1; 
+  private DoubleSolenoid m_hatchPusher2;
+  private DoubleSolenoid m_hatchPusher3;
+
+  /* TODO: confirm with the design team about the type and number of solenoids being used */
+  
+  public HatchIntake(){
+    this.m_hatchPusher1 = new DoubleSolenoid(RobotMap.m_pcm12v, 0, 1);
+    this.m_hatchPusher2 = new DoubleSolenoid(RobotMap.m_pcm12v, 2, 3);
+    this.m_hatchPusher3 = new DoubleSolenoid(RobotMap.m_pcm12v, 4, 5);
+  }
+
 
   @Override
   public void initDefaultCommand() {
