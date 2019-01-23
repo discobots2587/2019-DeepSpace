@@ -13,8 +13,8 @@ public class Gamepad extends Joystick {
 	public static int AXIS_LX = 0;
 	public static int AXIS_LY = 1;
 
-	public static int AXIS_RX = 4;
-	public static int AXIS_RY = 5;
+	public static int AXIS_RX = 2;
+	public static int AXIS_RY = 3;
 
 	public static int BTN_X = 1;
 	public static int BTN_A = 2;
