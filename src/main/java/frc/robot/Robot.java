@@ -29,7 +29,7 @@ public class Robot extends TimedRobot {
 
   /* Setup each subsystem */
   public static DriveTrain m_drive = new DriveTrain();
-
+  public static HatchIntake m_hatchIntake = new HatchIntake();
   /**
    * This function is run when the robot is first started up and should be
    * used for any initialization code.
