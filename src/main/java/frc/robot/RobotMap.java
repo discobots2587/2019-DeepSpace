@@ -15,12 +15,14 @@ package frc.robot;
  */
 public class RobotMap {
   /* PWM ports */
-  public static int m_rightDrive      = 0;
   /* TODO: Add motors from other subsystems */
-  public static int m_leftDrive       = 9;
 
   /* CAN ports */
-  public static int m_talonSrxPigeon  = 1; // CAN id
+  public static int m_motorFrontLeft    = 20; // Use 20 instead since 0 is default initial HW
+  public static int m_motorBackLeft     = 1;
+  public static int m_motorArm          = 2;
+  public static int m_motorFrontRight   = 3;
+  public static int m_motorBackRight    = 4;
 
   /*
    * The PCM is capable of powering either 12V or 24V solenoids, but all
