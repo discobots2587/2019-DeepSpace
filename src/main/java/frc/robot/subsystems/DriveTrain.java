@@ -18,6 +18,7 @@ import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import frc.robot.RobotMap;
 import frc.robot.lib.Gamepad;
 import frc.robot.lib.RampedMotor;
+import frc.robot.lib.RampingController;
 import frc.robot.util.Constants;
 import frc.robot.commands.TankDrive;
 import frc.robot.commands.ArcadeDrive;
@@ -34,6 +35,8 @@ public class DriveTrain extends Subsystem {
 
   private double[] lastInputs;
 
+  private RampingController m_ramping;
+
   public DriveTrain() {
     this.m_left = new Spark(RobotMap.m_leftDrive);
     this.m_leftDrive = new RampedMotor(m_left, Constants.kRampband);
@@ -47,6 +50,8 @@ public class DriveTrain extends Subsystem {
     this.m_drive.setSafetyEnabled(Constants.kSafetyEnabled);
 
     lastInputs = new double[2];
+
+    m_ramping = new RampingController(2, new double[] {0.5, 0.75}, x -> 0.5*x, x -> x * x, Math::sqrt);
   }
 
   @Override
