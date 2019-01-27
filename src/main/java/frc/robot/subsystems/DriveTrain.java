@@ -51,7 +51,7 @@ public class DriveTrain extends Subsystem {
 
     lastInputs = new double[2];
 
-    m_ramping = new RampingController(2, new double[] {0.5, 0.75}, x -> 0.5*x, x -> x * x, Math::sqrt);
+    m_ramping = new RampingController(new double[] {0.5, 0.75}, x -> 0.5*x, x -> x * x, Math::sqrt);
   }
 
   @Override
