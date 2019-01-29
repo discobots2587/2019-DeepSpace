@@ -1,5 +1,6 @@
 package frc.robot.lib;
 
+import java.util.Arrays;
 import java.util.function.DoubleUnaryOperator;
 
 public class RampingController {
@@ -17,30 +18,37 @@ public class RampingController {
      */
     public RampingController(double[] split, DoubleUnaryOperator... funcs) {
         this.splitPoints = split;
+        Arrays.sort(splitPoints);
         this.funcList = funcs;
         this.numFuncs = funcs.length;
         this.numSplits = split.length;
     }
 
     public double ramp(double input) {
+        DoubleUnaryOperator outputFunc = x -> 0;
+
         if(numFuncs == 0 || numSplits == 0) {
-            return input;
+            outputFunc = x -> x;
         }
 
         if(input <= splitPoints[0]) {
-            return funcList[0].applyAsDouble(input);
+            outputFunc = funcList[0];
         }
 
         if(input > splitPoints[numSplits-1]) {
-            return  funcList[numFuncs-1].applyAsDouble(input);
+            outputFunc = funcList[numFuncs-1];
         }
 
         for(int i=0; i<numSplits-1; i++) {
             if(input > splitPoints[i] && input <= splitPoints[i+1]) {
-                return funcList[i+1].applyAsDouble(input);
+                try {
+                    outputFunc = funcList[i + 1];
+                } catch(ArrayIndexOutOfBoundsException e) {
+                    outputFunc = funcList[numFuncs-1];
+                }
             }
         }
 
-        return 0;
+        return outputFunc.applyAsDouble(input);
     }
 }
