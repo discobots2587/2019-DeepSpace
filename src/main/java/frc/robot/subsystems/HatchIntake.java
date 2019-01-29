@@ -36,9 +36,13 @@ public class HatchIntake extends Subsystem {
   }
 
   // simple solenoid operation: push out and turn off immediately
-  public void pushOneSol(DoubleSolenoid solenoid){
+  public void pushPneumaticsAutoRetract(DoubleSolenoid solenoid){
     solenoid.set(DoubleSolenoid.Value.kForward);
     solenoid.set(DoubleSolenoid.Value.kOff);
+  }
+
+  public void pushPneumaticsStayExtended(Solenoid solenoid){
+    solenoid.set(true);
   }
   
   @Override
