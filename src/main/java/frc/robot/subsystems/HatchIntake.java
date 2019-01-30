@@ -25,14 +25,14 @@ public class HatchIntake extends Subsystem {
 
   // initiating three pnumatic solenoid that pushes the hatch out
   // using three souble solenoids for now
-  private DoubleSolenoid m_hatchPusher;
-  private Solenoid m_hatchAimGuide;
+  private DoubleSolenoid m_beak;
+  private DoubleSolenoid m_launcher;
 
   /* TODO: confirm with the design team about the type and number of solenoids being used */
   
   public HatchIntake(){
-    this.m_hatchPusher = new DoubleSolenoid(RobotMap.m_pcm12v, 0, 1);
-    this.m_hatchAimGuide = new Solenoid(RobotMap.m_pcm12v, 2);
+    this.m_launcher = new DoubleSolenoid(RobotMap.m_pcm12v, 0, 1);
+    this.m_beak = new DoubleSolenoid(RobotMap.m_pcm12v, 2, 3);
   }
 
   // simple solenoid operation: push out and turn off immediately
@@ -41,10 +41,15 @@ public class HatchIntake extends Subsystem {
     solenoid.set(DoubleSolenoid.Value.kOff);
   }
 
-  public void pushPneumaticsStayExtended(Solenoid solenoid){
-    solenoid.set(true);
+  public void pneumaticsExtend(DoubleSolenoid solenoid){
+    solenoid.set(DoubleSolenoid.Value.kForward);
   }
-  
+
+  public void pneumaticsRetract(DoubleSolenoid solenoid){
+    solenoid.set(DoubleSolenoid.Value.kReverse);
+  }
+
+
   @Override
   public void initDefaultCommand() {
     // Set the default command for a subsystem here.
