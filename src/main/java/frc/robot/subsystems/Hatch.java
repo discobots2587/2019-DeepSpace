@@ -15,6 +15,7 @@ import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 import frc.robot.RobotMap;
+import frc.robot.commands.BeakSet;
 
 /**
  * Add your docs here.
@@ -39,7 +40,7 @@ public class Hatch extends Subsystem {
   }
 
   // simple solenoid operation: push out and turn off immediately
-  public void pushPneumaticsAutoRetract(DoubleSolenoid solenoid){
+  public void pneumaticsAutoRetract(DoubleSolenoid solenoid){
     solenoid.set(DoubleSolenoid.Value.kForward);
     solenoid.set(DoubleSolenoid.Value.kReverse);
   }
@@ -60,12 +61,14 @@ public class Hatch extends Subsystem {
   }
 
   public void launchHatch(){
-    pushPneumaticsAutoRetract(this.m_launcher);
+    pneumaticsAutoRetract(this.m_launcher);
   }
 
   @Override
   public void initDefaultCommand() {
     // Set the default command for a subsystem here.
-    // setDefaultCommand(new MySpecialCommand());
+
+    //Command toggles beak position. Beak need to be in retracted position first before game.
+    setDefaultCommand(new BeakSet()); 
   }
 }
