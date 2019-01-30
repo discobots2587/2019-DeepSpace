@@ -19,7 +19,7 @@ import frc.robot.RobotMap;
 /**
  * Add your docs here.
  */
-public class HatchIntake extends Subsystem {
+public class Hatch extends Subsystem {
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
 
@@ -28,9 +28,12 @@ public class HatchIntake extends Subsystem {
   private DoubleSolenoid m_beak;
   private DoubleSolenoid m_launcher;
 
-  /* TODO: confirm with the design team about the type and number of solenoids being used */
-  
-  public HatchIntake(){
+  /*
+   * TODO: confirm with the design team about the type and number of solenoids
+   * being used
+   */
+
+  public Hatch() {
     this.m_launcher = new DoubleSolenoid(RobotMap.m_pcm12v, 0, 1);
     this.m_beak = new DoubleSolenoid(RobotMap.m_pcm12v, 2, 3);
   }
