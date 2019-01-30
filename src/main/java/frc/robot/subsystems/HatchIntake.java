@@ -38,7 +38,7 @@ public class HatchIntake extends Subsystem {
   // simple solenoid operation: push out and turn off immediately
   public void pushPneumaticsAutoRetract(DoubleSolenoid solenoid){
     solenoid.set(DoubleSolenoid.Value.kForward);
-    solenoid.set(DoubleSolenoid.Value.kOff);
+    solenoid.set(DoubleSolenoid.Value.kReverse);
   }
 
   public void pneumaticsExtend(DoubleSolenoid solenoid){
@@ -49,6 +49,16 @@ public class HatchIntake extends Subsystem {
     solenoid.set(DoubleSolenoid.Value.kReverse);
   }
 
+  public void toggleBeak(){
+    if (m_beak.get().equals(DoubleSolenoid.Value.kForward))
+      pneumaticsRetract(this.m_beak);
+    else
+      pneumaticsExtend(this.m_beak);
+  }
+
+  public void launchHatch(){
+    pushPneumaticsAutoRetract(this.m_launcher);
+  }
 
   @Override
   public void initDefaultCommand() {
