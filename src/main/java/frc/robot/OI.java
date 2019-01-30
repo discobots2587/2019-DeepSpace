@@ -106,6 +106,9 @@ public class OI {
 
     /* TODO: Add d_driverOI button commands (if any) */
 
+      d_btn_LB.whenPressed(new LaunchHatch());
+      d_btn_A.whenActive(new BeakSet());
+      
     /* TODO: Add o_operaterOI button commands */
   }
 
