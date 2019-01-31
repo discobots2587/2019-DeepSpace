@@ -33,25 +33,26 @@ public class DriveTrain extends Subsystem {
   private RampedMotor m_rightDrive;
   private DifferentialDrive m_drive;
 
+  private Boolean rampingUsed;
+
   private double[] lastInputs;
 
   private RampingController m_ramping;
 
   public DriveTrain() {
     this.m_left = new Spark(RobotMap.m_leftDrive);
-    this.m_leftDrive = new RampedMotor(m_left, Constants.kRampband);
-    this.m_leftDrive.setInverted(true); // since motors are wired backwards
+    this.m_left.setInverted(true); // since motors are wired backwards
     this.m_right = new Spark(RobotMap.m_rightDrive);
-    this.m_rightDrive = new RampedMotor(m_right,Constants.kRampband);
-    this.m_rightDrive.setInverted(true); // since motors are wired backwards
+    this.m_right.setInverted(true); // since motors are wired backwards
 
-    this.m_drive = new DifferentialDrive(m_leftDrive, m_rightDrive);
+    this.m_drive = new DifferentialDrive(m_left, m_right);
     this.m_drive.setExpiration(Constants.kDriveTimeout);
     this.m_drive.setSafetyEnabled(Constants.kSafetyEnabled);
 
     lastInputs = new double[2];
 
     m_ramping = new RampingController(new double[] {0.5, 0.75}, x -> 0.5*x, x -> x * x, Math::sqrt);
+    this.rampingUsed = true;
   }
 
   @Override
@@ -96,12 +97,12 @@ public class DriveTrain extends Subsystem {
 
   public void rampedArcadeDrive(double xSpeed, double zRotation) {
     
-    double deadbandLY = applyDeadzone(xSpeed);
-    double deadbandRX = applyDeadzone(zRotation);
-    double[] rampedInput = applyLowPassRamping(new double[]{deadbandLY, deadbandRX});
+    double deadzoneSpeed = applyDeadzone(xSpeed);
+    double deadzoneTurn = applyDeadzone(zRotation);
+    double[] rampedInput = applyLowPassRamping(new double[]{deadzoneSpeed, deadzoneTurn});
 
-    // double rampedLY = adjustForSquareRamping(deadbandLY);
-    // double rampedRX = adjustForSquareRamping(deadbandRX);
+    // double rampedLY = adjustForSquareRamping(deadzoneSpeed);
+    // double rampedRX = adjustForSquareRamping(deadzoneTurn);
 
     this.m_drive.arcadeDrive(rampedInput[0], rampedInput[1]);
 
@@ -110,23 +111,35 @@ public class DriveTrain extends Subsystem {
   }
 
   public void arcadeDrive(double xSpeed, double zRotation) { //contrary to the documentation, but that is ok
-		m_drive.arcadeDrive(xSpeed, zRotation, true); //forward, clockwise = positive; decrease sensitivity at low speed is TRUE
-	}
+    double deadzoneSpeed = applyDeadzone(xSpeed);
+    double deadzoneTurn = applyDeadzone(zRotation);
+
+    m_drive.arcadeDrive(deadzoneSpeed, deadzoneTurn, true); //forward, clockwise = positive; decrease sensitivity at low speed is TRUE
+  }
 
   public void rampedTankDrive(double leftSide, double rightSide) {
-    /* TODO: Investigate why gamepad.getRX() and gamepad.getRY() don't work */
-    /* NOTE: gamepad.getRawAxis(4) = gamepad.getRX() expected function */
-    double deadbandLY = applyDeadzone(leftSide);
-    double deadbandRY = applyDeadzone(rightSide);
-    double[] rampedInput = applyLowPassRamping(new double[]{deadbandLY, deadbandRY});
+    double deadzoneLY = applyDeadzone(leftSide);
+    double deadzoneRY = applyDeadzone(rightSide);
+    double[] rampedInput = applyLowPassRamping(new double[]{deadzoneLY, deadzoneRY});
 
-    // double rampedLY = adjustForSquareRamping(deadbandLY);
-    // double rampedRX = adjustForSquareRamping(deadbandRY);
+    // double rampedLY = adjustForSquareRamping(deadzoneLY);
+    // double rampedRX = adjustForSquareRamping(deadzoneRY);
 
     this.m_drive.tankDrive(rampedInput[0], rampedInput[1]);
   }
   public void tankDrive(double left, double right) {
-    this.m_drive.tankDrive(left, right, true); //forward = positive; decrease sensitivity at low speed is TRUE
+    double deadzoneLY = applyDeadzone(left);
+    double deadzoneRY = applyDeadzone(right);
+
+    this.m_drive.tankDrive(deadzoneLY, deadzoneRY, true); //forward = positive; decrease sensitivity at low speed is TRUE
+  }
+
+  public void setRampingUsed(Boolean used) {
+    this.rampingUsed = used;
+  }
+
+  public Boolean getRampingUsed() {
+    return this.rampingUsed;
   }
 
   public void stop() {

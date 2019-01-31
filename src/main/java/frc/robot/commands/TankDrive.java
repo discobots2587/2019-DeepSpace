@@ -31,7 +31,12 @@ public class TankDrive extends Command {
   @Override
   protected void execute() {
     LogitechController driverOI = Robot.m_oi.getDriverOI();
-    Robot.m_drive.rampedTankDrive(driverOI.getLY(),driverOI.getRY());
+    
+    if (Robot.m_drive.getRampingUsed()) {
+      Robot.m_drive.rampedTankDrive(driverOI.getLY(),driverOI.getRY());
+    } else {
+      Robot.m_drive.tankDrive(driverOI.getLY(),driverOI.getRY());
+    }
   }
 
   // Make this return true when this Command no longer needs to run execute()
