@@ -8,6 +8,7 @@
 package frc.robot;
 
 import edu.wpi.cscore.UsbCamera;
+import edu.wpi.cscore.VideoSource;
 import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
@@ -47,9 +48,15 @@ public class Robot extends TimedRobot {
 
     /* TODO: Determine in boiler-plate camera code is sufficient */
     new Thread(() -> {
-      UsbCamera camera = CameraServer.getInstance().startAutomaticCapture();
-      camera.setResolution(320, 240);
-      camera.setFPS(30);
+      UsbCamera camera = CameraServer.getInstance().startAutomaticCapture(0);
+      camera.setResolution(160, 120);
+      camera.setFPS(5);
+      camera.setConnectionStrategy(VideoSource.ConnectionStrategy.kKeepOpen);
+
+      UsbCamera camera2 = CameraServer.getInstance().startAutomaticCapture(1);
+      camera2.setResolution(160, 120);
+      camera2.setFPS(5);
+      camera2.setConnectionStrategy(VideoSource.ConnectionStrategy.kKeepOpen);
     }).start();
 
   }
