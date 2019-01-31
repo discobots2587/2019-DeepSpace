@@ -14,6 +14,7 @@ public class LaunchHatch extends Command {
   public LaunchHatch() {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
+    requires(Robot.m_hatch);
   }
 
   // Called just before this Command runs the first time
