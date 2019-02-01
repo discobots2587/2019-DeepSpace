@@ -38,6 +38,23 @@ public class CargoIntake extends Subsystem {
     this.m_arm = new TalonSRX(RobotMap.m_armMotor);
     this.m_rollerSwitch = new DigitalInput(RobotMap.m_cargoRollerLimit);
     this.m_armSwitch = new DigitalInput(RobotMap.m_cargoArmLimit);
+
+    /* TODO: check if/which motors are reversed */
+
+    /* Set motors to brake when neutral */
+    this.m_arm.setNeutralMode(NeutralMode.Brake);
+    this.m_roller.setNeutralMode(NeutralMode.Brake);
+
+    /* Configure motors to prevent burnout */
+    /* TODO: check that these values are correct */
+    this.m_arm.configContinuousCurrentLimit(40, 0);
+    this.m_arm.configPeakCurrentLimit(60, 0);
+    this.m_arm.configPeakCurrentDuration(100, 0);
+    this.m_arm.enableCurrentLimit(true);
+    this.m_roller.configContinuousCurrentLimit(40, 0);
+    this.m_roller.configPeakCurrentLimit(60, 0);
+    this.m_roller.configPeakCurrentDuration(100, 0);
+    this.m_roller.enableCurrentLimit(true);
   }
 
   @Override
