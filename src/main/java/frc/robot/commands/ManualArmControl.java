@@ -12,10 +12,8 @@ import frc.robot.lib.LogitechController;
 import frc.robot.subsystems.CargoIntake.InvalidDeviceIdException;
 import frc.robot.Robot;
 
-public class ArmControl extends Command {
-  public ArmControl() {
-    // Use requires() here to declare subsystem dependencies
-    // eg. requires(chassis);
+public class ManualArmControl extends Command {
+  public ManualArmControl() {
   }
 
   // Called just before this Command runs the first time
