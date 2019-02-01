@@ -65,6 +65,18 @@ public class CargoIntake extends Subsystem {
     m_roller.set(ControlMode.PercentOutput, -80);
   }
 
+  public void moveArm(double speed) {
+    m_arm.set(ControlMode.PercentOutput, speed);
+  }
+
+  public boolean getArmLimitState() {
+    return m_armSwitch.get();
+  }
+
+  public boolean getRollerLimitState() {
+    return m_rollerSwitch.get();
+  }
+
   @Override
   public void initDefaultCommand() {
     // Set the default command for a subsystem here.
