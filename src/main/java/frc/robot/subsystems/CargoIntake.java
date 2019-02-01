@@ -57,6 +57,14 @@ public class CargoIntake extends Subsystem {
     this.m_roller.enableCurrentLimit(true);
   }
 
+  public void spinRollersIn() {
+    m_roller.set(ControlMode.PercentOutput, 80);
+  }
+
+  public void spinRollersOut() {
+    m_roller.set(ControlMode.PercentOutput, -80);
+  }
+
   @Override
   public void initDefaultCommand() {
     // Set the default command for a subsystem here.
