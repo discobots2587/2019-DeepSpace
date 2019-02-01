@@ -15,28 +15,38 @@ import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 import frc.robot.RobotMap;
+import frc.robot.util.Constants;
 
 /**
  * Add your docs here.
  */
 public class CargoIntake extends Subsystem {
-  // Put methods for controlling this subsystem
-  // here. Call these from Commands.
-
   // initializing two Talon motors to spin intake and raise intake
   private TalonSRX m_roller;
   private TalonSRX m_arm;
 
-  // initializing two limit switches to detect when cargo is in place
-  // and when intake is upright
+  // initializing three limit switches to detect when cargo is in place
+  // and when intake is upright/down
   private DigitalInput m_rollerSwitch;
-  private DigitalInput m_armSwitch;
+  private DigitalInput m_armTopSwitch;
+  private DigitalInput m_armBottomSwitch;
+
+  enum DeviceID {
+    RollerSwitch, ArmTopSwitch, ArmBottomSwitch;
+  }
+
+  private class InvalidDeviceIdException extends Exception {
+    private InvalidDeviceIdException(String message) {
+      super(message);
+    }
+  }
 
   public CargoIntake() {
     this.m_roller = new TalonSRX(RobotMap.m_rollerMotor);
     this.m_arm = new TalonSRX(RobotMap.m_armMotor);
     this.m_rollerSwitch = new DigitalInput(RobotMap.m_cargoRollerLimit);
-    this.m_armSwitch = new DigitalInput(RobotMap.m_cargoArmLimit);
+    this.m_armTopSwitch = new DigitalInput(RobotMap.m_cargoArmTopLimit);
+    this.m_armBottomSwitch = new DigitalInput(RobotMap.m_cargoArmBottomLimit);
 
     /* TODO: check if/which motors are reversed */
 
@@ -57,19 +67,20 @@ public class CargoIntake extends Subsystem {
   }
 
   public void spinRollersIn() {
-    m_roller.set(ControlMode.PercentOutput, 80);
+    m_roller.set(ControlMode.PercentOutput, Constants.kMaxRollerPercent);
   }
 
   public void spinRollersOut() {
-    m_roller.set(ControlMode.PercentOutput, -80);
+    m_roller.set(ControlMode.PercentOutput, -Constants.kMaxRollerPercent);
   }
 
   public void stopRollers() {
     m_roller.set(ControlMode.PercentOutput, 0);
   }
 
-  public void spinRollersInWithLimits() {
-    if(getRollerLimitState()) {
+  /* TODO: check when limit switches return true */
+  public void spinRollersInWithLimits() throws InvalidDeviceIdException {
+    if (!getLimitState(DeviceID.RollerSwitch)) {
       spinRollersIn();
     }
   }
@@ -78,18 +89,31 @@ public class CargoIntake extends Subsystem {
     m_arm.set(ControlMode.PercentOutput, speed);
   }
 
-  public void moveArmWithLimits(double speed) {
-    if(getArmLimitState()) {
+  public void moveArmWithLimits(double speed) throws InvalidDeviceIdException {
+    boolean atLimit = getLimitState(DeviceID.ArmBottomSwitch) || getLimitState(DeviceID.ArmTopSwitch);
+    if(!atLimit) {
       moveArm(speed);
     }
   }
 
-  public boolean getArmLimitState() {
-    return m_armSwitch.get();
-  }
+  public boolean getLimitState(DeviceID deviceID) throws InvalidDeviceIdException {
+    boolean state = false;
+    
+    switch(deviceID) {
+      case RollerSwitch:
+        state = m_rollerSwitch.get();
+        break;
+      case ArmTopSwitch:
+        state = m_armTopSwitch.get();
+        break;
+      case ArmBottomSwitch:
+        state = m_armBottomSwitch.get();
+        break;
+      default:
+        throw new InvalidDeviceIdException("Invalid Device ID");
+    }
 
-  public boolean getRollerLimitState() {
-    return m_rollerSwitch.get();
+    return state;
   }
 
   @Override

@@ -42,7 +42,8 @@ public class RobotMap {
   public static int m_leftEncoderA     = 2;
   public static int m_leftEncoderB     = 3;
   public static int m_cargoRollerLimit = 4;
-  public static int m_cargoArmLimit    = 5;
+  public static int m_cargoArmTopLimit = 5;
+  public static int m_cargoArmBottomLimit = 6;
   /* TODO: Add digital sensors (ultrasonic/limit switch) from other subsystems */
 
   /* Analog ports */
