@@ -35,8 +35,8 @@ public class CargoIntake extends Subsystem {
     RollerSwitch, ArmTopSwitch, ArmBottomSwitch;
   }
 
-  private class InvalidDeviceIdException extends Exception {
-    private InvalidDeviceIdException(String message) {
+  public static class InvalidDeviceIdException extends Exception {
+    public InvalidDeviceIdException(String message) {
       super(message);
     }
   }

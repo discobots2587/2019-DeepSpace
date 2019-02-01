@@ -9,6 +9,7 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.lib.LogitechController;
+import frc.robot.subsystems.CargoIntake.InvalidDeviceIdException;
 import frc.robot.Robot;
 
 public class ArmControl extends Command {
@@ -26,7 +27,11 @@ public class ArmControl extends Command {
   @Override
   protected void execute() {
     LogitechController driverOI = Robot.m_oi.getDriverOI();
-    Robot.m_cargoIntake.moveArmWithLimits(driverOI.getRY() * 100);
+    try {
+      Robot.m_cargoIntake.moveArmWithLimits(driverOI.getRY() * 100);
+    } catch (InvalidDeviceIdException e) {
+      e.printStackTrace();
+	}
   }
 
   // Make this return true when this Command no longer needs to run execute()
