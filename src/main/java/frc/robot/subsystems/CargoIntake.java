@@ -7,15 +7,14 @@
 
 package frc.robot.subsystems;
 
-import edu.wpi.first.wpilibj.command.Subsystem;
-import frc.robot.RobotMap;
-import edu.wpi.first.wpilibj.DigitalInput;
-
 import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
-import com.ctre.phoenix.motorcontrol.StatusFrameEnhanced;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+
+import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.command.Subsystem;
+
+import frc.robot.RobotMap;
 
 /**
  * Add your docs here.
@@ -65,8 +64,24 @@ public class CargoIntake extends Subsystem {
     m_roller.set(ControlMode.PercentOutput, -80);
   }
 
+  public void stopRollers() {
+    m_roller.set(ControlMode.PercentOutput, 0);
+  }
+
+  public void spinRollersInWithLimits() {
+    if(getRollerLimitState()) {
+      spinRollersIn();
+    }
+  }
+
   public void moveArm(double speed) {
     m_arm.set(ControlMode.PercentOutput, speed);
+  }
+
+  public void moveArmWithLimits(double speed) {
+    if(getArmLimitState()) {
+      moveArm(speed);
+    }
   }
 
   public boolean getArmLimitState() {
