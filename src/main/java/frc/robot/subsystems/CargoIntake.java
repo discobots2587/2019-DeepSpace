@@ -35,6 +35,8 @@ public class CargoIntake extends Subsystem {
   private DigitalInput m_armTopSwitch;
   private DigitalInput m_armBottomSwitch;
 
+  public boolean smartIntake = true;
+
   enum DeviceID {
     RollerSwitch, ArmTopSwitch, ArmBottomSwitch;
   }
