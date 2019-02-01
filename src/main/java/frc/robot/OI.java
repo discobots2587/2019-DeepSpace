@@ -107,6 +107,9 @@ public class OI {
 
       d_btn_LB.whenPressed(new LaunchHatch());
       d_btn_A.whenActive(new BeakSet());
+      d_btn_RB.whenPressed(new ToggleSmartIntake());
+      d_btn_RT.whileHeld(new EjectCargo());
+      d_btn_LT.whileHeld(new IntakeCargo());
       
     /* TODO: Add o_operaterOI button commands */
   }
