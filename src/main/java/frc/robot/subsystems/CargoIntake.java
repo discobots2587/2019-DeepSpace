@@ -18,7 +18,11 @@ import frc.robot.RobotMap;
 import frc.robot.util.Constants;
 
 /**
- * Add your docs here.
+ * The CargoIntake has two main functions: to intake cargo and to raise the cargo.
+ * There is one TalonSRX motor controlling the roller intake and one controlling the
+ * arm itself. There is one limit switch on the roller's hard stop to detect when
+ * the cargo has been intaked. There are two limit switches on the arm construction
+ * to detect when the arm is in the upright or down positions.
  */
 public class CargoIntake extends Subsystem {
   // initializing two Talon motors to spin intake and raise intake
@@ -35,7 +39,8 @@ public class CargoIntake extends Subsystem {
     RollerSwitch, ArmTopSwitch, ArmBottomSwitch;
   }
 
-  public static class InvalidDeviceIdException extends Exception {
+  @SuppressWarnings("serial")
+  public static final class InvalidDeviceIdException extends Exception {
     public InvalidDeviceIdException(String message) {
       super(message);
     }
