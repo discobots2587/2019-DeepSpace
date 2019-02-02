@@ -4,7 +4,7 @@ package frc.robot.util;
 public class Constants {
 
 	//kMaxArmSpeed - maximum speed the arm can move
-	public static double kMaxArmSpeed = 1.0;
+	public static double kMaxArmSpeed = 0.75;
 	
 	//kDeadband - driving ignores this value and lower for the controller inputs
 	public static double kDeadband = 0.1;
