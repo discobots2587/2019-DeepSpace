@@ -27,7 +27,9 @@ public class ArcadeDrive extends Command {
   @Override
   protected void execute() {
     Gamepad gamepad = Robot.m_oi.getDriverOI();
-    Robot.m_drive.rampedArcadeDrive(gamepad.getLY(),gamepad.getRX());
+    double forwardSpeed = gamepad.getLY() * 500.0 * 4096 / 600;
+
+    Robot.m_drive.rampedArcadeDrive(forwardSpeed,0);
     
   }
 

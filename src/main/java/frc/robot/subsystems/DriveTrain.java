@@ -37,26 +37,36 @@ public class DriveTrain extends Subsystem {
   public DriveTrain() {
     this.m_frontLeft = new TalonSRX(RobotMap.m_motorFrontLeft);
     this.m_frontRight = new TalonSRX(RobotMap.m_motorFrontRight);
-    this.m_backLeft = new TalonSRX(RobotMap.m_motorBackLeft);
-    this.m_backRight = new TalonSRX(RobotMap.m_motorBackRight);
+    // this.m_backLeft = new TalonSRX(RobotMap.m_motorBackLeft);
+    // this.m_backRight = new TalonSRX(RobotMap.m_motorBackRight);
 
     /* Invert motors since they are wired backwards */
     this.m_frontLeft.setInverted(true);
     this.m_frontRight.setInverted(true);
-    this.m_backLeft.setInverted(true);
-    this.m_backRight.setInverted(true);
+    // this.m_backLeft.setInverted(true);
+    // this.m_backRight.setInverted(true);
 
     /* Configure master-slave for left and right motors */
-    this.m_backLeft.follow(this.m_frontLeft);
-    this.m_backRight.follow(this.m_frontRight);
-    this.m_backLeft.setNeutralMode(NeutralMode.Brake);
-    this.m_backRight.setNeutralMode(NeutralMode.Brake);
+    // this.m_backLeft.follow(this.m_frontLeft);
+    // this.m_backRight.follow(this.m_frontRight);
+    // this.m_backLeft.setNeutralMode(NeutralMode.Brake);
+    // this.m_backRight.setNeutralMode(NeutralMode.Brake);
 
     /* Setup control */
-    this.m_frontLeft.configOpenloopRamp(0.4, 10);
-    this.m_frontRight.configOpenloopRamp(0.4, 10);
+    this.m_frontLeft.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, Constants.kPIDLoopIdx, Constants.kTimeoutMs);
+    this.m_frontRight.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, Constants.kPIDLoopIdx, Constants.kTimeoutMs);
+    // this.m_frontLeft.configOpenloopRamp(0.4, 10);
+    // this.m_frontRight.configOpenloopRamp(0.4, 10);
     this.m_frontLeft.setSensorPhase(true);
     this.m_frontRight.setSensorPhase(true);
+    this.m_frontLeft.configNominalOutputForward(0, Constants.kTimeoutMs);
+		this.m_frontLeft.configNominalOutputReverse(0, Constants.kTimeoutMs);
+		this.m_frontLeft.configPeakOutputForward(1, Constants.kTimeoutMs);
+    this.m_frontLeft.configPeakOutputReverse(-1, Constants.kTimeoutMs);
+    this.m_frontRight.configNominalOutputForward(0, Constants.kTimeoutMs);
+		this.m_frontRight.configNominalOutputReverse(0, Constants.kTimeoutMs);
+		this.m_frontRight.configPeakOutputForward(1, Constants.kTimeoutMs);
+    this.m_frontRight.configPeakOutputReverse(-1, Constants.kTimeoutMs);
 
     /* Configure PID */
     //this.m_frontLeft.config_kP(0, 1.0, 10);
@@ -182,8 +192,10 @@ public class DriveTrain extends Subsystem {
     this.tankDrive(rampedInput[0], rampedInput[1]);
   }
   public void tankDrive(double left, double right) {
-    this.m_frontLeft.set(ControlMode.PercentOutput, left);
-    this.m_frontRight.set(ControlMode.PercentOutput, right);
+    // this.m_frontLeft.set(ControlMode.PercentOutput, left);
+    // this.m_frontRight.set(ControlMode.PercentOutput, right);
+    this.m_frontRight.set(ControlMode.Velocity, right);
+    this.m_frontLeft.set(ControlMode.Velocity, left);
   }
 
   public void stop() {
