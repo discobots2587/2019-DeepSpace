@@ -19,25 +19,28 @@ public class USBCamera extends Subsystem {
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
 
-  private USBCamera camera;
-  private USBCamera camera2;
+  private CameraServer camera;
+  private CameraServer camera2;
 
   public USBCamera(){
-    UsbCamera camera = CameraServer.getInstance().startAutomaticCapture(0);
-    camera.setResolution(160, 120);
-    camera.setFPS(5);
-    camera.setConnectionStrategy(VideoSource.ConnectionStrategy.kKeepOpen);
-
-    UsbCamera camera2 = CameraServer.getInstance().startAutomaticCapture(1);
-    camera2.setResolution(160, 120);
-    camera2.setFPS(5);
-    camera2.setConnectionStrategy(VideoSource.ConnectionStrategy.kKeepOpen);
-
+    camera = CameraServer.getInstance();
+    camera2 = CameraServer.getInstance();
   }
+
   @Override
   public void initDefaultCommand() {
     // Set the default command for a subsystem here.
     //setDefaultCommand(new MySpecialCommand());
   }
+  /*
+  Saving the original setups
 
+  camera.setResolution(160, 120);
+  camera.setFPS(5);
+  camera.setConnectionStrategy(VideoSource.ConnectionStrategy.kKeepOpen);
+
+  camera2.setResolution(160, 120);
+  camera2.setFPS(5);
+  camera2.setConnectionStrategy(VideoSource.ConnectionStrategy.kKeepOpen);
+  */
 }
