@@ -9,6 +9,7 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.cscore.UsbCamera;
 import edu.wpi.cscore.VideoSource;
+import edu.wpi.cscore.VideoSink;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
 
@@ -19,23 +20,25 @@ public class USBCamera extends Subsystem {
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
 
-  private CameraServer camera;
-  private CameraServer camera2;
-  private UsbCamera m_camera;
- 
+  UsbCamera camera1;
+  UsbCamera camera2;
+  VideoSink server;
+
 
   public USBCamera(){
-    camera = CameraServer.getInstance();
-    camera2 = CameraServer.getInstance();
+    camera1 = CameraServer.getInstance().startAutomaticCapture();
+    camera2 = CameraServer.getInstance().startAutomaticCapture(1);
+    server = CameraServer.getInstance().getServer();
   }
 
   public void displayCapture(CameraServer cameraServer, boolean terminate){
-    m_camera = cameraServer.startAutomaticCapture();
-    m_camera.setResolution(160, 120);
-    m_camera.setFPS(30);
-    m_camera.setConnectionStrategy(VideoSource.ConnectionStrategy.kKeepOpen);
-    if (terminate)
-      throw new ArithmeticException("Switching camera input");
+    //camera.setResolution(160, 120);
+    //camera.setFPS(5);
+    //camera.setConnectionStrategy(VideoSource.ConnectionStrategy.kKeepOpen);
+   
+  }
+  public void changeCamera(){
+
   }
   @Override
   public void initDefaultCommand() {

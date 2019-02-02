@@ -47,19 +47,7 @@ public class Robot extends TimedRobot {
 
     /* TODO: Initialize Dashboard */
 
-    /* TODO: Determine in boiler-plate camera code is sufficient */
-    new Thread(() -> {
-      UsbCamera camera = CameraServer.getInstance().startAutomaticCapture(0);
-      camera.setResolution(160, 120);
-      camera.setFPS(5);
-      camera.setConnectionStrategy(VideoSource.ConnectionStrategy.kKeepOpen);
-
-      UsbCamera camera2 = CameraServer.getInstance().startAutomaticCapture(1);
-      camera2.setResolution(160, 120);
-      camera2.setFPS(5);
-      camera2.setConnectionStrategy(VideoSource.ConnectionStrategy.kKeepOpen);
-    }).start();
-
+  
   }
 
   /**
