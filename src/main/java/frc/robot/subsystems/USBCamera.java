@@ -37,9 +37,15 @@ public class USBCamera extends Subsystem {
     //camera.setConnectionStrategy(VideoSource.ConnectionStrategy.kKeepOpen);
    
   }
-  public void changeCamera(){
-
+  
+  public void toggleCameras(){
+    if(server.getSource()==camera1){
+      server.setSource(camera2);
+    } else{
+      server.setSource(camera1);
+    }
   }
+
   @Override
   public void initDefaultCommand() {
     // Set the default command for a subsystem here.
