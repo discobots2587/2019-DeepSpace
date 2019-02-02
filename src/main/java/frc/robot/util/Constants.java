@@ -2,6 +2,9 @@ package frc.robot.util;
 
 //Constants - useful numbers put into a place that makes them easy to change (no magic numbers!)
 public class Constants {
+
+	//kMaxArmSpeed - maximum speed the arm can move
+	public static double kMaxArmSpeed = 1.0;
 	
 	//kDeadband - driving ignores this value and lower for the controller inputs
 	public static double kDeadband = 0.1;
