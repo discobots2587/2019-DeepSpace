@@ -27,6 +27,11 @@ public class USBCamera extends Subsystem {
     camera2 = CameraServer.getInstance();
   }
 
+  public void displayCapture(CameraServer cameraServer, boolean terminate){
+    
+    if (terminate)
+      throw new ArithmeticException("Switching camera input");
+  }
   @Override
   public void initDefaultCommand() {
     // Set the default command for a subsystem here.
