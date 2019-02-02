@@ -20,14 +20,20 @@ public class USBCamera extends Subsystem {
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
 
-  private UsbCamera camera1;
-  private UsbCamera camera2;
+  private UsbCamera m_camera1;
+  private UsbCamera m_camera2;
   private VideoSink server;
 
 
   public USBCamera(){
-    camera1 = CameraServer.getInstance().startAutomaticCapture();
-    camera2 = CameraServer.getInstance().startAutomaticCapture(1);
+    m_camera1 = CameraServer.getInstance().startAutomaticCapture();
+    m_camera1.setResolution(160, 120);
+    m_camera1.setFPS(24);
+    m_camera1.setConnectionStrategy(VideoSource.ConnectionStrategy.kKeepOpen);
+    m_camera2 = CameraServer.getInstance().startAutomaticCapture(1);
+    m_camera2.setResolution(160, 120);
+    m_camera2.setFPS(24);
+    m_camera2.setConnectionStrategy(VideoSource.ConnectionStrategy.kKeepOpen);
     server = CameraServer.getInstance().getServer();
   }
 
@@ -48,18 +54,18 @@ public class USBCamera extends Subsystem {
 
   public UsbCamera getCamera(int cameraNumber){
     if (cameraNumber == 1)
-      return camera1;
+      return m_camera1;
     else if (cameraNumber == 2)
-      return camera2;
+      return m_camera2;
 
-    return camera1;
+    return m_camera1;
   }
 
   public void toggleCameras(){
-    if(server.getSource()==camera1){
-      server.setSource(camera2);
+    if(server.getSource()==m_camera1){
+      server.setSource(m_camera2);
     } else{
-      server.setSource(camera1);
+      server.setSource(m_camera1);
     }
   }
 
@@ -68,15 +74,4 @@ public class USBCamera extends Subsystem {
     // Set the default command for a subsystem here.
     //setDefaultCommand(new MySpecialCommand());
   }
-  /*
-  Saving the original setups
-
-  camera.setResolution(160, 120);
-  camera.setFPS(5);
-  camera.setConnectionStrategy(VideoSource.ConnectionStrategy.kKeepOpen);
-
-  camera2.setResolution(160, 120);
-  camera2.setFPS(5);
-  camera2.setConnectionStrategy(VideoSource.ConnectionStrategy.kKeepOpen);
-  */
 }
