@@ -18,7 +18,7 @@ public class RobotMap {
   public static int m_rightDrive      = 0;
   public static int m_rightIntake     = 1;
   public static int m_leftIntake      = 2;
-  /* TODO: Add motors from other subsystems */
+  public static int m_arm             = 3;
   public static int m_leftDrive       = 9;
   
   /* CAN ports */
