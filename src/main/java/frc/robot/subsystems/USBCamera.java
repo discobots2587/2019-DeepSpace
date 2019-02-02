@@ -23,6 +23,8 @@ public class USBCamera extends Subsystem {
   private UsbCamera m_camera1;
   private UsbCamera m_camera2;
   private VideoSink server;
+  public volatile int whichCamera;
+  
 
 
   public USBCamera(){
@@ -35,6 +37,7 @@ public class USBCamera extends Subsystem {
     m_camera2.setFPS(24);
     m_camera2.setConnectionStrategy(VideoSource.ConnectionStrategy.kKeepOpen);
     server = CameraServer.getInstance().getServer();
+    whichCamera = 1;
   }
 
   public void displayCapture(CameraServer cameraServer, boolean terminate){
@@ -62,10 +65,12 @@ public class USBCamera extends Subsystem {
   }
 
   public void toggleCameras(){
-    if(server.getSource()==m_camera1){
+    if(whichCamera == 1){
       server.setSource(m_camera2);
+      whichCamera = 2;
     } else{
       server.setSource(m_camera1);
+      whichCamera = 1;
     }
   }
 
