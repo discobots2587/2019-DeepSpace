@@ -20,9 +20,9 @@ public class USBCamera extends Subsystem {
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
 
-  UsbCamera camera1;
-  UsbCamera camera2;
-  VideoSink server;
+  private UsbCamera camera1;
+  private UsbCamera camera2;
+  private VideoSink server;
 
 
   public USBCamera(){
@@ -51,7 +51,7 @@ public class USBCamera extends Subsystem {
       return camera1;
     else if (cameraNumber == 2)
       return camera2;
-      
+
     return camera1;
   }
 
