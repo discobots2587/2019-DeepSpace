@@ -30,10 +30,14 @@ public class RobotMap {
    */
   /* PCM (12V) ports */
   public static int m_pcm12v           = 0; // CAN id
+  public static int m_beakExtend       = 6;
+  public static int m_beakRetract      = 7;
   /* TODO: Add solenoids from other subsystems */
 
   /* PCM (24V) ports */
   public static int m_pcm24v           = 1; // CAN id
+  public static int m_launcherExtend   = 2;
+  public static int m_launcherRetract  = 3;
   /* TODO: Add solenoids from other subsystems */
 
   /* DIO ports */
