@@ -6,8 +6,11 @@
 /*----------------------------------------------------------------------------*/
 
 package frc.robot.subsystems;
+import edu.wpi.first.wpilibj.Spark;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
+import frc.robot.RobotMap;
+import frc.robot.util.Constants;
 
 /**
  * Add your docs here.
@@ -15,6 +18,24 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 public class Arm extends Subsystem {
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
+
+  private Spark m_arm;
+
+  public Arm() {
+    this.m_arm = new Spark(RobotMap.m_arm);
+  }
+
+  public void raise() {
+    m_arm.set(Constants.kMaxArmSpeed);
+  }
+
+  public void lower() {
+    m_arm.set(-Constants.kMaxArmSpeed);
+  }
+
+  public void stop() {
+    m_arm.set(0);
+  }
 
   @Override
   public void initDefaultCommand() {
