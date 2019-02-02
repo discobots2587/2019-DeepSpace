@@ -21,6 +21,8 @@ public class USBCamera extends Subsystem {
 
   private CameraServer camera;
   private CameraServer camera2;
+  private UsbCamera m_camera;
+ 
 
   public USBCamera(){
     camera = CameraServer.getInstance();
@@ -28,7 +30,10 @@ public class USBCamera extends Subsystem {
   }
 
   public void displayCapture(CameraServer cameraServer, boolean terminate){
-    
+    m_camera = cameraServer.startAutomaticCapture();
+    m_camera.setResolution(160, 120);
+    m_camera.setFPS(30);
+    m_camera.setConnectionStrategy(VideoSource.ConnectionStrategy.kKeepOpen);
     if (terminate)
       throw new ArithmeticException("Switching camera input");
   }
