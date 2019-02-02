@@ -38,6 +38,23 @@ public class USBCamera extends Subsystem {
    
   }
   
+  public VideoSink getServer(){
+    return server;
+  }
+
+  public void setCamera(UsbCamera camera){
+    server.setSource(camera);
+  }
+
+  public UsbCamera getCamera(int cameraNumber){
+    if (cameraNumber == 1)
+      return camera1;
+    else if (cameraNumber == 2)
+      return camera2;
+      
+    return camera1;
+  }
+
   public void toggleCameras(){
     if(server.getSource()==camera1){
       server.setSource(camera2);

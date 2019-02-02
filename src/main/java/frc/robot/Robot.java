@@ -32,6 +32,7 @@ public class Robot extends TimedRobot {
   public static DriveTrain m_drive = new DriveTrain();
   public static Hatch m_hatch = new Hatch();
   public static CargoIntake m_cargoIntake = new CargoIntake();
+  public static USBCamera m_camera = new USBCamera();
   /**
    * This function is run when the robot is first started up and should be
    * used for any initialization code.
@@ -44,6 +45,9 @@ public class Robot extends TimedRobot {
     // yet. Thus, their requires() statements may grab null pointers. Bad
     // news. Don't move it.
     this.m_oi = new OI();
+    new Thread(()-> {
+      m_camera.setCamera(m_camera.getCamera(1));
+    }).start();
 
     /* TODO: Initialize Dashboard */
 
