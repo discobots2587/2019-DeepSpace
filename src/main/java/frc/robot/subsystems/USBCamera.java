@@ -6,12 +6,14 @@
 /*----------------------------------------------------------------------------*/
 
 package frc.robot.subsystems;
+
 import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.cscore.UsbCamera;
 import edu.wpi.cscore.VideoSource;
 import edu.wpi.cscore.VideoSink;
-
 import edu.wpi.first.wpilibj.command.Subsystem;
+
+import frc.robot.Robot;
 
 /**
  * Add your docs here.
@@ -37,8 +39,16 @@ public class USBCamera extends Subsystem {
     m_camera2.setResolution(160, 120);
     m_camera2.setFPS(24);
     m_camera2.setConnectionStrategy(VideoSource.ConnectionStrategy.kKeepOpen);
+
     server = CameraServer.getInstance().getServer();
+
     whichCamera = 1;
+  }
+  
+  public void cameraInit(){
+    new Thread(()-> {
+      Robot.m_camera.setCamera(Robot.m_camera.getCamera(1));
+    }).start();
   }
 
   public VideoSink getServer(){

@@ -45,13 +45,9 @@ public class Robot extends TimedRobot {
     // yet. Thus, their requires() statements may grab null pointers. Bad
     // news. Don't move it.
     this.m_oi = new OI();
-    new Thread(()-> {
-      m_camera.setCamera(m_camera.getCamera(1));
-    }).start();
-
+    this.m_camera.cameraInit();
     /* TODO: Initialize Dashboard */
 
-  
   }
 
   /**
