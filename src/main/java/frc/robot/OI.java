@@ -15,6 +15,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.lib.AXISButton;
 import frc.robot.lib.DPADButton;
 import frc.robot.lib.Gamepad;
+import frc.robot.lib.LogitechController;
 import frc.robot.lib.Xbox;
 
 import frc.robot.commands.*;
@@ -65,7 +66,7 @@ public class OI {
    *    - operatorOI-related variables: "o_" followed by the member variable
    *        starting with a lower case letter then camel case
    */
-  private Gamepad d_driverOI = new Gamepad(0, "Driver OI");
+  private LogitechController d_driverOI = new LogitechController();
   /* TODO: Instantiate o_operatorOI object */
 
   /* Driver OI */
@@ -109,7 +110,7 @@ public class OI {
   }
 
   /* Used by the DriveTrain subsystem for default command */
-  public Gamepad getDriverOI() {
+  public LogitechController getDriverOI() {
     return this.d_driverOI;
   }
 }
