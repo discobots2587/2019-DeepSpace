@@ -29,7 +29,7 @@ public class USBCamera extends Subsystem {
   
 
 
-  public USBCamera(){
+  public USBCamera() {
     m_camera1 = CameraServer.getInstance().startAutomaticCapture();
     m_camera1.setResolution(160, 120);
     m_camera1.setFPS(24);
@@ -45,21 +45,21 @@ public class USBCamera extends Subsystem {
     whichCamera = 1;
   }
   
-  public void cameraInit(){
+  public void cameraInit() {
     new Thread(()-> {
       Robot.m_camera.setCamera(Robot.m_camera.getCamera(1));
     }).start();
   }
 
-  public VideoSink getServer(){
+  public VideoSink getServer() {
     return server;
   }
 
-  public void setCamera(UsbCamera camera){
+  public void setCamera(UsbCamera camera) {
     server.setSource(camera);
   }
 
-  public UsbCamera getCamera(int cameraNumber){
+  public UsbCamera getCamera(int cameraNumber) {
     if (cameraNumber == 1)
       return m_camera1;
     else if (cameraNumber == 2)
@@ -68,11 +68,11 @@ public class USBCamera extends Subsystem {
     return m_camera1;
   }
 
-  public void toggleCameras(){
+  public void toggleCameras() {
     if(whichCamera == 1){
       setCamera(m_camera2);
       whichCamera = 2;
-    } else{
+    }else{
       setCamera(m_camera1);
       whichCamera = 1;
     }

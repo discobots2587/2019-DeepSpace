@@ -40,27 +40,27 @@ public class Hatch extends Subsystem {
   }
 
   // simple solenoid operation: push out and turn off immediately
-  public void pneumaticsAutoRetract(DoubleSolenoid solenoid){
+  public void pneumaticsAutoRetract(DoubleSolenoid solenoid) {
     solenoid.set(DoubleSolenoid.Value.kForward);
     solenoid.set(DoubleSolenoid.Value.kReverse);
   }
 
-  public void pneumaticsExtend(DoubleSolenoid solenoid){
+  public void pneumaticsExtend(DoubleSolenoid solenoid) {
     solenoid.set(DoubleSolenoid.Value.kForward);
   }
 
-  public void pneumaticsRetract(DoubleSolenoid solenoid){
+  public void pneumaticsRetract(DoubleSolenoid solenoid) {
     solenoid.set(DoubleSolenoid.Value.kReverse);
   }
 
-  public void toggleBeak(){
+  public void toggleBeak() {
     if (m_beak.get().equals(DoubleSolenoid.Value.kForward))
       pneumaticsRetract(this.m_beak);
     else
       pneumaticsExtend(this.m_beak);
   }
 
-  public void launchHatch(){
+  public void launchHatch() {
     pneumaticsAutoRetract(this.m_launcher);
   }
 
