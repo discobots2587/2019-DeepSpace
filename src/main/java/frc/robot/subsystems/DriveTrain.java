@@ -102,7 +102,7 @@ public class DriveTrain extends Subsystem {
   @Override
   public void initDefaultCommand() {
     /* TODO: Make this extensible to use any kind of drive (e.g., arcade/curvature) */
-    setDefaultCommand(new TankDrive());
+    setDefaultCommand(new ArcadeDrive());
   }
 
   public void teleopInit() {

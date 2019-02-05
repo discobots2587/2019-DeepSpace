@@ -10,6 +10,7 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj.command.Command;
 
 import frc.robot.lib.Gamepad;
+import frc.robot.lib.LogitechController;
 import frc.robot.Robot;
 
 /**
@@ -29,8 +30,13 @@ public class TankDrive extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    Gamepad gp = Robot.m_oi.getDriverOI();
+    LogitechController gp = Robot.m_oi.getDriverOI();
     Robot.m_drive.tankDrive(gp.getLY(),gp.getRY());
+    //LogitechController gamepad = Robot.m_oi.getDriverOI();
+    //double forwardSpeed = gamepad.getLY() * 100;
+    //System.out.println(forwardSpeed);
+
+    //Robot.m_drive.tankDrive(forwardSpeed, forwardSpeed);
   }
 
   // Make this return true when this Command no longer needs to run execute()

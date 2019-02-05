@@ -10,6 +10,7 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 import frc.robot.lib.Gamepad;
+import frc.robot.lib.LogitechController;
 
 public class ArcadeDrive extends Command {
   public ArcadeDrive() {
@@ -26,7 +27,7 @@ public class ArcadeDrive extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    Gamepad gamepad = Robot.m_oi.getDriverOI();
+    LogitechController gamepad = Robot.m_oi.getDriverOI();
     double forwardSpeed = gamepad.getLY() * 500.0 * 4096 / 600;
 
     Robot.m_drive.rampedArcadeDrive(forwardSpeed,0);
