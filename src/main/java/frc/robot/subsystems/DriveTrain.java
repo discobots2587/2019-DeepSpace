@@ -42,9 +42,9 @@ public class DriveTrain extends Subsystem {
 
     /* Invert motors since they are wired backwards */
     this.m_frontLeft.setInverted(true);
-    this.m_frontRight.setInverted(true);
+    this.m_frontRight.setInverted(false);
     this.m_backLeft.setInverted(true);
-    this.m_backRight.setInverted(true);
+    this.m_backRight.setInverted(false);
 
     /* Configure master-slave for left and right motors */
     this.m_backLeft.follow(this.m_frontLeft);
