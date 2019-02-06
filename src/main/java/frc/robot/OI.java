@@ -70,16 +70,16 @@ public class OI {
   /* TODO: Instantiate o_operatorOI object */
 
   /* Driver OI */
-  private Button d_btn_RB = new JoystickButton(d_driverOI, Gamepad.BTN_RB);
-  private Button d_btn_LB = new JoystickButton(d_driverOI, Gamepad.BTN_LB);
-  private Button d_btn_RT = new JoystickButton(d_driverOI, Gamepad.BTN_RT);
-  private Button d_btn_LT = new JoystickButton(d_driverOI, Gamepad.BTN_LT);
-  private Button d_btn_back = new JoystickButton(d_driverOI, Gamepad.BTN_BACK);
-  private Button d_btn_start = new JoystickButton(d_driverOI, Gamepad.BTN_START);
-  private Button d_btn_A = new JoystickButton(d_driverOI, Gamepad.BTN_A);
-  private Button d_btn_X = new JoystickButton(d_driverOI, Gamepad.BTN_X);
-  private Button d_btn_B = new JoystickButton(d_driverOI, Gamepad.BTN_B);
-  private Button d_btn_Y = new JoystickButton(d_driverOI, Gamepad.BTN_Y);
+  private Button d_btn_RB = new JoystickButton(d_driverOI, LogitechController.BTN_RB);
+  private Button d_btn_LB = new JoystickButton(d_driverOI, LogitechController.BTN_LB);
+  //private Button d_btn_RT = new JoystickButton(d_driverOI, LogitechController.BTN_RT);
+  //private Button d_btn_LT = new JoystickButton(d_driverOI, LogitechController.BTN_LT);
+  private Button d_btn_back = new JoystickButton(d_driverOI, LogitechController.BTN_BACK);
+  private Button d_btn_start = new JoystickButton(d_driverOI, LogitechController.BTN_START);
+  private Button d_btn_A = new JoystickButton(d_driverOI, LogitechController.BTN_A);
+  private Button d_btn_X = new JoystickButton(d_driverOI, LogitechController.BTN_X);
+  private Button d_btn_B = new JoystickButton(d_driverOI, LogitechController.BTN_B);
+  private Button d_btn_Y = new JoystickButton(d_driverOI, LogitechController.BTN_Y);
   private Button d_dpad_up = new DPADButton(d_driverOI, DPADButton.POV.UP);
   private Button d_dpad_down = new DPADButton(d_driverOI, DPADButton.POV.DOWN);
   private Button d_dpad_right = new DPADButton(d_driverOI, DPADButton.POV.RIGHT);
@@ -94,8 +94,8 @@ public class OI {
     switch(Dashboard.controllerChooser.getSelected()) {
       case XBOX:
         this.d_driverOI = new Xbox(0, "Driver OI");
-        this.d_btn_RT = new AXISButton(d_driverOI, Gamepad.BTN_RT);
-        this.d_btn_LT = new AXISButton(d_driverOI, Gamepad.BTN_LT);
+        this.d_btn_RT = new AXISButton(d_driverOI, LogitechController.BTN_RT);
+        this.d_btn_LT = new AXISButton(d_driverOI, LogitechController.BTN_LT);
         break;
       case DUALSHOCK:
         break;
