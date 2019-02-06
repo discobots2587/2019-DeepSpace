@@ -12,6 +12,7 @@ import frc.robot.RobotMap;
 import edu.wpi.first.wpilibj.AnalogPotentiometer;
 import edu.wpi.first.wpilibj.command.PIDSubsystem;
 import edu.wpi.first.wpilibj.Spark;
+import frc.robot.util.Constants;
 
 public class ArmPID extends PIDSubsystem {
 
@@ -19,7 +20,7 @@ public class ArmPID extends PIDSubsystem {
 
   public Spark m_arm = new Spark(RobotMap.m_arm);
 
-  public AnalogPotentiometer armPoten = new AnalogPotentiometer(RobotMap.potentiometer, scaleFactor);
+  public AnalogPotentiometer armPoten = new AnalogPotentiometer(RobotMap.m_armPot, scaleFactor);
 
   public double zeroPoint = 0;
 
@@ -30,7 +31,7 @@ public class ArmPID extends PIDSubsystem {
   public ArmPID() {
     
     // Intert a subsystem name and PID values here
-    super("ArmPID", 1, 2, 3);
+    super("ArmPID", Constants.kArmPID_P, Constants.kArmPID_I, Constants.kArmPID_D);
     // Use these to get going:
     // setSetpoint() - Sets where the PID controller should move the system
     // to
@@ -39,6 +40,8 @@ public class ArmPID extends PIDSubsystem {
     this.getPIDController().setOutputRange(-0.85, 0.85);
     setAbsoluteTolerance(0.01 * scaleFactor);
     m_arm.setInverted(true);
+
+    this.m_arm = new Spark(RobotMap.m_arm);
   }
 
   public void init() {
@@ -106,17 +109,31 @@ public class ArmPID extends PIDSubsystem {
     // e.g. yourMotor.set(output);
   }
 
-  public void set (double output) {
+  public void set(double output) {
     m_arm.set(output); 
     this.output = output; 
   }
 
-  public int index() {
+  public int getIndex() {
     return this.index;
   }
 
   public void setIndex(int input) {
     this.index = input; 
     this.setPos(this.index); 
+  }
+
+  private Spark ArmPID; 
+
+  public void ArmPIDRaise(){
+    m_arm.set(Constants.kMaxArmSpeed);
+  }
+
+  public void ArmPIDLower(){
+    m_arm.set(-Constants.kMaxArmSpeed);
+  }
+
+  public void ArmPIDStop(){
+
   }
 }

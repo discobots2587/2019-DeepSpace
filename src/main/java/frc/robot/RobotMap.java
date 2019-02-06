@@ -47,6 +47,6 @@ public class RobotMap {
   /* TODO: Add digital sensors (ultrasonic/limit switch) from other subsystems */
 
   /* Analog ports */
-  public static int potentiometer     = 3;
+  public static int m_armPot          = 3;
   /* TODO: Add analog sensors (pressure/potentiometer) from other subsystems */
 }

@@ -36,4 +36,9 @@ public class Constants {
 	
 	//kIntakeSpeed - the speed that the intake motors operate at (both forward and backward)
 	public static double kIntakeSpeed = 0.75;
+
+	//PID values for ARMPID 
+	public static int kArmPID_P = 1;
+	public static int kArmPID_I = 2; 
+	public static int kArmPID_D = 3; 
  }
