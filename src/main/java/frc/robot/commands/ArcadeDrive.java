@@ -29,6 +29,7 @@ public class ArcadeDrive extends Command {
   protected void execute() {
     LogitechController gamepad = Robot.m_oi.getDriverOI();
     Robot.m_drive.rampedArcadeDrive(gamepad.getLY(),gamepad.getRX());
+    System.out.println(Robot.m_drive.getYRP()[0]);
   }
 
   // Make this return true when this Command no longer needs to run execute()

@@ -16,6 +16,7 @@ import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.StatusFrameEnhanced;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import com.ctre.phoenix.sensors.PigeonIMU;
 
 import frc.robot.RobotMap;
 import frc.robot.lib.RampedMotor;
@@ -34,12 +35,17 @@ public class DriveTrain extends Subsystem {
 
   private double[] lastInputs;
 
+  private PigeonIMU m_Pigeon;
+  private double[] m_ypr;
+
   public DriveTrain() {
     this.m_frontLeft = new TalonSRX(RobotMap.m_motorFrontLeft);
     this.m_frontRight = new TalonSRX(RobotMap.m_motorFrontRight);
     this.m_backLeft = new TalonSRX(RobotMap.m_motorBackLeft);
     this.m_backRight = new TalonSRX(RobotMap.m_motorBackRight);
 
+    this.m_Pigeon = new PigeonIMU(RobotMap.m_motorFrontLeft);
+    this.m_ypr = new double[3];
     /* Invert motors since they are wired backwards */
     this.m_frontLeft.setInverted(true);
     this.m_frontRight.setInverted(false);
@@ -98,6 +104,10 @@ public class DriveTrain extends Subsystem {
   public void teleopInit() {
   }
 
+  public double[] getYRP(){
+    m_Pigeon.getYawPitchRoll(m_ypr);
+    return m_ypr;
+  }
   public double applyDeadzone (double input){
     double adjustedInput;
 
