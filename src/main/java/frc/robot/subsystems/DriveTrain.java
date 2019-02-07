@@ -44,7 +44,7 @@ public class DriveTrain extends Subsystem {
     this.m_backLeft = new TalonSRX(RobotMap.m_motorBackLeft);
     this.m_backRight = new TalonSRX(RobotMap.m_motorBackRight);
 
-    this.m_Pigeon = new PigeonIMU(RobotMap.m_motorFrontLeft);
+    this.m_Pigeon = new PigeonIMU(RobotMap.m_motorBackLeft);
     this.m_ypr = new double[3];
     /* Invert motors since they are wired backwards */
     this.m_frontLeft.setInverted(true);
