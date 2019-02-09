@@ -39,4 +39,15 @@ public class Constants {
 
 	//kMaxRollerPercent - maximum percent speed for the rollers
 	public static double kMaxRollerPercent = 80;
+
+	//kWristDP, kWristKD, kWristKI - PID constants for Wrist subsystem
+	public static double kWristKP = 1.0;
+	public static double kWristKD = 0.5;
+	public static double kWristKI = 0.1;
+
+	//kWristCruiseVel - cruise velocity of wrist motor in encoder units per 100 ms
+	public static int kWristCruiseVel = 700;
+
+	//kWristAcceleration - max acceleration of wrist motor in encoder units per 100 ms per 1 s
+	public static int kWristAcceleration = 5000;
  }

@@ -27,7 +27,7 @@ public class RobotMap {
   public static int m_motorBackRight   = 8;
 
   public static int m_rollerMotor      = 10;
-  public static int m_armMotor         = 11;
+  public static int m_wristMotor       = 11;
 
   /*
    * The PCM is capable of powering either 12V or 24V solenoids, but all
@@ -47,8 +47,8 @@ public class RobotMap {
   public static int m_leftEncoderA     = 2;
   public static int m_leftEncoderB     = 3;
   public static int m_cargoRollerLimit = 4;
-  public static int m_cargoArmTopLimit = 5;
-  public static int m_cargoArmBottomLimit = 6;
+  public static int m_wristTopLimit    = 5;
+  public static int m_wristBottomLimit = 6;
 
   /* Analog ports */
 }

@@ -32,7 +32,9 @@ public class Robot extends TimedRobot {
   public static DriveTrain m_drive = new DriveTrain();
   public static Hatch m_hatch = new Hatch();
   public static CargoIntake m_cargoIntake = new CargoIntake();
+  public static Wrist m_wrist = new Wrist();
   public static USBCamera m_camera = new USBCamera();
+  
   /**
    * This function is run when the robot is first started up and should be
    * used for any initialization code.

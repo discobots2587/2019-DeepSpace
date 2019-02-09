@@ -8,28 +8,39 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
-import frc.robot.lib.LogitechController;
-import frc.robot.subsystems.CargoIntake.InvalidDeviceIdException;
 import frc.robot.Robot;
+import frc.robot.lib.LogitechController;
 
-public class ManualArmControl extends Command {
-  public ManualArmControl() {
+public class ManualWristControl extends Command {
+  private double pos;
+
+  public ManualWristControl() {
+    requires(Robot.m_wrist);
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
+    pos = Robot.m_wrist.getPos();
   }
 
   // Called repeatedly when this Command is scheduled to run
+  /* TODO: possibly tune the conversation factor in deltaPos */
   @Override
   protected void execute() {
-    LogitechController driverOI = Robot.m_oi.getDriverOI();
-    try {
-      Robot.m_cargoIntake.moveArmWithLimits(driverOI.getRY() * 100);
-    } catch (InvalidDeviceIdException e) {
-      e.printStackTrace();
-	}
+    LogitechController operatorOI = Robot.m_oi.getOperatorOI();
+    double deltaPos = operatorOI.getRY() * 100;
+
+    if(Robot.m_wrist.atBottom() && deltaPos < 0) {
+      pos += 0;
+    }
+    else if(Robot.m_wrist.atTop() && deltaPos > 0) {
+      pos += 0;
+    } else {
+      pos += deltaPos;
+    }
+
+    Robot.m_wrist.goTo(pos);
   }
 
   // Make this return true when this Command no longer needs to run execute()

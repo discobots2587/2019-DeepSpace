@@ -9,12 +9,14 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
+import frc.robot.util.Preset;
 
-public class IntakeCargo extends Command {
-  public IntakeCargo() {
-    // Use requires() here to declare subsystem dependencies
-    // eg. requires(chassis);
-    requires(Robot.m_cargoIntake);
+public class PresetWristControl extends Command {
+  private Preset preset;
+
+  public PresetWristControl(Preset preset) {
+    requires(Robot.m_wrist);
+    this.preset = preset;
   }
 
   // Called just before this Command runs the first time
@@ -25,29 +27,23 @@ public class IntakeCargo extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    if (Robot.m_cargoIntake.smartIntake) {
-        Robot.m_cargoIntake.spinRollersInWithLimits();
-    } else {
-      Robot.m_cargoIntake.spinRollersIn();
-    }
+    Robot.m_wrist.goTo(preset);
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return true;
+    return Math.abs(Robot.m_wrist.getPos() - preset.getPos()) < Robot.m_wrist.posThreshold;
   }
 
   // Called once after isFinished returns true
   @Override
   protected void end() {
-    Robot.m_cargoIntake.stopRollers();
   }
 
   // Called when another command which requires one or more of the same
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
-    Robot.m_cargoIntake.stopRollers();
   }
 }
