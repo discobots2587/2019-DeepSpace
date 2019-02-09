@@ -9,7 +9,6 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
-import frc.robot.subsystems.CargoIntake.InvalidDeviceIdException;
 
 public class IntakeCargo extends Command {
   public IntakeCargo() {
@@ -27,11 +26,7 @@ public class IntakeCargo extends Command {
   @Override
   protected void execute() {
     if (Robot.m_cargoIntake.smartIntake) {
-      try {
         Robot.m_cargoIntake.spinRollersInWithLimits();
-      } catch (InvalidDeviceIdException e) {
-        e.printStackTrace();
-	    }
     } else {
       Robot.m_cargoIntake.spinRollersIn();
     }
