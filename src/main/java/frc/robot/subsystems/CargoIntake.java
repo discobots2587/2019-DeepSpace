@@ -25,11 +25,10 @@ import frc.robot.util.Constants;
  * to detect when the arm is in the upright or down positions.
  */
 public class CargoIntake extends Subsystem {
-  // initializing two Talon motors to spin intake and raise intake
+  // initializing Talon motor to spin intake
   private TalonSRX m_roller;
 
   // initializing three limit switches to detect when cargo is in place
-  // and when intake is upright/down
   private DigitalInput m_rollerSwitch;
 
   public boolean smartIntake = true;
@@ -38,12 +37,12 @@ public class CargoIntake extends Subsystem {
     this.m_roller = new TalonSRX(RobotMap.m_rollerMotor);
     this.m_rollerSwitch = new DigitalInput(RobotMap.m_cargoRollerLimit);
 
-    /* TODO: check if/which motors are reversed */
+    /* TODO: check if motor is reversed */
 
     /* Set motor to brake when neutral */
     this.m_roller.setNeutralMode(NeutralMode.Brake);
 
-    /* Configure motors to prevent burnout */
+    /* Configure motor to prevent burnout */
     /* TODO: check that these values are correct */
     this.m_roller.configContinuousCurrentLimit(40, 0);
     this.m_roller.configPeakCurrentLimit(60, 0);

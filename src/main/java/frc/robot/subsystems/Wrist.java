@@ -7,14 +7,53 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.FeedbackDevice;
+import com.ctre.phoenix.motorcontrol.LimitSwitchNormal;
+import com.ctre.phoenix.motorcontrol.LimitSwitchSource;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import frc.robot.RobotMap;
+import frc.robot.util.Constants;
 
 /**
  * Add your docs here.
  */
 public class Wrist extends Subsystem {
-  // Put methods for controlling this subsystem
-  // here. Call these from Commands.
+  /* Initialize Talon motor to rotate wrist */
+  private TalonSRX m_wrist;
+
+  /* Initialize top and bottom limit switches */
+  private DigitalInput m_topSwitch;
+  private DigitalInput m_bottomSwitch;
+
+  public Wrist() {
+    m_wrist = new TalonSRX(RobotMap.m_wristMotor);
+
+    m_topSwitch = new DigitalInput(RobotMap.m_wristTopLimit);
+    m_bottomSwitch = new DigitalInput(RobotMap.m_wristBottomLimit);
+
+    /* Config wrist motor and pid */
+    /* TODO: check if motor is inverted */
+    /* TODO: tune PID constants */
+    m_wrist.configOpenloopRamp(0.5, 0);
+    m_wrist.setNeutralMode(NeutralMode.Brake);
+    m_wrist.configForwardLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyOpen, 0);
+    m_wrist.configReverseLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyOpen, 0);
+    m_wrist.overrideLimitSwitchesEnable(true);
+    m_wrist.config_kP(0, Constants.kWristKP, 0);
+    m_wrist.config_kD(0, Constants.kWristKD, 0);
+    m_wrist.config_kI(0, Constants.kWristKI, 0);
+    m_wrist.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 0);
+    m_wrist.configMotionCruiseVelocity(Constants.kWristCruiseVel, 0);
+    m_wrist.configMotionAcceleration(Constants.kWristAcceleration, 0);
+    m_wrist.configContinuousCurrentLimit(40, 0);
+    m_wrist.configPeakCurrentLimit(60, 0);
+    m_wrist.configPeakCurrentDuration(100, 0);
+    m_wrist.enableCurrentLimit(true);
+  }
 
   @Override
   public void initDefaultCommand() {
