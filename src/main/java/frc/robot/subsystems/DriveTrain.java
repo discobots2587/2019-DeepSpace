@@ -35,17 +35,13 @@ public class DriveTrain extends Subsystem {
 
   private double[] lastInputs;
 
-  private PigeonIMU m_Pigeon;
-  private double[] m_ypr;
-
   public DriveTrain() {
     this.m_frontLeft = new TalonSRX(RobotMap.m_motorFrontLeft);
     this.m_frontRight = new TalonSRX(RobotMap.m_motorFrontRight);
     this.m_backLeft = new TalonSRX(RobotMap.m_motorBackLeft);
     this.m_backRight = new TalonSRX(RobotMap.m_motorBackRight);
 
-    this.m_Pigeon = new PigeonIMU(this.m_frontLeft);
-    this.m_ypr = new double[3];
+    
     /* Invert motors since they are wired backwards */
     this.m_frontLeft.setInverted(true);
     this.m_frontRight.setInverted(false);
@@ -103,11 +99,7 @@ public class DriveTrain extends Subsystem {
 
   public void teleopInit() {
   }
-
-  public double[] getYRP(){
-    m_Pigeon.getYawPitchRoll(m_ypr);
-    return m_ypr;
-  }
+  
   public double applyDeadzone (double input){
     double adjustedInput;
 
@@ -138,7 +130,6 @@ public class DriveTrain extends Subsystem {
     return adjustedInputs;
   }
 
-
   public void rampedArcadeDrive(double xSpeed, double zRotation) {
     
     double deadzoneLY = applyDeadzone(xSpeed);
@@ -152,6 +143,22 @@ public class DriveTrain extends Subsystem {
 
     lastInputs[0] = xSpeed;
     lastInputs[1] = zRotation;
+  }
+
+  public TalonSRX getTalon(int id) {
+    TalonSRX talon = null;
+
+    if (id == RobotMap.m_motorFrontLeft) {
+      talon = this.m_frontLeft;
+    } else if (id == RobotMap.m_motorBackLeft) {
+      talon = this.m_backLeft;
+    } else if (id == RobotMap.m_motorBackRight) {
+      talon = this.m_backRight;
+    } else if (id == RobotMap.m_motorFrontRight) {
+      talon = this.m_frontRight;
+    }
+    
+    return talon;
   }
 
   public void arcadeDrive(double throttle, double turn) { //contrary to the documentation, but that is ok
