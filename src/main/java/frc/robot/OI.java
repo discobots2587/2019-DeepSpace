@@ -129,4 +129,8 @@ public class OI {
   public LogitechController getDriverOI() {
     return this.d_driverOI;
   }
+
+  public LogitechController getOperatorOI() {
+    return this.o_operatorOI;
+  }
 }
