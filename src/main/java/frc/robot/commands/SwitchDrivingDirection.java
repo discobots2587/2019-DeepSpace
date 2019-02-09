@@ -10,8 +10,8 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 
-public class SwitchCamera extends Command {
-  public SwitchCamera() {
+public class SwitchDrivingDirection extends Command {
+  public SwitchDrivingDirection() {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
   }
@@ -24,6 +24,7 @@ public class SwitchCamera extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
+    Robot.m_drive.toggleDriveDirection();
     Robot.m_camera.toggleCameras();
   }
 
