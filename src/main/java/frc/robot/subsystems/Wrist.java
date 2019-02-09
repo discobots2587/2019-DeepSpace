@@ -19,6 +19,7 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.robot.RobotMap;
 import frc.robot.commands.StopWrist;
 import frc.robot.util.Constants;
+import frc.robot.util.Preset;
 
 /**
  * Add your docs here.
@@ -31,21 +32,9 @@ public class Wrist extends Subsystem {
   private DigitalInput m_topSwitch;
   private DigitalInput m_bottomSwitch;
 
-  /* TODO: check encoder value of upright position for TOP */
-  public enum Preset {
-    BOTTOM(0),
-    TOP(3000);
-
-    private final double pos;
-
-    private Preset(double pos) {
-      this.pos = pos;
-    }
-
-    public double getPos() {
-      return pos;
-    }
-  }
+  /* TODO: add more presets as we need them */
+  public static final Preset[] wristPresets = new Preset[] { new Preset(0), new Preset(5000) };
+  public int currentPreset = 1;
 
   public Wrist() {
     m_wrist = new TalonSRX(RobotMap.m_wristMotor);
@@ -64,7 +53,7 @@ public class Wrist extends Subsystem {
     m_wrist.config_kP(0, Constants.kWristKP, 0);
     m_wrist.config_kD(0, Constants.kWristKD, 0);
     m_wrist.config_kI(0, Constants.kWristKI, 0);
-    m_wrist.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 0);
+    m_wrist.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 0);
     m_wrist.configMotionCruiseVelocity(Constants.kWristCruiseVel, 0);
     m_wrist.configMotionAcceleration(Constants.kWristAcceleration, 0);
     m_wrist.configContinuousCurrentLimit(40, 0);
@@ -107,5 +96,23 @@ public class Wrist extends Subsystem {
   public void initDefaultCommand() {
     this.resetSensors();
     setDefaultCommand(new StopWrist());
+  }
+
+  public Preset nextPreset() {
+    if (currentPreset == wristPresets.length - 1) {
+      return wristPresets[currentPreset];
+    } else {
+      currentPreset += 1;
+      return wristPresets[currentPreset];
+    }
+  }
+
+  public Preset previousPreset() {
+    if (currentPreset == 0) {
+      return wristPresets[currentPreset];
+    } else {
+      currentPreset -= 1;
+      return wristPresets[currentPreset];
+    }
   }
 }
