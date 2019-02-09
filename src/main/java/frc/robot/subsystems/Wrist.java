@@ -29,6 +29,20 @@ public class Wrist extends Subsystem {
   private DigitalInput m_topSwitch;
   private DigitalInput m_bottomSwitch;
 
+  public enum Preset {
+    BOTTOM(0);
+
+    private final double preset;
+    
+    private Preset(double preset) {
+      this.preset = preset;
+    }
+
+    public double getPreset() {
+      return preset;
+    }
+  }
+
   public Wrist() {
     m_wrist = new TalonSRX(RobotMap.m_wristMotor);
 
