@@ -27,8 +27,7 @@ public class USBCamera extends Subsystem {
   private VideoSink server;
   public volatile int whichCamera;
   
-
-
+  
   public USBCamera() {
     m_camera1 = CameraServer.getInstance().startAutomaticCapture();
     m_camera1.setResolution(160, 120);
