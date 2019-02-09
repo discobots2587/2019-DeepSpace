@@ -28,7 +28,12 @@ public class ArcadeDrive extends Command {
   @Override
   protected void execute() {
     LogitechController driverOI = Robot.m_oi.getDriverOI();
-    Robot.m_drive.rampedArcadeDrive(driverOI.getLY(),driverOI.getRX());
+
+    if (Robot.m_drive.getRampingUsed()) {
+      Robot.m_drive.rampedArcadeDrive(driverOI.getLY(),driverOI.getRX());
+    } else {
+      Robot.m_drive.arcadeDrive(driverOI.getLY(),driverOI.getRX());
+    }
     
   }
 

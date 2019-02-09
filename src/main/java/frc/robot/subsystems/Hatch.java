@@ -7,6 +7,8 @@
 
 package frc.robot.subsystems;
 
+import java.util.concurrent.TimeUnit;
+
 import javax.swing.SingleSelectionModel;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
@@ -27,7 +29,7 @@ public class Hatch extends Subsystem {
   // initiating three pnumatic solenoid that pushes the hatch out
   // using three souble solenoids for now
   private DoubleSolenoid m_beak;
-  private DoubleSolenoid m_launcher;
+  private Solenoid m_launcher;
 
   /*
    * TODO: confirm with the design team about the type and number of solenoids
@@ -35,17 +37,32 @@ public class Hatch extends Subsystem {
    */
 
   public Hatch() {
-    this.m_launcher = new DoubleSolenoid(RobotMap.m_pcm12v, 0, 1);
-    this.m_beak = new DoubleSolenoid(RobotMap.m_pcm12v, 2, 3);
+    this.m_launcher = new Solenoid(RobotMap.m_pcm24v, RobotMap.m_launcherExtend);
+    this.m_beak = new DoubleSolenoid(RobotMap.m_pcm12v, RobotMap.m_beakExtend, RobotMap.m_beakRetract);
   }
 
   // simple solenoid operation: push out and turn off immediately
   public void pneumaticsAutoRetract(DoubleSolenoid solenoid) {
     solenoid.set(DoubleSolenoid.Value.kForward);
+    try {
+      TimeUnit.SECONDS.sleep(1);
+    } catch (InterruptedException e) {
+      e.printStackTrace();
+    }
     solenoid.set(DoubleSolenoid.Value.kReverse);
   }
 
-  public void pneumaticsExtend(DoubleSolenoid solenoid) {
+  public void pneumaticsAutoRetract(Solenoid solenoid){
+    solenoid.set(true);
+    try {
+      TimeUnit.SECONDS.sleep(1);
+    } catch (InterruptedException e) {
+      e.printStackTrace();
+    }
+    solenoid.set(false);
+  }
+
+  public void pneumaticsExtend(DoubleSolenoid solenoid){
     solenoid.set(DoubleSolenoid.Value.kForward);
   }
 
