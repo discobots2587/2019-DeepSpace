@@ -29,7 +29,7 @@ public class Hatch extends Subsystem {
   // initiating three pnumatic solenoid that pushes the hatch out
   // using three souble solenoids for now
   private DoubleSolenoid m_beak;
-  private DoubleSolenoid m_launcher;
+  private Solenoid m_launcher;
 
   /*
    * TODO: confirm with the design team about the type and number of solenoids
@@ -37,34 +37,44 @@ public class Hatch extends Subsystem {
    */
 
   public Hatch() {
-    //this.m_launcher = new DoubleSolenoid(RobotMap.m_pcm24v, RobotMap.m_launcherExtend, RobotMap.m_launcherRetract);
-    //this.m_beak = new DoubleSolenoid(RobotMap.m_pcm12v, RobotMap.m_beakExtend, RobotMap.m_beakRetract);
+    this.m_launcher = new Solenoid(RobotMap.m_pcm24v, RobotMap.m_launcherExtend);
+    this.m_beak = new DoubleSolenoid(RobotMap.m_pcm12v, RobotMap.m_beakExtend, RobotMap.m_beakRetract);
   }
 
   // simple solenoid operation: push out and turn off immediately
   public void pneumaticsAutoRetract(DoubleSolenoid solenoid){
-    //solenoid.set(DoubleSolenoid.Value.kForward);
+    solenoid.set(DoubleSolenoid.Value.kForward);
     try {
       TimeUnit.SECONDS.sleep(1);
     } catch (InterruptedException e) {
       e.printStackTrace();
     }
-    //solenoid.set(DoubleSolenoid.Value.kReverse);
+    solenoid.set(DoubleSolenoid.Value.kReverse);
+  }
+
+  public void pneumaticsAutoRetract(Solenoid solenoid){
+    solenoid.set(true);
+    try {
+      TimeUnit.SECONDS.sleep(1);
+    } catch (InterruptedException e) {
+      e.printStackTrace();
+    }
+    solenoid.set(false);
   }
 
   public void pneumaticsExtend(DoubleSolenoid solenoid){
-    //solenoid.set(DoubleSolenoid.Value.kForward);
+    solenoid.set(DoubleSolenoid.Value.kForward);
   }
 
   public void pneumaticsRetract(DoubleSolenoid solenoid){
-    //solenoid.set(DoubleSolenoid.Value.kReverse);
+    solenoid.set(DoubleSolenoid.Value.kReverse);
   }
 
   public void toggleBeak(){
-    //if (m_beak.get().equals(DoubleSolenoid.Value.kForward))
-    //  pneumaticsRetract(this.m_beak);
-    //else
-    //  pneumaticsExtend(this.m_beak);
+    if (m_beak.get().equals(DoubleSolenoid.Value.kForward))
+      pneumaticsRetract(this.m_beak);
+    else
+      pneumaticsExtend(this.m_beak);
   }
 
   public void launchHatch(){
