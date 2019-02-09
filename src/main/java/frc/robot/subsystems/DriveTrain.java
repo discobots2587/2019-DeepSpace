@@ -36,7 +36,7 @@ public class DriveTrain extends Subsystem {
 
   private Boolean rampingUsed;
   private Boolean reversed;
-  
+
   private double[] lastInputs;
 
   private RampingController m_ramping;
@@ -97,6 +97,7 @@ public class DriveTrain extends Subsystem {
 
     m_ramping = new RampingController(new double[] {0.5, 0.75}, x -> 0.5*x, x -> x * x, Math::sqrt);
     this.rampingUsed = true;
+    this.reversed = false;
   }
 
   @Override
@@ -154,37 +155,38 @@ public class DriveTrain extends Subsystem {
     lastInputs[1] = zRotation;
   }
 
-  public void arcadeDrive(double throttle, double turn) { //contrary to the documentation, but that is ok
+  public void arcadeDrive(double rawThrottle, double rawTurn) { //contrary to the documentation, but that is ok
     double leftMotorSpeed;
     double rightMotorSpeed;
-    double deadzoneLY;
-    double deadzoneRY;
-    if (throttle > 0.0) {
-      if (turn > 0.0) {
-        leftMotorSpeed = throttle - turn;
-        rightMotorSpeed = Math.max(throttle, turn);
+    double deadzonedThrottle;
+    double deadzonedTurn;
+
+    deadzonedThrottle = applyDeadzone(rawThrottle);
+    deadzonedTurn = applyDeadzone(rawTurn);
+    if (deadzonedThrottle > 0.0) {
+      if (deadzonedTurn > 0.0) {
+        leftMotorSpeed = deadzonedThrottle - deadzonedTurn;
+        rightMotorSpeed = Math.max(deadzonedThrottle, deadzonedTurn);
       } else {
-        leftMotorSpeed = Math.max(throttle, -turn);
-        rightMotorSpeed = throttle + turn;
+        leftMotorSpeed = Math.max(deadzonedThrottle, -deadzonedTurn);
+        rightMotorSpeed = deadzonedThrottle + deadzonedTurn;
       }
     } else {
-      if (turn > 0.0) {
-        leftMotorSpeed = -Math.max(-throttle, turn);
-        rightMotorSpeed = throttle + turn;
+      if (deadzonedTurn > 0.0) {
+        leftMotorSpeed = -Math.max(-deadzonedThrottle, deadzonedTurn);
+        rightMotorSpeed = deadzonedThrottle + deadzonedTurn;
       } else {
-        leftMotorSpeed = throttle - turn;
-        rightMotorSpeed = -Math.max(-throttle, -turn);
+        leftMotorSpeed = deadzonedThrottle - deadzonedTurn;
+        rightMotorSpeed = -Math.max(-deadzonedThrottle, -deadzonedTurn);
       }
     }
     if (this.reversed){
-      deadzoneLY = applyDeadzone(-leftMotorSpeed);
-      deadzoneRY = applyDeadzone(-rightMotorSpeed);
+      leftMotorSpeed = -leftMotorSpeed;
+      rightMotorSpeed = -rightMotorSpeed;
     }
-    deadzoneLY = applyDeadzone(leftMotorSpeed);
-    deadzoneRY = applyDeadzone(rightMotorSpeed);
-
-    this.m_frontLeft.set(ControlMode.PercentOutput, deadzoneLY);
-    this.m_frontRight.set(ControlMode.PercentOutput, deadzoneRY);
+   
+    this.m_frontLeft.set(ControlMode.PercentOutput, leftMotorSpeed);
+    this.m_frontRight.set(ControlMode.PercentOutput, rightMotorSpeed);
   }
 
   public void rampedTankDrive(double leftSide, double rightSide) {
