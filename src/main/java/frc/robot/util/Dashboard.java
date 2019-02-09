@@ -38,6 +38,7 @@ public class Dashboard {
 	}
 	
 	public static void updateLong() {
-        SmartDashboard.putNumber("Yaw", Robot.m_pigeon.getYaw());
+		SmartDashboard.putNumber("Yaw", Robot.m_pigeon.getYaw());
+		SmartDashboard.putNumber("Target Angle",Robot.m_drive.getTargetAngle());
 	}
 }

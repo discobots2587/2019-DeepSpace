@@ -28,8 +28,8 @@ public class ArcadeDrive extends Command {
   @Override
   protected void execute() {
     LogitechController gamepad = Robot.m_oi.getDriverOI();
-    Robot.m_drive.rampedArcadeDrive(gamepad.getLY(),gamepad.getRX());
-    
+    //Robot.m_drive.arcadeDrive(gamepad.getLY(),gamepad.getRX());
+    Robot.m_drive.driveStraightGyro(gamepad.getLY());
   }
 
   // Make this return true when this Command no longer needs to run execute()
