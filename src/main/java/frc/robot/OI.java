@@ -67,7 +67,7 @@ public class OI {
    *        starting with a lower case letter then camel case
    */
   private LogitechController d_driverOI = new LogitechController(0, "Driver OI");
-  /* TODO: Instantiate o_operatorOI object */
+  private LogitechController o_operatorOI = new LogitechController(1, "Operator OI");
 
   /* Driver OI */
   private Button d_btn_RB = new JoystickButton(d_driverOI, LogitechController.BTN_RB);
@@ -84,7 +84,18 @@ public class OI {
   private Button d_dpad_left = new DPADButton(d_driverOI, DPADButton.POV.LEFT);
 
   /* Operator OI */
-  /* TODO: Setup o_operatorOI-related buttons */
+  private Button o_btn_RB = new JoystickButton(o_operatorOI, LogitechController.BTN_RB);
+  private Button o_btn_LB = new JoystickButton(o_operatorOI, LogitechController.BTN_LB);
+  private Button o_btn_back = new JoystickButton(o_operatorOI, LogitechController.BTN_BACK);
+  private Button o_btn_start = new JoystickButton(o_operatorOI, LogitechController.BTN_START);
+  private Button o_btn_A = new JoystickButton(o_operatorOI, LogitechController.BTN_A);
+  private Button o_btn_X = new JoystickButton(o_operatorOI, LogitechController.BTN_X);
+  private Button o_btn_B = new JoystickButton(o_operatorOI, LogitechController.BTN_B);
+  private Button o_btn_Y = new JoystickButton(o_operatorOI, LogitechController.BTN_Y);
+  private Button o_dpad_up = new DPADButton(o_operatorOI, DPADButton.POV.UP);
+  private Button o_dpad_down = new DPADButton(o_operatorOI, DPADButton.POV.DOWN);
+  private Button o_dpad_right = new DPADButton(o_operatorOI, DPADButton.POV.RIGHT);
+  private Button o_dpad_left = new DPADButton(o_operatorOI, DPADButton.POV.LEFT);
 
   public OI() {
     /* TODO: Determine if Dashboard.controllerChooser is needed */
