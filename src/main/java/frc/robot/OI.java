@@ -120,13 +120,15 @@ public class OI {
     /* TODO: Add d_driverOI button commands (if any) */
     this.d_btn_A.whenPressed(new DriveToggleRampingUsed());
 
-      d_btn_LB.whenPressed(new LaunchHatch());
-      d_btn_A.whenActive(new BeakSet());
-      d_btn_RB.whenPressed(new ToggleSmartIntake());
-      //d_btn_RT.whileHeld(new EjectCargo());
-      //d_btn_LT.whileHeld(new IntakeCargo());
+    this.d_btn_LB.whenPressed(new LaunchHatch());
+    this.d_btn_A.whenActive(new BeakSet());
+    this.d_btn_RB.whenPressed(new ToggleSmartIntake());
+    //d_btn_RT.whileHeld(new EjectCargo());
+    //d_btn_LT.whileHeld(new IntakeCargo());
       
     /* TODO: Add o_operaterOI button commands */
+    this.o_btn_RB.whenPressed(new PresetWristControl(nextPreset()));
+    this.o_btn_LB.whenPressed(new PresetWristControl(previousPreset()));
   }
 
   /* Used by the DriveTrain subsystem for default command */
