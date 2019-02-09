@@ -23,6 +23,7 @@ public class RobotMap {
   public static int m_motorArm          = 2;
   public static int m_motorFrontRight   = 3;
   public static int m_motorBackRight    = 4;
+  public static int m_pigeonID          = 20; //Pigeon currently connected to motorFrontLeft
 
   /*
    * The PCM is capable of powering either 12V or 24V solenoids, but all
