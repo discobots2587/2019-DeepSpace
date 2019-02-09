@@ -97,8 +97,14 @@ public class Wrist extends Subsystem {
     m_wrist.getSensorCollection().setQuadraturePosition(0, 0);
   }
 
+  /* TODO: check this is the right getting function */
+  public double getPos() {
+    return m_wrist.getSensorCollection().getQuadraturePosition();
+  }
+
   @Override
   public void initDefaultCommand() {
+    this.resetSensors();
     setDefaultCommand(new StopWrist());
   }
 }
