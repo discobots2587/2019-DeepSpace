@@ -61,10 +61,14 @@ public class USBCamera extends Subsystem {
   }
 
   public int getCameraID(UsbCamera camera){
-    if (camera == this.m_camera1)
+    String name = camera.getName();
+    if (name.equals("USB Camera 0")){
       return 1;
-    else
+    }
+    else if (name.equals("USB Camera 1")){
       return 2;
+    }
+    return 0;
   }
 
   public UsbCamera getCamera(int cameraNumber) {
