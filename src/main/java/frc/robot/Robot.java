@@ -15,6 +15,8 @@ import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
+import frc.robot.util.Dashboard;
+import frc.robot.util.PigeonHandler;
 import frc.robot.subsystems.*;
 
 /**
@@ -26,6 +28,7 @@ import frc.robot.subsystems.*;
  */
 public class Robot extends TimedRobot {
   public static OI m_oi;
+  public static PigeonHandler m_pigeon;
 
   /* Setup each subsystem */
   public static DriveTrain m_drive = new DriveTrain();
@@ -42,8 +45,9 @@ public class Robot extends TimedRobot {
     // yet. Thus, their requires() statements may grab null pointers. Bad
     // news. Don't move it.
     this.m_oi = new OI();
+    this.m_pigeon = new PigeonHandler(m_drive.getTalon(RobotMap.m_motorFrontLeft));
 
-    /* TODO: Initialize Dashboard */
+    Dashboard.init();
 
     /* TODO: Determine in boiler-plate camera code is sufficient */
     new Thread(() -> {
@@ -64,8 +68,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotPeriodic() {
-    /* TODO: Get Pigeon values (if needed) */
-    /* TODO: Update Dashboard */
+    Dashboard.update();
   }
 
   /**
@@ -141,6 +144,7 @@ public class Robot extends TimedRobot {
   public void teleopPeriodic() {
     /* TODO: Move to Teleop.java file (if any) */
     Scheduler.getInstance().run();
+
   }
 
   /**
