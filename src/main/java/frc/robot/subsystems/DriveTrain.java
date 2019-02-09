@@ -35,7 +35,8 @@ public class DriveTrain extends Subsystem {
   private VictorSPX m_backRight;
 
   private Boolean rampingUsed;
-
+  private Boolean reversed;
+  
   private double[] lastInputs;
 
   private RampingController m_ramping;
@@ -156,7 +157,8 @@ public class DriveTrain extends Subsystem {
   public void arcadeDrive(double throttle, double turn) { //contrary to the documentation, but that is ok
     double leftMotorSpeed;
     double rightMotorSpeed;
-
+    double deadzoneLY;
+    double deadzoneRY;
     if (throttle > 0.0) {
       if (turn > 0.0) {
         leftMotorSpeed = throttle - turn;
@@ -174,8 +176,15 @@ public class DriveTrain extends Subsystem {
         rightMotorSpeed = -Math.max(-throttle, -turn);
       }
     }
+    if (this.reversed){
+      deadzoneLY = applyDeadzone(-leftMotorSpeed);
+      deadzoneRY = applyDeadzone(-rightMotorSpeed);
+    }
+    deadzoneLY = applyDeadzone(leftMotorSpeed);
+    deadzoneRY = applyDeadzone(rightMotorSpeed);
 
-    this.tankDrive(-leftMotorSpeed, -rightMotorSpeed);
+    this.m_frontLeft.set(ControlMode.PercentOutput, deadzoneLY);
+    this.m_frontRight.set(ControlMode.PercentOutput, deadzoneRY);
   }
 
   public void rampedTankDrive(double leftSide, double rightSide) {
