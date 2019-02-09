@@ -34,8 +34,8 @@ public class DriveTrain extends Subsystem {
   private VictorSPX m_backLeft;
   private VictorSPX m_backRight;
 
-  private Boolean rampingUsed;
-  private Boolean reversed;
+  private boolean rampingUsed;
+  private boolean isReversed;
 
   private double[] lastInputs;
 
@@ -97,7 +97,7 @@ public class DriveTrain extends Subsystem {
 
     m_ramping = new RampingController(new double[] {0.5, 0.75}, x -> 0.5*x, x -> x * x, Math::sqrt);
     this.rampingUsed = true;
-    this.reversed = false;
+    this.isReversed = false;
   }
 
   @Override
@@ -180,13 +180,22 @@ public class DriveTrain extends Subsystem {
         rightMotorSpeed = -Math.max(-deadzonedThrottle, -deadzonedTurn);
       }
     }
-    if (this.reversed){
+
+    if (this.isReversed){
       leftMotorSpeed = -leftMotorSpeed;
       rightMotorSpeed = -rightMotorSpeed;
     }
-   
+
     this.m_frontLeft.set(ControlMode.PercentOutput, leftMotorSpeed);
     this.m_frontRight.set(ControlMode.PercentOutput, rightMotorSpeed);
+  }
+
+  public void toggleDriveDirection(){
+    if (isReversed){
+      this.isReversed = false;
+    } else{
+      this.isReversed = true;
+    }
   }
 
   public void rampedTankDrive(double leftSide, double rightSide) {
