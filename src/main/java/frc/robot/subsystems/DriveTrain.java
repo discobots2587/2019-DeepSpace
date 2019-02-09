@@ -17,12 +17,20 @@ import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.StatusFrameEnhanced;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.sensors.PigeonIMU;
+import com.ctre.phoenix.motorcontrol.FollowerType;
+import com.ctre.phoenix.motorcontrol.DemandType;
+import com.ctre.phoenix.motorcontrol.RemoteSensorSource;
+import com.ctre.phoenix.sensors.PigeonIMU_StatusFrame;
+import com.ctre.phoenix.motorcontrol.StatusFrameEnhanced;
 
 import frc.robot.RobotMap;
 import frc.robot.lib.RampedMotor;
 import frc.robot.util.Constants;
 import frc.robot.commands.TankDrive;
 import frc.robot.commands.ArcadeDrive;
+import frc.robot.util.PigeonConstants;
+import frc.robot.Robot;
+import frc.robot.lib.LogitechController;
 
 /**
  * Contains objects and capabilities related to the drivetrain
@@ -34,6 +42,7 @@ public class DriveTrain extends Subsystem {
   private TalonSRX m_backRight;
 
   private double[] lastInputs;
+  private double targetAngle;
 
   public DriveTrain() {
     this.m_frontLeft = new TalonSRX(RobotMap.m_motorFrontLeft);
@@ -89,6 +98,7 @@ public class DriveTrain extends Subsystem {
     this.m_frontRight.enableCurrentLimit(true);
 
     lastInputs = new double[2];
+
   }
 
   @Override
@@ -97,7 +107,36 @@ public class DriveTrain extends Subsystem {
     setDefaultCommand(new ArcadeDrive());
   }
 
+  public double getTargetAngle() {
+    return this.targetAngle;
+  }
+
   public void teleopInit() {
+    PigeonIMU pigeon = Robot.m_pigeon.getPigeon();
+    this.targetAngle = Robot.m_pigeon.getYaw();
+		/* Configure the Pigeon IMU as a Remote Sensor for the right Talon */
+		m_frontRight.configRemoteFeedbackFilter(pigeon.getDeviceID(),			// Device ID of Source
+												RemoteSensorSource.Pigeon_Yaw,	// Remote Feedback Source
+												PigeonConstants.REMOTE_1,				// Remote number [0, 1]
+                        PigeonConstants.kTimeoutMs);			// Configuration Timeout
+    /* Configure the Remote Sensor to be the Selected Sensor of the right Talon */
+    m_frontRight.configSelectedFeedbackSensor(	FeedbackDevice.RemoteSensor1, 	// Set remote sensor to be used directly
+												                        PigeonConstants.PID_TURN, 			// PID Slot for Source [0, 1]
+                                                PigeonConstants.kTimeoutMs);			// Configuration Timeout
+    /* Scale the Selected Sensor using a coefficient (Values explained in Constants.java */
+    m_frontRight.configSelectedFeedbackCoefficient(	PigeonConstants.kTurnTravelUnitsPerRotation / PigeonConstants.kPigeonUnitsPerRotation,	// Coefficient
+														                        PigeonConstants.PID_TURN, 														// PID Slot of Source
+                                                    PigeonConstants.kTimeoutMs);	                                            
+    /* Set status frame periods */
+		m_frontRight.setStatusFramePeriod(StatusFrameEnhanced.Status_12_Feedback1, 20, PigeonConstants.kTimeoutMs);
+		m_frontRight.setStatusFramePeriod(StatusFrameEnhanced.Status_13_Base_PIDF0, 20, PigeonConstants.kTimeoutMs);
+		m_frontRight.setStatusFramePeriod(StatusFrameEnhanced.Status_14_Turn_PIDF1, 20, PigeonConstants.kTimeoutMs);
+    pigeon.setStatusFramePeriod(PigeonIMU_StatusFrame.CondStatus_9_SixDeg_YPR , 5, PigeonConstants.kTimeoutMs);
+    
+    /* Configure neutral deadband */
+		m_frontRight.configNeutralDeadband(PigeonConstants.kNeutralDeadband, PigeonConstants.kTimeoutMs);
+		m_frontLeft.configNeutralDeadband(PigeonConstants.kNeutralDeadband, PigeonConstants.kTimeoutMs);		
+
   }
   
   public double applyDeadzone (double input){
@@ -201,6 +240,16 @@ public class DriveTrain extends Subsystem {
   public void tankDrive(double left, double right) {
     this.m_frontLeft.set(ControlMode.PercentOutput, left);
     this.m_frontRight.set(ControlMode.PercentOutput, right);
+  }
+
+  public void driveStraightGyro(double throttle) {
+    
+    /* Configured for percentOutput with Auxiliary PID on Pigeon's Yaw */
+    m_frontRight.set(ControlMode.PercentOutput, throttle, DemandType.AuxPID, targetAngle);
+    m_frontLeft.follow(m_frontRight, FollowerType.AuxOutput1);
+    
+    m_frontRight.set(ControlMode.PercentOutput, throttle, DemandType.AuxPID, targetAngle);
+		m_frontLeft.follow(m_frontRight, FollowerType.AuxOutput1);
   }
 
   public void stop() {
