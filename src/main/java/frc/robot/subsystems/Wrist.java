@@ -7,6 +7,7 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.LimitSwitchNormal;
 import com.ctre.phoenix.motorcontrol.LimitSwitchSource;
@@ -29,17 +30,18 @@ public class Wrist extends Subsystem {
   private DigitalInput m_topSwitch;
   private DigitalInput m_bottomSwitch;
 
+  /* TODO: add top preset when we know what it is  */
   public enum Preset {
     BOTTOM(0);
 
-    private final double preset;
-    
-    private Preset(double preset) {
-      this.preset = preset;
+    private final double pos;
+
+    private Preset(double pos) {
+      this.pos = pos;
     }
 
-    public double getPreset() {
-      return preset;
+    public double getPos() {
+      return pos;
     }
   }
 
@@ -67,6 +69,31 @@ public class Wrist extends Subsystem {
     m_wrist.configPeakCurrentLimit(60, 0);
     m_wrist.configPeakCurrentDuration(100, 0);
     m_wrist.enableCurrentLimit(true);
+  }
+
+  public void goTo(double pos) {
+    m_wrist.set(ControlMode.MotionMagic, pos);
+  }
+
+  public void goTo(Preset preset) {
+    this.goTo(preset.getPos());
+  }
+
+  public boolean atBottom() {
+    return m_wrist.getSensorCollection().isRevLimitSwitchClosed();
+  }
+
+  public boolean atTop() {
+    return m_wrist.getSensorCollection().isFwdLimitSwitchClosed();
+  }
+
+  public void stop() {
+    m_wrist.set(ControlMode.PercentOutput, 0);
+  }
+
+  /* TODO: check this is the right setting function */
+  public void resetSensors() {
+    m_wrist.getSensorCollection().setQuadraturePosition(0, 0);
   }
 
   @Override
