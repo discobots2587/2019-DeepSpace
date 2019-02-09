@@ -32,9 +32,14 @@ public class Wrist extends Subsystem {
   private DigitalInput m_topSwitch;
   private DigitalInput m_bottomSwitch;
 
+  public int posThreshold = 25;
+
   /* TODO: add more presets as we need them */
-  public static final Preset[] wristPresets = new Preset[] { new Preset(0), new Preset(5000) };
-  public int currentPreset = 1;
+  /* TODO: check/test/correct value of TOP preset */
+  private static final Preset BOTTOM = new Preset(0);
+  private static final Preset TOP = new Preset(5000);
+  private static final Preset[] wristPresets = new Preset[] {BOTTOM, TOP};
+  private int currentPreset = 0;
 
   public Wrist() {
     m_wrist = new TalonSRX(RobotMap.m_wristMotor);
@@ -60,6 +65,8 @@ public class Wrist extends Subsystem {
     m_wrist.configPeakCurrentLimit(60, 0);
     m_wrist.configPeakCurrentDuration(100, 0);
     m_wrist.enableCurrentLimit(true);
+
+    this.resetSensors();
   }
 
   public void goTo(double pos) {
@@ -94,7 +101,6 @@ public class Wrist extends Subsystem {
 
   @Override
   public void initDefaultCommand() {
-    this.resetSensors();
     setDefaultCommand(new StopWrist());
   }
 

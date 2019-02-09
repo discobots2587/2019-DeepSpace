@@ -33,7 +33,7 @@ public class PresetWristControl extends Command {
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return Math.abs(Robot.m_wrist.getPos() - preset.getPos()) < 25;
+    return Math.abs(Robot.m_wrist.getPos() - preset.getPos()) < Robot.m_wrist.posThreshold;
   }
 
   // Called once after isFinished returns true
