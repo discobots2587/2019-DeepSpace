@@ -17,7 +17,7 @@ import frc.robot.lib.DPADButton;
 import frc.robot.lib.Gamepad;
 import frc.robot.lib.LogitechController;
 import frc.robot.lib.Xbox;
-
+import frc.robot.subsystems.Wrist.Preset;
 import frc.robot.commands.*;
 
 /**
@@ -58,6 +58,10 @@ public class OI {
     XBOX,         // 0
     DUALSHOCK     // 1
   }
+
+  /* TODO: add more presets as we need them */
+  public static Preset[] wristPresets = new Preset[]{Preset.BOTTOM, Preset.TOP};
+  public int currentPreset = 1;
 
   /*
    * OI-related variable naming conventions:
@@ -132,5 +136,23 @@ public class OI {
 
   public LogitechController getOperatorOI() {
     return this.o_operatorOI;
+  }
+
+  public Preset nextPreset() {
+    if(currentPreset == wristPresets.length-1) {
+      return wristPresets[currentPreset];
+    } else {
+      currentPreset += 1;
+      return wristPresets[currentPreset];
+    }
+  }
+
+  public Preset previousPreset() {
+    if(currentPreset == 0) {
+      return wristPresets[currentPreset];
+    } else {
+      currentPreset -= 1;
+      return wristPresets[currentPreset];
+    }
   }
 }

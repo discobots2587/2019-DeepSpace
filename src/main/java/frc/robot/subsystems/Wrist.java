@@ -31,7 +31,6 @@ public class Wrist extends Subsystem {
   private DigitalInput m_topSwitch;
   private DigitalInput m_bottomSwitch;
 
-  /* TODO: add top preset when we know what it is  */
   /* TODO: check encoder value of upright position for TOP */
   public enum Preset {
     BOTTOM(0),
