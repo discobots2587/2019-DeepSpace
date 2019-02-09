@@ -16,6 +16,7 @@ import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.StatusFrameEnhanced;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 
 import frc.robot.RobotMap;
 import frc.robot.lib.RampedMotor;
@@ -30,8 +31,8 @@ import frc.robot.commands.ArcadeDrive;
 public class DriveTrain extends Subsystem {
   private TalonSRX m_frontLeft;
   private TalonSRX m_frontRight;
-  private TalonSRX m_backLeft;
-  private TalonSRX m_backRight;
+  private VictorSPX m_backLeft;
+  private VictorSPX m_backRight;
 
   private Boolean rampingUsed;
 
@@ -42,25 +43,25 @@ public class DriveTrain extends Subsystem {
   public DriveTrain() {
     this.m_frontLeft = new TalonSRX(RobotMap.m_motorFrontLeft);
     this.m_frontRight = new TalonSRX(RobotMap.m_motorFrontRight);
-    this.m_backLeft = new TalonSRX(RobotMap.m_motorBackLeft);
-    this.m_backRight = new TalonSRX(RobotMap.m_motorBackRight);
+    this.m_backLeft = new VictorSPX(RobotMap.m_motorBackLeft);
+    this.m_backRight = new VictorSPX(RobotMap.m_motorBackRight);
 
-    /* Invert motors since they are wired backwards */
+    /* Invert only Left side so Hatch side is front */
     this.m_frontLeft.setInverted(true);
-    this.m_frontRight.setInverted(true);
     this.m_backLeft.setInverted(true);
-    this.m_backRight.setInverted(true);
+    this.m_frontRight.setInverted(false);
+    this.m_backRight.setInverted(false);
 
     /* Configure master-slave for left and right motors */
     this.m_backLeft.follow(this.m_frontLeft);
+    this.m_backLeft.setNeutralMode(NeutralMode.Coast);
     this.m_backRight.follow(this.m_frontRight);
-    this.m_backLeft.setNeutralMode(NeutralMode.Brake);
-    this.m_backRight.setNeutralMode(NeutralMode.Brake);
+    this.m_backRight.setNeutralMode(NeutralMode.Coast);
 
     /* Setup control */
     this.m_frontLeft.configOpenloopRamp(0.4, 10);
-    this.m_frontRight.configOpenloopRamp(0.4, 10);
     this.m_frontLeft.setSensorPhase(true);
+    this.m_frontRight.configOpenloopRamp(0.4, 10);
     this.m_frontRight.setSensorPhase(true);
 
     /* Configure PID */
@@ -100,7 +101,7 @@ public class DriveTrain extends Subsystem {
   @Override
   public void initDefaultCommand() {
     /* TODO: Make this extensible to use any kind of drive (e.g., arcade/curvature) */
-    setDefaultCommand(new TankDrive());
+    setDefaultCommand(new ArcadeDrive());
   }
 
   public void teleopInit() {
