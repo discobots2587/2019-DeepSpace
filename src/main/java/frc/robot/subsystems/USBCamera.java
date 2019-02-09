@@ -40,7 +40,7 @@ public class USBCamera extends Subsystem {
     m_camera2.setConnectionStrategy(VideoSource.ConnectionStrategy.kKeepOpen);
 
     m_server = CameraServer.getInstance().getServer();
-    
+
     this.setCamera(m_camera1); //initialize to camera 1
   }
   
@@ -78,7 +78,11 @@ public class USBCamera extends Subsystem {
 
     return m_camera1;
   }
-
+  
+  public int getActiveCameraID(){
+    return this.activeCameraID;
+  }
+  
   public void toggleCameras() {
     if(activeCameraID == 1){
       setCamera(m_camera2);
