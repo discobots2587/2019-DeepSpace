@@ -57,6 +57,14 @@ public class USBCamera extends Subsystem {
 
   public void setCamera(UsbCamera camera) {
     server.setSource(camera);
+    this.whichCamera = getCameraID(camera);
+  }
+
+  public int getCameraID(UsbCamera camera){
+    if (camera == this.m_camera1)
+      return 1;
+    else
+      return 2;
   }
 
   public UsbCamera getCamera(int cameraNumber) {
@@ -71,10 +79,8 @@ public class USBCamera extends Subsystem {
   public void toggleCameras() {
     if(whichCamera == 1){
       setCamera(m_camera2);
-      whichCamera = 2;
     }else{
       setCamera(m_camera1);
-      whichCamera = 1;
     }
   }
 
