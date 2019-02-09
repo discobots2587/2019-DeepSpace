@@ -13,6 +13,14 @@ public class PigeonHandler{
     this.m_ypr = new double[3];
  }
  
+ public PigeonIMU getPigeon(){
+   return this.m_pigeon;
+ }
+
+ public int getPigeonID(){
+   return m_pigeon.getDeviceID();
+ }
+
  public PigeonHandler(TalonSRX talon){
     this.m_pigeon = new PigeonIMU(talon);
     this.m_ypr = new double[3];
