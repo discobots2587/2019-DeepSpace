@@ -10,11 +10,10 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 
-public class ArmPIDStop extends Command {
-  public ArmPIDStop() {
+public class ArmPIDToggle extends Command {
+  public ArmPIDToggle() {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
-    requires(Robot.m_arm);
   }
 
   // Called just before this Command runs the first time
@@ -25,12 +24,17 @@ public class ArmPIDStop extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
+    if (Robot.m_arm.getPIDController().isEnabled()) {
+      Robot.m_arm.disable();
+    } else {
+      Robot.m_arm.enable();
+    }
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return false;
+    return true;
   }
 
   // Called once after isFinished returns true

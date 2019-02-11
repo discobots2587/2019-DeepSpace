@@ -16,17 +16,13 @@ import frc.robot.util.Constants;
 
 public class ArmPID extends PIDSubsystem {
 
-  public double scaleFactor = 50; 
-
   public Spark m_arm = new Spark(RobotMap.m_arm);
+  public AnalogPotentiometer armPoten = new AnalogPotentiometer(RobotMap.m_armPot, Constants.kScaleFactor);
 
-  public AnalogPotentiometer armPoten = new AnalogPotentiometer(RobotMap.m_armPot, scaleFactor);
-
-  public double zeroPoint = 0;
-
-  private int index    = 0;
-  public double output = 0; 
-  public double target = 0;
+  private double zeroPoint = 0;
+  private int index = 0;
+  private double outputSpeed = 0; 
+  private double targetPosition = 0;
 
   public ArmPID() {
     
@@ -38,17 +34,13 @@ public class ArmPID extends PIDSubsystem {
     // enable() - Enables the PID controller.
 
     this.getPIDController().setOutputRange(-0.85, 0.85);
-    setAbsoluteTolerance(0.01 * scaleFactor);
+    setAbsoluteTolerance(0.01 * Constants.kScaleFactor);
     m_arm.setInverted(true);
-
-    this.m_arm = new Spark(RobotMap.m_arm);
   }
 
-  public void init() {
-    this.index = 2;
-    zeroPoint = armPoten.get();
-    this.setPos(index); 
-
+  public void reset() {
+    this.zeroPoint = armPoten.get();
+    this.setPos(2); 
     this.disable();
   }
 
@@ -62,78 +54,75 @@ public class ArmPID extends PIDSubsystem {
     // setDefaultCommand(new MySpecialCommand());
   }
 
-  public void setPos(int pos) {
-    switch(pos) {
-      case 0: 
-        this.setSetpoint(zeroPoint + 0.25 * scaleFactor);
-        this.target = (zeroPoint + 0.25 * scaleFactor); 
+  public void setPos(int armPosition) {
+    switch(armPosition) {
+      case 0: // Down
+        this.targetPosition = (zeroPoint + 0.25 * Constants.kScaleFactor); 
+        this.setSetpoint(targetPosition);
         break;
-      case 1:
-        this.setSetpoint(zeroPoint + 0.55 * scaleFactor);
-        this.target = (zeroPoint + 0.55 * scaleFactor);
+      case 1: // switch
+        this.targetPosition = (zeroPoint + 0.55 * Constants.kScaleFactor);
+        this.setSetpoint(targetPosition);
         break;
-      case 2: 
-        this.setSetpoint(zeroPoint + 0.02 * scaleFactor);
-        this.target = (zeroPoint + 0.02 * scaleFactor);
+      case 2: // to catapult
+        this.targetPosition = (zeroPoint + 0.02 * Constants.kScaleFactor);
+        this.setSetpoint(targetPosition);
         break;
       default: 
-        this.setSetpoint(0);
+        this.setPos(2);
         break;
     }
-    this.index = pos; 
+    this.index = armPosition; 
   }
 
   public void raise() {
-    index = Math.min(++index, 2); 
-    setPos(index); 
+    setPos(Math.min(++index, 2));
   }
 
   public void lower() {
-    index = Math.max(--index, 0);
-    setPos(index); 
+    setPos(Math.max(--index, 0));
   }
 
+  public void stop() {
+    // empty
+  }
+
+  // Return your input value for the PID loop
   @Override
   protected double returnPIDInput() {
-    return armPoten.get();
-    // Return your input value for the PID loop
-    // e.g. a sensor, like a potentiometer:
-    // yourPot.getAverageVoltage() / kYourMaxVoltage;
+    return this.getPos();
   }
 
+  // Use output to drive your system, like a motor
   @Override
   protected void usePIDOutput(double output) {
     this.set(output);
-    this.output = output; 
-    // Use output to drive your system, like a motor
-    // e.g. yourMotor.set(output);
   }
 
-  public void set(double output) {
-    m_arm.set(output); 
-    this.output = output; 
+  public void set(double speed) {
+    if (speed > Constants.kMaxArmSpeed) {
+      speed = Constants.kMaxArmSpeed;
+    } else if (speed < -Constants.kMaxArmSpeed) {
+      speed = -Constants.kMaxArmSpeed;
+    }
+
+    m_arm.set(speed); 
+    this.outputSpeed = speed; 
   }
 
   public int getIndex() {
     return this.index;
   }
 
-  public void setIndex(int input) {
-    this.index = input; 
-    this.setPos(this.index); 
+  public double getZeroPoint() {
+    return this.zeroPoint;
   }
 
-  private Spark ArmPID; 
-
-  public void ArmPIDRaise(){
-    m_arm.set(Constants.kMaxArmSpeed);
+  public double getOutputSpeed() {
+    return this.outputSpeed;
   }
 
-  public void ArmPIDLower(){
-    m_arm.set(-Constants.kMaxArmSpeed);
-  }
-
-  public void ArmPIDStop(){
-
+  public double getTargetPosition() {
+    return this.targetPosition;
   }
 }

@@ -41,4 +41,7 @@ public class Constants {
 	public static int kArmPID_P = 1;
 	public static int kArmPID_I = 2; 
 	public static int kArmPID_D = 3; 
+
+	//kScaleFactor - 
+	public static double kScaleFactor = 50;
  }

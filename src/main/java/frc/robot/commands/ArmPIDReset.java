@@ -10,8 +10,8 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 
-public class ArmPIDRaise extends Command {
-  public ArmPIDRaise() {
+public class ArmPIDReset extends Command {
+  public ArmPIDReset() {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
     requires(Robot.m_arm);
@@ -25,7 +25,7 @@ public class ArmPIDRaise extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    Robot.m_arm.raise();
+    Robot.m_arm.reset();
   }
 
   // Make this return true when this Command no longer needs to run execute()
