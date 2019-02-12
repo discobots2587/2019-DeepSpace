@@ -18,16 +18,16 @@ public class RobotMap {
 
   /* CAN ports */
   public static int m_pcm12v           = 0;
-  public static int m_pcm24v           = 1;
+  //public static int m_pcm24v           = 1; Not used for now
   public static int m_talonSrxPigeon   = 2;
 
-  public static int m_motorFrontLeft   = 5;
-  public static int m_motorBackLeft    = 6;
-  public static int m_motorFrontRight  = 7;
-  public static int m_motorBackRight   = 8;
+  public static int m_leftMasterMotor  = 12; // TalonSRX PDP 12
+  public static int m_leftSlaveMotor   = 13; // VictorSPX PDP 13
+  public static int m_rightMasterMotor = 3;  // TalonSRX PDP 3
+  public static int m_rightSlaveMotor  = 2;  // VictorSPX PDP 2
 
-  public static int m_rollerMotor      = 10;
-  public static int m_wristMotor       = 11;
+  public static int m_rollerMotor      = 10; // TBD
+  public static int m_wristMotor       = 8;  // TalonSRX PDP 8
 
   /*
    * The PCM is capable of powering either 12V or 24V solenoids, but all
@@ -36,8 +36,7 @@ public class RobotMap {
   /* PCM (12V) ports */
   public static int m_beakExtend       = 0;
   public static int m_beakRetract      = 1;
-  public static int m_launcherExtend   = 2;
-  public static int m_launcherRetract  = 3;
+  public static int m_launcher         = 2;
 
   /* PCM (24V) ports */
 
