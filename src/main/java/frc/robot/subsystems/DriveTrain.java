@@ -48,10 +48,10 @@ public class DriveTrain extends Subsystem {
     this.m_backRight = new VictorSPX(RobotMap.m_motorBackRight);
 
     /* Invert only Left side so Hatch side is front */
-    this.m_frontLeft.setInverted(true);
-    this.m_backLeft.setInverted(true);
-    this.m_frontRight.setInverted(false);
-    this.m_backRight.setInverted(false);
+    this.m_frontLeft.setInverted(false);
+    this.m_backLeft.setInverted(false);
+    this.m_frontRight.setInverted(true);
+    this.m_backRight.setInverted(true);
 
     /* Configure master-slave for left and right motors */
     this.m_backLeft.follow(this.m_frontLeft);
@@ -97,7 +97,7 @@ public class DriveTrain extends Subsystem {
 
     m_ramping = new RampingController(new double[] {0.5, 0.75}, x -> 0.5*x, x -> x * x, Math::sqrt);
     this.rampingUsed = true;
-    this.isReversed = false;
+    this.isReversed = false; //defualt to the hatch side
   }
 
   @Override
@@ -163,13 +163,18 @@ public class DriveTrain extends Subsystem {
 
     deadzonedThrottle = applyDeadzone(rawThrottle);
     deadzonedTurn = applyDeadzone(rawTurn);
+
+    if (this.isReversed){
+      deadzonedThrottle = -deadzonedThrottle;
+    }
+
     if (deadzonedThrottle > 0.0) {
       if (deadzonedTurn > 0.0) {
-        leftMotorSpeed = deadzonedThrottle - deadzonedTurn;
-        rightMotorSpeed = Math.max(deadzonedThrottle, deadzonedTurn);
+        rightMotorSpeed = deadzonedThrottle - deadzonedTurn;
+        leftMotorSpeed = Math.max(deadzonedThrottle, deadzonedTurn);
       } else {
-        leftMotorSpeed = Math.max(deadzonedThrottle, -deadzonedTurn);
-        rightMotorSpeed = deadzonedThrottle + deadzonedTurn;
+        rightMotorSpeed = Math.max(deadzonedThrottle, -deadzonedTurn);
+        leftMotorSpeed = deadzonedThrottle + deadzonedTurn;
       }
     } else {
       if (deadzonedTurn > 0.0) {
@@ -179,11 +184,6 @@ public class DriveTrain extends Subsystem {
         leftMotorSpeed = deadzonedThrottle - deadzonedTurn;
         rightMotorSpeed = -Math.max(-deadzonedThrottle, -deadzonedTurn);
       }
-    }
-
-    if (this.isReversed){
-      leftMotorSpeed = -leftMotorSpeed;
-      rightMotorSpeed = -rightMotorSpeed;
     }
 
     this.m_frontLeft.set(ControlMode.PercentOutput, leftMotorSpeed);
