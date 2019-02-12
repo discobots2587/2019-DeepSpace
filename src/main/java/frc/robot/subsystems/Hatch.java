@@ -17,7 +17,7 @@ import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 import frc.robot.RobotMap;
-import frc.robot.commands.BeakSet;
+import frc.robot.commands.ExtendBeak;
 
 /**
  * Add your docs here.
@@ -43,7 +43,7 @@ public class Hatch extends Subsystem {
   @Override
   public void initDefaultCommand() {
     // Beak need to be in retracted position first before game.
-    setDefaultCommand(new BeakSet());
+    setDefaultCommand(new ExtendBeak());
   }
 
   /* Single Solenoid Helper functions */
@@ -56,7 +56,7 @@ public class Hatch extends Subsystem {
   }
 
   public void toggleSolenoid(Solenoid solenoid) {
-    if (solenoid.get().equals(true)) {
+    if (solenoid.get() == true) {
         pneumaticsOff(solenoid);
     } else {
         pneumaticsOn(solenoid);
@@ -82,7 +82,7 @@ public class Hatch extends Subsystem {
 
   /* Beak actions */
   public void toggleBeak() {
-    toggleSolenoid(this.m_beak)
+    toggleSolenoid(this.m_beak);
   }
 
   public void extendBeak() {
