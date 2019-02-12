@@ -26,43 +26,45 @@ public class Hatch extends Subsystem {
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
 
-  // initiating three pnumatic solenoid that pushes the hatch out
-  // using three souble solenoids for now
   private DoubleSolenoid m_beak;
   private Solenoid m_launcher;
 
   /*
    * TODO: confirm with the design team about the type and number of solenoids
    * being used
+   * TODO: Verify the CAN id for the PCM and what voltage level is being used
    */
 
   public Hatch() {
-    this.m_launcher = new Solenoid(RobotMap.m_pcm24v, RobotMap.m_launcherExtend);
+    this.m_launcher = new Solenoid(RobotMap.m_pcm12v, RobotMap.m_launcherExtend);
     this.m_beak = new DoubleSolenoid(RobotMap.m_pcm12v, RobotMap.m_beakExtend, RobotMap.m_beakRetract);
   }
 
-  // simple solenoid operation: push out and turn off immediately
-  public void pneumaticsAutoRetract(DoubleSolenoid solenoid) {
-    solenoid.set(DoubleSolenoid.Value.kForward);
-    try {
-      TimeUnit.SECONDS.sleep(1);
-    } catch (InterruptedException e) {
-      e.printStackTrace();
-    }
-    solenoid.set(DoubleSolenoid.Value.kReverse);
+  @Override
+  public void initDefaultCommand() {
+    // Beak need to be in retracted position first before game.
+    setDefaultCommand(new BeakSet());
   }
 
-  public void pneumaticsAutoRetract(Solenoid solenoid){
+  /* Single Solenoid Helper functions */
+  public void pneumaticsOn(Solenoid solenoid) {
     solenoid.set(true);
-    try {
-      TimeUnit.SECONDS.sleep(1);
-    } catch (InterruptedException e) {
-      e.printStackTrace();
-    }
+  }
+
+  public void pneumaticsOff(Solenoid solenoid) {
     solenoid.set(false);
   }
 
-  public void pneumaticsExtend(DoubleSolenoid solenoid){
+  public void toggleSolenoid(Solenoid solenoid) {
+    if (solenoid.get().equals(true)) {
+        pneumaticsOff(solenoid);
+    } else {
+        pneumaticsOn(solenoid);
+    }
+  }
+
+  /* Double Solenoid Helper functions */
+  public void pneumaticsExtend(DoubleSolenoid solenoid) {
     solenoid.set(DoubleSolenoid.Value.kForward);
   }
 
@@ -70,22 +72,37 @@ public class Hatch extends Subsystem {
     solenoid.set(DoubleSolenoid.Value.kReverse);
   }
 
+  public void toggleSolenoid(DoubleSolenoid solenoid) {
+    if (solenoid.get().equals(DoubleSolenoid.Value.kForward)) {
+        pneumaticsRetract(solenoid);
+    } else {
+        pneumaticsExtend(solenoid);
+    }
+  }
+
+  /* Beak actions */
   public void toggleBeak() {
-    if (m_beak.get().equals(DoubleSolenoid.Value.kForward))
-      pneumaticsRetract(this.m_beak);
-    else
-      pneumaticsExtend(this.m_beak);
+    toggleSolenoid(this.m_beak)
   }
 
+  public void extendBeak() {
+    pneumaticsExtend(this.m_beak);
+  }
+
+  public void retractBeak() {
+    pneumaticsRetract(this.m_beak);
+  }
+
+  /* Launcher actions */
   public void launchHatch() {
-    pneumaticsAutoRetract(this.m_launcher);
+    pneumaticsOn(this.m_launcher);
   }
 
-  @Override
-  public void initDefaultCommand() {
-    // Set the default command for a subsystem here.
+  public void disableLauncher() {
+    pneumaticsOff(this.m_launcher);
+  }
 
-    //Command toggles beak position. Beak need to be in retracted position first before game.
-    setDefaultCommand(new BeakSet()); 
+  public boolean isHatchLaunched() {
+    return this.m_launcher.get();
   }
 }
