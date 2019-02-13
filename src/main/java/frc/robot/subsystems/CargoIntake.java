@@ -70,7 +70,7 @@ public class CargoIntake extends Subsystem {
 
   /* TODO: check when limit switches return true */
   public void spinRollersInWithSensor() {
-    if (!isHoldingBall()) {
+    if (!isHoldingCargo()) {
       spinRollersIn();
     }
   }
@@ -79,8 +79,8 @@ public class CargoIntake extends Subsystem {
     return m_rollerIR.getValue();
   }
 
-  /* TODO: change the constant so it matches a real value */
-  public boolean isHoldingBall() {
+  /* TODO: update threshold after calibration */
+  public boolean isHoldingCargo() {
     return m_rollerIR.getValue() < Constants.kRollerIRThreshold; 
   }
 

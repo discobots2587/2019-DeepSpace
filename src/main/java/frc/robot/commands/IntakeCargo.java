@@ -24,7 +24,7 @@ public class IntakeCargo extends Command {
   @Override
   protected void execute() {
     if (Robot.m_cargoIntake.smartIntake) {
-        Robot.m_cargoIntake.spinRollersInWithSensor();
+      Robot.m_cargoIntake.spinRollersInWithSensor();
     } else {
       Robot.m_cargoIntake.spinRollersIn();
     }
