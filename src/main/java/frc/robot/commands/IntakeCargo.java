@@ -12,8 +12,6 @@ import frc.robot.Robot;
 
 public class IntakeCargo extends Command {
   public IntakeCargo() {
-    // Use requires() here to declare subsystem dependencies
-    // eg. requires(chassis);
     requires(Robot.m_cargoIntake);
   }
 
@@ -26,7 +24,7 @@ public class IntakeCargo extends Command {
   @Override
   protected void execute() {
     if (Robot.m_cargoIntake.smartIntake) {
-        Robot.m_cargoIntake.spinRollersInWithLimits();
+      Robot.m_cargoIntake.spinRollersInWithSensor();
     } else {
       Robot.m_cargoIntake.spinRollersIn();
     }
