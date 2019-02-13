@@ -40,6 +40,7 @@ public class CargoIntake extends Subsystem {
   public CargoIntake() {
     this.m_roller = new TalonSRX(RobotMap.m_rollerMotor);
     // this.m_rollerSwitch = new DigitalInput(RobotMap.m_cargoRollerLimit);
+    /* TODO: check if we want to set up averaging */
     this.m_rollerIR = new AnalogInput(RobotMap.m_cargoRollerIR);
 
     /* TODO: check if motor is reversed */
@@ -68,7 +69,7 @@ public class CargoIntake extends Subsystem {
   }
 
   /* TODO: check when limit switches return true */
-  public void spinRollersInWithLimits() {
+  public void spinRollersInWithSensor() {
     if (!isHoldingBall()) {
       spinRollersIn();
     }
@@ -80,7 +81,7 @@ public class CargoIntake extends Subsystem {
 
   /* TODO: change the constant so it matches a real value */
   public boolean isHoldingBall() {
-    return m_rollerIR.getValue() > Constants.kRollerIRThreshold; 
+    return m_rollerIR.getValue() < Constants.kRollerIRThreshold; 
   }
 
   // public boolean getRollerLimitState() {
