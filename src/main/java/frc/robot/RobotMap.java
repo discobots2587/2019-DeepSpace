@@ -38,6 +38,9 @@ public class RobotMap {
   public static int m_beakRetract      = 1;
   public static int m_launcher         = 2;
 
+  public static int m_backHatchExtend  = 4;
+  public static int m_backHatchRetract = 5;
+  public static int m_backLauncher     = 6;
   /* PCM (24V) ports */
 
   /* DIO ports */
