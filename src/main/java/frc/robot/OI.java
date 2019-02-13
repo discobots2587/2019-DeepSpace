@@ -125,6 +125,8 @@ public class OI {
     /* TODO: Add o_operaterOI button commands */
     this.o_btn_RB.whenPressed(new PresetWristControl(Robot.m_wrist.nextPreset()));
     this.o_btn_LB.whenPressed(new PresetWristControl(Robot.m_wrist.previousPreset()));
+
+    this.o_btn_A.whenPressed(new ToggleWristControl());
   }
 
   /* Used by the DriveTrain subsystem for default command */

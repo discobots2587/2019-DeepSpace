@@ -41,6 +41,8 @@ public class Wrist extends Subsystem {
   private static final Preset[] wristPresets = new Preset[] {BOTTOM, TOP};
   private int currentPreset = 0;
 
+  private boolean manualWristControl;
+
   public Wrist() {
     m_wrist = new TalonSRX(RobotMap.m_wristMotor);
 
@@ -67,6 +69,7 @@ public class Wrist extends Subsystem {
     m_wrist.enableCurrentLimit(true);
 
     this.resetSensors();
+    this.manualWristControl = true;
   }
 
   public void goTo(double pos) {
@@ -120,5 +123,12 @@ public class Wrist extends Subsystem {
       currentPreset -= 1;
       return wristPresets[currentPreset];
     }
+  }
+
+  public boolean getManualWristControl() {
+    return this.manualWristControl;
+  }
+  public void toggleWristControl() {
+    this.manualWristControl = !this.manualWristControl;
   }
 }

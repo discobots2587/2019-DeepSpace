@@ -15,7 +15,7 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-
+import frc.robot.commands.ManualWristControl;
 import frc.robot.subsystems.*;
 
 /**
@@ -34,6 +34,8 @@ public class Robot extends TimedRobot {
   public static CargoIntake m_cargoIntake = new CargoIntake();
   public static Wrist m_wrist = new Wrist();
   public static USBCamera m_camera = new USBCamera();
+
+  Command m_manualWristControlCommand;
   
   /**
    * This function is run when the robot is first started up and should be
@@ -49,6 +51,8 @@ public class Robot extends TimedRobot {
     this.m_oi = new OI();
     this.m_camera.cameraInit();
     /* TODO: Initialize Dashboard */
+
+    this.m_manualWristControlCommand = new ManualWristControl();
 
   }
 
@@ -116,6 +120,12 @@ public class Robot extends TimedRobot {
   public void autonomousPeriodic() {
     /* TODO: Move to Autonomous.java file (if any) */
     Scheduler.getInstance().run();
+
+    if (Robot.m_wrist.getManualWristControl() && !this.m_manualWristControlCommand.isRunning()) {
+      this.m_manualWristControlCommand.start();
+    } else if (!Robot.m_wrist.getManualWristControl() && this.m_manualWristControlCommand.isRunning()) {
+      this.m_manualWristControlCommand.cancel();
+    }
   }
 
   @Override
@@ -130,6 +140,7 @@ public class Robot extends TimedRobot {
       m_autonomousCommand.cancel();
     }
     */
+    Scheduler.getInstance().removeAll();
   }
 
   /**
@@ -139,6 +150,12 @@ public class Robot extends TimedRobot {
   public void teleopPeriodic() {
     /* TODO: Move to Teleop.java file (if any) */
     Scheduler.getInstance().run();
+
+    if (Robot.m_wrist.getManualWristControl() && !this.m_manualWristControlCommand.isRunning()) {
+      this.m_manualWristControlCommand.start();
+    } else if (!Robot.m_wrist.getManualWristControl() && this.m_manualWristControlCommand.isRunning()) {
+      this.m_manualWristControlCommand.cancel();
+    }
   }
 
   /**
