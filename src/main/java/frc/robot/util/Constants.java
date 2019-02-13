@@ -50,4 +50,7 @@ public class Constants {
 
 	//kWristAcceleration - max acceleration of wrist motor in encoder units per 100 ms per 1 s
 	public static int kWristAcceleration = 5000;
+
+	//kRollerIRThreshold - threshold IR value when the cargo is in the rollers
+	public static int kRollerIRThreshold = 2000;
  }

@@ -51,4 +51,5 @@ public class RobotMap {
   public static int m_wristBottomLimit = 6;
 
   /* Analog ports */
+  public static int m_cargoRollerIR    = 3;
 }

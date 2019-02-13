@@ -11,6 +11,7 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
+import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
@@ -28,14 +29,18 @@ public class CargoIntake extends Subsystem {
   // initializing Talon motor to spin intake
   private TalonSRX m_roller;
 
-  // initializing three limit switches to detect when cargo is in place
-  private DigitalInput m_rollerSwitch;
+  // initializing limit switch to detect when cargo is in place
+  // private DigitalInput m_rollerSwitch;
 
-  public boolean smartIntake = true;
+  // initializing IR sensor to detect when cargo is in place
+  private AnalogInput m_rollerIR;
+
+  public boolean smartIntake = false;
 
   public CargoIntake() {
     this.m_roller = new TalonSRX(RobotMap.m_rollerMotor);
-    this.m_rollerSwitch = new DigitalInput(RobotMap.m_cargoRollerLimit);
+    // this.m_rollerSwitch = new DigitalInput(RobotMap.m_cargoRollerLimit);
+    this.m_rollerIR = new AnalogInput(RobotMap.m_cargoRollerIR);
 
     /* TODO: check if motor is reversed */
 
@@ -63,15 +68,24 @@ public class CargoIntake extends Subsystem {
   }
 
   /* TODO: check when limit switches return true */
-  public void spinRollersInWithLimits(){
-    if (!getRollerLimitState()) {
+  public void spinRollersInWithLimits() {
+    if (!isHoldingBall()) {
       spinRollersIn();
     }
   }
 
-  public boolean getRollerLimitState() {
-    return m_rollerSwitch.get();
+  public int getRollerIR() {
+    return m_rollerIR.getValue();
   }
+
+  /* TODO: change the constant so it matches a real value */
+  public boolean isHoldingBall() {
+    return m_rollerIR.getValue() > Constants.kRollerIRThreshold; 
+  }
+
+  // public boolean getRollerLimitState() {
+  //   return m_rollerSwitch.get();
+  // }
 
   @Override
   public void initDefaultCommand() {
