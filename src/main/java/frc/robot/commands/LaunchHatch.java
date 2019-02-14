@@ -9,12 +9,17 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
+import frc.robot.util.Constants;
 
 public class LaunchHatch extends Command {
+  private int timeCount;
+
   public LaunchHatch() {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
     requires(Robot.m_hatch);
+    //this timeCount is incremented by 1 every time excute() is called every 20ms
+    this.timeCount = 0;
   }
 
   // Called just before this Command runs the first time
@@ -27,7 +32,11 @@ public class LaunchHatch extends Command {
   @Override
   protected void execute() {
     if (Robot.m_hatch.isHatchLaunched() == true) {
-      Robot.m_hatch.disableLauncher();
+      this.timeCount += 1;
+      //multiply by 0.02 second to get a count of actual seconds this command has been running for
+      if (this.timeCount * 0.02 > Constants.kHatchDelay){
+        Robot.m_hatch.disableLauncher();
+      }
     }
   }
 
