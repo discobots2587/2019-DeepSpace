@@ -12,14 +12,14 @@ import frc.robot.Robot;
 import frc.robot.util.Constants;
 
 public class LaunchHatch extends Command {
-  private int timeCount;
+  private double timeCount;
 
   public LaunchHatch() {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
     requires(Robot.m_hatch);
-    //this timeCount is incremented by 1 every time excute() is called every 20ms
-    this.timeCount = 0;
+    //this timeCount is incremented by 0.02 every time excute() is called every 20ms
+    this.timeCount = 0.0;
   }
 
   // Called just before this Command runs the first time
@@ -31,28 +31,23 @@ public class LaunchHatch extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    if (Robot.m_hatch.isHatchLaunched() == true) {
-      this.timeCount += 1;
-      //multiply by 0.02 second to get a count of actual seconds this command has been running for
-      if (this.timeCount * 0.02 > Constants.kHatchDelay){
-        Robot.m_hatch.disableLauncher();
-      }
-    }
+      this.timeCount += 0.02;
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    if (Robot.m_hatch.isHatchLaunched() == false) {
+    if (this.timeCount > Constants.kHatchDelay) {
       return true;
     } else {
       return false;
     }
-  }
+}
 
   // Called once after isFinished returns true
   @Override
   protected void end() {
+    Robot.m_hatch.disableLauncher();
   }
 
   // Called when another command which requires one or more of the same
