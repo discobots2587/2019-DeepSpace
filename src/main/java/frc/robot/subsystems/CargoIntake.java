@@ -13,6 +13,7 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 import frc.robot.RobotMap;
@@ -27,7 +28,8 @@ import frc.robot.util.Constants;
  */
 public class CargoIntake extends Subsystem {
   // initializing Talon motor to spin intake
-  private TalonSRX m_roller;
+  //private TalonSRX m_roller;
+  private Spark m_roller;
 
   // initializing limit switch to detect when cargo is in place
   // private DigitalInput m_rollerSwitch;
@@ -38,7 +40,9 @@ public class CargoIntake extends Subsystem {
   public boolean smartIntake = false;
 
   public CargoIntake() {
-    this.m_roller = new TalonSRX(RobotMap.m_rollerMotor);
+    //this.m_roller = new TalonSRX(RobotMap.m_rollerMotor);
+    this.m_roller = new Spark(RobotMap.m_rollerMotor);
+    
     // this.m_rollerSwitch = new DigitalInput(RobotMap.m_cargoRollerLimit);
     /* TODO: check if we want to set up averaging */
     this.m_rollerIR = new AnalogInput(RobotMap.m_cargoRollerIR);
@@ -46,26 +50,29 @@ public class CargoIntake extends Subsystem {
     /* TODO: check if motor is reversed */
 
     /* Set motor to brake when neutral */
-    this.m_roller.setNeutralMode(NeutralMode.Brake);
+    //this.m_roller.setNeutralMode(NeutralMode.Brake);
 
     /* Configure motor to prevent burnout */
     /* TODO: check that these values are correct */
-    this.m_roller.configContinuousCurrentLimit(40, 0);
-    this.m_roller.configPeakCurrentLimit(60, 0);
-    this.m_roller.configPeakCurrentDuration(100, 0);
-    this.m_roller.enableCurrentLimit(true);
+    //this.m_roller.configContinuousCurrentLimit(40, 0);
+    //this.m_roller.configPeakCurrentLimit(60, 0);
+    //this.m_roller.configPeakCurrentDuration(100, 0);
+    //this.m_roller.enableCurrentLimit(true);
   }
 
   public void spinRollersIn() {
-    m_roller.set(ControlMode.PercentOutput, Constants.kMaxRollerPercent);
+    //m_roller.set(ControlMode.PercentOutput, Constants.kMaxRollerPercent);
+    m_roller.set(Constants.kMaxRollerPercent);
   }
 
   public void spinRollersOut() {
-    m_roller.set(ControlMode.PercentOutput, -Constants.kMaxRollerPercent);
+    //m_roller.set(ControlMode.PercentOutput, -Constants.kMaxRollerPercent);
+    m_roller.set(-Constants.kMaxRollerPercent);
   }
 
   public void stopRollers() {
-    m_roller.set(ControlMode.PercentOutput, 0);
+    //m_roller.set(ControlMode.PercentOutput, 0);
+    m_roller.set(0);
   }
 
   /* TODO: check when limit switches return true */
