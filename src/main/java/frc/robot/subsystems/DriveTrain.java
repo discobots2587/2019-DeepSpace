@@ -29,10 +29,10 @@ import frc.robot.commands.ArcadeDrive;
  * Contains objects and capabilities related to the drivetrain
  */
 public class DriveTrain extends Subsystem {
-  private TalonSRX m_frontLeft;
-  private TalonSRX m_frontRight;
-  private VictorSPX m_backLeft;
-  private VictorSPX m_backRight;
+  private TalonSRX m_leftMaster;
+  private TalonSRX m_rightMaster;
+  private VictorSPX m_leftSlave;
+  private VictorSPX m_rightSlave;
 
   private Boolean rampingUsed;
 
@@ -41,56 +41,56 @@ public class DriveTrain extends Subsystem {
   private RampingController m_ramping;
 
   public DriveTrain() {
-    this.m_frontLeft = new TalonSRX(RobotMap.m_motorFrontLeft);
-    this.m_frontRight = new TalonSRX(RobotMap.m_motorFrontRight);
-    this.m_backLeft = new VictorSPX(RobotMap.m_motorBackLeft);
-    this.m_backRight = new VictorSPX(RobotMap.m_motorBackRight);
+    this.m_leftMaster = new TalonSRX(RobotMap.m_leftMasterMotor);
+    this.m_rightMaster = new TalonSRX(RobotMap.m_rightMasterMotor);
+    this.m_leftSlave = new VictorSPX(RobotMap.m_leftSlaveMotor);
+    this.m_rightSlave = new VictorSPX(RobotMap.m_rightSlaveMotor);
 
     /* Invert only Left side so Hatch side is front */
-    this.m_frontLeft.setInverted(true);
-    this.m_backLeft.setInverted(true);
-    this.m_frontRight.setInverted(false);
-    this.m_backRight.setInverted(false);
+    this.m_leftMaster.setInverted(true);
+    this.m_leftSlave.setInverted(true);
+    this.m_rightMaster.setInverted(false);
+    this.m_rightSlave.setInverted(false);
 
     /* Configure master-slave for left and right motors */
-    this.m_backLeft.follow(this.m_frontLeft);
-    this.m_backLeft.setNeutralMode(NeutralMode.Coast);
-    this.m_backRight.follow(this.m_frontRight);
-    this.m_backRight.setNeutralMode(NeutralMode.Coast);
+    this.m_leftSlave.follow(this.m_leftMaster);
+    this.m_leftSlave.setNeutralMode(NeutralMode.Coast);
+    this.m_rightSlave.follow(this.m_rightMaster);
+    this.m_rightSlave.setNeutralMode(NeutralMode.Coast);
 
     /* Setup control */
-    this.m_frontLeft.configOpenloopRamp(0.4, 10);
-    this.m_frontLeft.setSensorPhase(true);
-    this.m_frontRight.configOpenloopRamp(0.4, 10);
-    this.m_frontRight.setSensorPhase(true);
+    this.m_leftMaster.configOpenloopRamp(0.4, 10);
+    this.m_leftMaster.setSensorPhase(true);
+    this.m_rightMaster.configOpenloopRamp(0.4, 10);
+    this.m_rightMaster.setSensorPhase(true);
 
     /* Configure PID */
-    //this.m_frontLeft.config_kP(0, 1.0, 10);
-    //this.m_frontLeft.config_kI(0, 1.0, 10);
-    //this.m_frontLeft.config_kD(0, 1.0, 10);
-    //this.m_frontLeft.config_kF(0, 1.0, 10);
-    //this.m_frontRight.config_kP(0, 1.0, 10);
-    //this.m_frontRight.config_kI(0, 1.0, 10);
-    //this.m_frontRight.config_kD(0, 1.0, 10);
-    //this.m_frontRight.config_kF(0, 1.0, 10);
+    //this.m_leftMaster.config_kP(0, 1.0, 10);
+    //this.m_leftMaster.config_kI(0, 1.0, 10);
+    //this.m_leftMaster.config_kD(0, 1.0, 10);
+    //this.m_leftMaster.config_kF(0, 1.0, 10);
+    //this.m_rightMaster.config_kP(0, 1.0, 10);
+    //this.m_rightMaster.config_kI(0, 1.0, 10);
+    //this.m_rightMaster.config_kD(0, 1.0, 10);
+    //this.m_rightMaster.config_kF(0, 1.0, 10);
 
     /* Configure motion profiling */
-    //this.m_frontLeft.selectProfileSlot(0, 0);
-    //this.m_frontLeft.setStatusFramePeriod(StatusFrameEnhanced.Status_10_MotionMagic, 10, 10);
-    //this.m_frontLeft.configMotionProfileTrajectoryPeriod(0, 10);
-    //this.m_frontRight.selectProfileSlot(0, 0);
-    //this.m_frontRight.setStatusFramePeriod(StatusFrameEnhanced.Status_10_MotionMagic, 10, 10);
-    //this.m_frontRight.configMotionProfileTrajectoryPeriod(0, 10);
+    //this.m_leftMaster.selectProfileSlot(0, 0);
+    //this.m_leftMaster.setStatusFramePeriod(StatusFrameEnhanced.Status_10_MotionMagic, 10, 10);
+    //this.m_leftMaster.configMotionProfileTrajectoryPeriod(0, 10);
+    //this.m_rightMaster.selectProfileSlot(0, 0);
+    //this.m_rightMaster.setStatusFramePeriod(StatusFrameEnhanced.Status_10_MotionMagic, 10, 10);
+    //this.m_rightMaster.configMotionProfileTrajectoryPeriod(0, 10);
 
     /* Configure current limiting to prevent motor burnout */
-    this.m_frontLeft.configContinuousCurrentLimit(40, 0);
-    this.m_frontLeft.configPeakCurrentLimit(60, 0);
-    this.m_frontLeft.configPeakCurrentDuration(100, 0);
-    this.m_frontLeft.enableCurrentLimit(true);
-    this.m_frontRight.configContinuousCurrentLimit(40, 0);
-    this.m_frontRight.configPeakCurrentLimit(60, 0);
-    this.m_frontRight.configPeakCurrentDuration(100, 0);
-    this.m_frontRight.enableCurrentLimit(true);
+    this.m_leftMaster.configContinuousCurrentLimit(40, 0);
+    this.m_leftMaster.configPeakCurrentLimit(60, 0);
+    this.m_leftMaster.configPeakCurrentDuration(100, 0);
+    this.m_leftMaster.enableCurrentLimit(true);
+    this.m_rightMaster.configContinuousCurrentLimit(40, 0);
+    this.m_rightMaster.configPeakCurrentLimit(60, 0);
+    this.m_rightMaster.configPeakCurrentDuration(100, 0);
+    this.m_rightMaster.enableCurrentLimit(true);
 
     lastInputs = new double[2];
 
@@ -192,8 +192,8 @@ public class DriveTrain extends Subsystem {
     double deadzoneLY = applyDeadzone(left);
     double deadzoneRY = applyDeadzone(right);
 
-    this.m_frontLeft.set(ControlMode.PercentOutput, deadzoneLY);
-    this.m_frontRight.set(ControlMode.PercentOutput, deadzoneRY);
+    this.m_leftMaster.set(ControlMode.PercentOutput, deadzoneLY);
+    this.m_rightMaster.set(ControlMode.PercentOutput, deadzoneRY);
   }
 
   public void setRampingUsed(Boolean used) {
@@ -205,7 +205,7 @@ public class DriveTrain extends Subsystem {
   }
 
   public void stop() {
-    this.m_frontLeft.set(ControlMode.PercentOutput, 0);
-    this.m_frontRight.set(ControlMode.PercentOutput, 0);
+    this.m_leftMaster.set(ControlMode.PercentOutput, 0);
+    this.m_rightMaster.set(ControlMode.PercentOutput, 0);
   }
 }

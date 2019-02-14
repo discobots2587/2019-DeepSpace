@@ -10,9 +10,11 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 
-public class IntakeCargo extends Command {
-  public IntakeCargo() {
-    requires(Robot.m_cargoIntake);
+public class ToggleWristControl extends Command {
+  public ToggleWristControl() {
+    // Use requires() here to declare subsystem dependencies
+    // eg. requires(chassis);
+    requires(Robot.m_wrist);
   }
 
   // Called just before this Command runs the first time
@@ -23,11 +25,7 @@ public class IntakeCargo extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    if (Robot.m_cargoIntake.smartIntake) {
-      Robot.m_cargoIntake.spinRollersInWithSensor();
-    } else {
-      Robot.m_cargoIntake.spinRollersIn();
-    }
+    Robot.m_wrist.toggleWristControl();
   }
 
   // Make this return true when this Command no longer needs to run execute()
@@ -39,13 +37,11 @@ public class IntakeCargo extends Command {
   // Called once after isFinished returns true
   @Override
   protected void end() {
-    Robot.m_cargoIntake.stopRollers();
   }
 
   // Called when another command which requires one or more of the same
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
-    Robot.m_cargoIntake.stopRollers();
   }
 }

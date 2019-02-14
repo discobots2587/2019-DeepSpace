@@ -36,7 +36,7 @@ public class Hatch extends Subsystem {
    */
 
   public Hatch() {
-    this.m_launcher = new Solenoid(RobotMap.m_pcm12v, RobotMap.m_launcherExtend);
+    this.m_launcher = new Solenoid(RobotMap.m_pcm12v, RobotMap.m_launcher);
     this.m_beak = new DoubleSolenoid(RobotMap.m_pcm12v, RobotMap.m_beakExtend, RobotMap.m_beakRetract);
   }
 
