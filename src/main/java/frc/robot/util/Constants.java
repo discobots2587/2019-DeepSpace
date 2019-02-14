@@ -50,4 +50,7 @@ public class Constants {
 
 	//kWristAcceleration - max acceleration of wrist motor in encoder units per 100 ms per 1 s
 	public static int kWristAcceleration = 5000;
+
+	//kHatchDelay - the time that the hatch launcher solenoids wait before retracting
+	public static double kHatchDelay = 0.25;
  }
