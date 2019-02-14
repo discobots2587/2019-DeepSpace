@@ -46,8 +46,8 @@ public class Wrist extends Subsystem {
   public Wrist() {
     m_wrist = new TalonSRX(RobotMap.m_wristMotor);
 
-    m_topSwitch = new DigitalInput(RobotMap.m_wristTopLimit);
-    m_bottomSwitch = new DigitalInput(RobotMap.m_wristBottomLimit);
+    //m_topSwitch = new DigitalInput(RobotMap.m_wristTopLimit);
+    //m_bottomSwitch = new DigitalInput(RobotMap.m_wristBottomLimit);
 
     /* Config wrist motor and pid */
     /* TODO: check if motor is inverted */
@@ -73,7 +73,7 @@ public class Wrist extends Subsystem {
   }
 
   public void goTo(double pos) {
-    m_wrist.set(ControlMode.MotionMagic, pos);
+    //m_wrist.set(ControlMode.MotionMagic, pos);
   }
 
   public void goTo(Preset preset) {
@@ -81,11 +81,13 @@ public class Wrist extends Subsystem {
   }
 
   public boolean atBottom() {
-    return m_wrist.getSensorCollection().isRevLimitSwitchClosed();
+    return false;
+    //return m_wrist.getSensorCollection().isRevLimitSwitchClosed();
   }
 
   public boolean atTop() {
-    return m_wrist.getSensorCollection().isFwdLimitSwitchClosed();
+    return false;
+    //return m_wrist.getSensorCollection().isFwdLimitSwitchClosed();
   }
 
   public void stop() {
