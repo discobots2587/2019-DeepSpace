@@ -7,16 +7,14 @@
 
 package frc.robot;
 
-import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.buttons.Trigger;
 
-import frc.robot.lib.AXISButton;
 import frc.robot.lib.DPADButton;
-import frc.robot.lib.Gamepad;
-import frc.robot.lib.LogitechController;
+import frc.robot.lib.FightStick;
 import frc.robot.lib.Xbox;
+
 import frc.robot.commands.*;
 
 /**
@@ -65,32 +63,43 @@ public class OI {
    *    - operatorOI-related variables: "o_" followed by the member variable
    *        starting with a lower case letter then camel case
    */
-  private LogitechController d_driverOI = new LogitechController(0, "Driver OI");
-  private LogitechController o_operatorOI = new LogitechController(1, "Operator OI");
+  private Xbox d_driverOI = new Xbox(0, "Driver OI");
+  private FightStick o_operatorOI = new FightStick(1, "Operator OI");
 
   /* Driver OI */
-  private Button d_btn_RB = new JoystickButton(d_driverOI, LogitechController.BTN_RB);
-  private Button d_btn_LB = new JoystickButton(d_driverOI, LogitechController.BTN_LB);
-  private Button d_btn_back = new JoystickButton(d_driverOI, LogitechController.BTN_BACK);
-  private Button d_btn_start = new JoystickButton(d_driverOI, LogitechController.BTN_START);
-  private Button d_btn_A = new JoystickButton(d_driverOI, LogitechController.BTN_A);
-  private Button d_btn_X = new JoystickButton(d_driverOI, LogitechController.BTN_X);
-  private Button d_btn_B = new JoystickButton(d_driverOI, LogitechController.BTN_B);
-  private Button d_btn_Y = new JoystickButton(d_driverOI, LogitechController.BTN_Y);
+  private Button d_btn_RB = new JoystickButton(d_driverOI, Xbox.BTN_RB);
+  private Button d_btn_LB = new JoystickButton(d_driverOI, Xbox.BTN_LB);
+  private Button d_btn_A = new JoystickButton(d_driverOI, Xbox.BTN_A);
+  private Button d_btn_X = new JoystickButton(d_driverOI, Xbox.BTN_X);
+  private Button d_btn_B = new JoystickButton(d_driverOI, Xbox.BTN_B);
+  private Button d_btn_Y = new JoystickButton(d_driverOI, Xbox.BTN_Y);
+  private Button d_btn_back = new JoystickButton(d_driverOI, Xbox.BTN_BACK);
+  private Button d_btn_start = new JoystickButton(d_driverOI, Xbox.BTN_START);
   private Button d_dpad_up = new DPADButton(d_driverOI, DPADButton.POV.UP);
   private Button d_dpad_down = new DPADButton(d_driverOI, DPADButton.POV.DOWN);
   private Button d_dpad_right = new DPADButton(d_driverOI, DPADButton.POV.RIGHT);
   private Button d_dpad_left = new DPADButton(d_driverOI, DPADButton.POV.LEFT);
 
   /* Operator OI */
-  private Button o_btn_RB = new JoystickButton(o_operatorOI, LogitechController.BTN_RB);
-  private Button o_btn_LB = new JoystickButton(o_operatorOI, LogitechController.BTN_LB);
-  private Button o_btn_back = new JoystickButton(o_operatorOI, LogitechController.BTN_BACK);
-  private Button o_btn_start = new JoystickButton(o_operatorOI, LogitechController.BTN_START);
-  private Button o_btn_A = new JoystickButton(o_operatorOI, LogitechController.BTN_A);
-  private Button o_btn_X = new JoystickButton(o_operatorOI, LogitechController.BTN_X);
-  private Button o_btn_B = new JoystickButton(o_operatorOI, LogitechController.BTN_B);
-  private Button o_btn_Y = new JoystickButton(o_operatorOI, LogitechController.BTN_Y);
+  /* top buttons from left to right */
+  private Button o_btn_share = new JoystickButton(o_operatorOI, FightStick.BTN_SHARE);
+  private Button o_btn_options = new JoystickButton(o_operatorOI, FightStick.BTN_OPTIONS);
+  private Button o_btn_L3 = new JoystickButton(o_operatorOI, FightStick.BTN_L3);
+  private Button o_btn_R3 = new JoystickButton(o_operatorOI, FightStick.BTN_R3);
+
+  /* middle buttons from left to right */
+  private Button o_btn_RB = new JoystickButton(o_operatorOI, FightStick.BTN_RB);
+  private Button o_btn_X = new JoystickButton(o_operatorOI, FightStick.BTN_X);
+  private Button o_btn_Y = new JoystickButton(o_operatorOI, FightStick.BTN_Y);
+  private Button o_btn_LB = new JoystickButton(o_operatorOI, FightStick.BTN_LB);
+
+  /* bottom buttons from left to right */
+  private Trigger o_axis_LT = new JoystickButton(o_operatorOI, FightStick.AXIS_LT);
+  private Button o_btn_A = new JoystickButton(o_operatorOI, FightStick.BTN_A);
+  private Button o_btn_B = new JoystickButton(o_operatorOI, FightStick.BTN_B);
+  private Trigger o_axis_RT = new JoystickButton(o_operatorOI, FightStick.AXIS_RT);
+
+  /* dpad buttons */
   private Button o_dpad_up = new DPADButton(o_operatorOI, DPADButton.POV.UP);
   private Button o_dpad_down = new DPADButton(o_operatorOI, DPADButton.POV.DOWN);
   private Button o_dpad_right = new DPADButton(o_operatorOI, DPADButton.POV.RIGHT);
@@ -112,33 +121,45 @@ public class OI {
     }
     */
 
-    /* TODO: Add d_driverOI button commands (if any) */
-    //this.d_btn_A.whenPressed(new DriveToggleRampingUsed());
+    /* Map d_driverOI buttons/triggers to commands */
+    /* TODO: Add quick-turn to this.d_btn_LB (left 90 degres) and this.d_btn_RB (right 90 degrees) */
+    this.d_btn_Y.whenPressed(new DriveToggleRampingUsed()); // top /* TODO: Update to set high gear along with unramp */
+    //this.d_btn_A.whenPressed(); // bottom /* TODO: Update to set low gear along with ramped */
+    this.d_btn_X.whenPressed(new SwitchCamera()); // left /* TODO: Update to include DriveSwitching */
+    //this.d_btn_B.whenPressed(); // right /* TODO: Toggle break/coast mode for motor contollers */
 
-    this.d_btn_LB.whenPressed(new LaunchHatch());
-    this.d_btn_A.whenPressed(new ToggleBeak());
+    /* Map o_operaterOI buttons/triggers to commands */
+    /* Wrist-related Commands */
+    this.o_axis_LT.whenActive(new PresetWristControl(Robot.m_wrist.previousPreset()));
+    this.o_btn_LB.whenPressed(new PresetWristControl(Robot.m_wrist.nextPreset()));
+    //this.o_axis_LT.whenActive(new PresetWristControl(Robot.m_wrist.setDownPreset()));
+    //this.o_btn_LB.whenPressed(new PresetWristControl(Robot.m_wrist.setUpPreset()));  
+    //this.o_btn_share.whenPressed(new PresentWristControl(Robot.m_wrist.setCargoShipPreset()));
+    this.o_btn_L3.whenPressed(new ToggleWristControl());
 
-    this.d_btn_X.whenPressed(new SwitchCamera());
+    /* Intake-related Commands */
+    this.o_btn_options.whenPressed(new ToggleSmartIntake());
+    this.o_btn_A.whileHeld(new EjectCargo());
+    this.o_btn_A.whenReleased(new StopRollers());
+    this.o_btn_X.whileHeld(new IntakeCargo());
+    this.o_btn_X.whenReleased(new StopRollers());
 
-    this.d_btn_RB.whenPressed(new ToggleSmartIntake());
-    this.d_btn_Y.whileHeld(new EjectCargo());
-    this.d_btn_Y.whenReleased(new StopRollers());
-    this.d_btn_X.whileHeld(new IntakeCargo());
-    this.d_btn_X.whenReleased(new StopRollers());
+    /* Hatch-related Commands */
+    this.o_btn_B.whenPressed(new LaunchHatch());
+    this.o_btn_Y.whenPressed(new ToggleBeak());
 
-    /* TODO: Add o_operaterOI button commands */
-    this.o_btn_RB.whenPressed(new PresetWristControl(Robot.m_wrist.nextPreset()));
-    this.o_btn_LB.whenPressed(new PresetWristControl(Robot.m_wrist.previousPreset()));
-
-    this.o_btn_A.whenPressed(new ToggleWristControl());
+    /* Elevator related commands */
+    //this.o_axis_RT.whenActive(new PresetElevatorControl(Robot.m_elevator.previousPreset()));
+    //this.o_btn_RB.whenPressed(new PresetElevatorControl(Robot.m_elevator.nextPreset()));
+    //this.o_btn_R3.whenPressed(new PresetElevatorControl(Robot.m_elevator.resetPreset()));
   }
 
   /* Used by the DriveTrain subsystem for default command */
-  public LogitechController getDriverOI() {
+  public Xbox getDriverOI() {
     return this.d_driverOI;
   }
 
-  public LogitechController getOperatorOI() {
+  public FightStick getOperatorOI() {
     return this.o_operatorOI;
   }
 }
