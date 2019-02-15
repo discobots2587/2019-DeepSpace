@@ -9,8 +9,8 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-import frc.robot.lib.Gamepad;
-import frc.robot.lib.LogitechController;
+import frc.robot.lib.Xbox;
+
 import frc.robot.Robot;
 
 /**
@@ -30,7 +30,7 @@ public class TankDrive extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    LogitechController driverOI = Robot.m_oi.getDriverOI();
+    Xbox driverOI = Robot.m_oi.getDriverOI();
     
     if (Robot.m_drive.getRampingUsed()) {
       Robot.m_drive.rampedTankDrive(driverOI.getLY(),driverOI.getRY());

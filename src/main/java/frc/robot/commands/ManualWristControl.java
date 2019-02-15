@@ -9,6 +9,7 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
+import frc.robot.lib.FightStick;
 import frc.robot.lib.LogitechController;
 
 public class ManualWristControl extends Command {
@@ -28,7 +29,7 @@ public class ManualWristControl extends Command {
   /* TODO: possibly tune the conversation factor in deltaPos */
   @Override
   protected void execute() {
-    LogitechController operatorOI = Robot.m_oi.getOperatorOI();
+    FightStick operatorOI = Robot.m_oi.getOperatorOI();
     double deltaPos = operatorOI.getRY() * 100;
 
     if(Robot.m_wrist.atBottom() && deltaPos < 0) {

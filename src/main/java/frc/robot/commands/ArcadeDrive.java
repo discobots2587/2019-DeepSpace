@@ -8,9 +8,10 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
+
+import frc.robot.lib.Xbox;
+
 import frc.robot.Robot;
-import frc.robot.lib.Gamepad;
-import frc.robot.lib.LogitechController;
 
 public class ArcadeDrive extends Command {
   public ArcadeDrive() {
@@ -27,7 +28,7 @@ public class ArcadeDrive extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    LogitechController driverOI = Robot.m_oi.getDriverOI();
+    Xbox driverOI = Robot.m_oi.getDriverOI();
 
     if (Robot.m_drive.getRampingUsed()) {
       Robot.m_drive.rampedArcadeDrive(driverOI.getLY(),driverOI.getRX());
