@@ -5,28 +5,27 @@ import edu.wpi.first.wpilibj.Joystick;
 
 public class Gamepad extends Joystick {
 
-	//Use 'D' not 'X'
+	//Use 'X' not 'D' on the back of the controller
 	protected static final int DEFAULT_USB_PORT = 0;
 
 	public String name = "Gamepad";
 
 	public static int AXIS_LX = 0;
 	public static int AXIS_LY = 1;
+	public static int AXIS_LT = 2;
+	public static int AXIS_RT = 3;
+	public static int AXIS_RX = 4;
+	public static int AXIS_RY = 5;
 
-	public static int AXIS_RX = 2;
-	public static int AXIS_RY = 3;
-
-	public static int BTN_X = 1;
-	public static int BTN_A = 2;
-	public static int BTN_B = 3;
+	public static int BTN_A = 1;
+	public static int BTN_B = 2;
+	public static int BTN_X = 3;
 	public static int BTN_Y = 4;
 	public static int BTN_LB = 5;
 	public static int BTN_RB = 6;
-	public static int BTN_LT = 7;
-	public static int BTN_RT = 8;
 
-	public static int BTN_BACK = 9;
-	public static int BTN_START = 10;
+	public static int BTN_BACK = 7;
+	public static int BTN_START = 8;
 
 	/**
 	 * Creates a gamepad with name "Gamepad" in USB port 0
