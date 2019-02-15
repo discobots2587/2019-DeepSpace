@@ -119,8 +119,8 @@ public class OI {
     this.d_btn_A.whenPressed(new ToggleBeak());
     this.d_btn_RB.whenPressed(new ToggleSmartIntake());
     this.d_btn_X.whenPressed(new SwitchCamera());
-    //d_btn_RT.whileHeld(new EjectCargo());
-    //d_btn_LT.whileHeld(new IntakeCargo());
+    this.d_btn_Y.whileHeld(new EjectCargo());
+    this.d_btn_X.whileHeld(new IntakeCargo());
 
     /* TODO: Add o_operaterOI button commands */
     this.o_btn_RB.whenPressed(new PresetWristControl(Robot.m_wrist.nextPreset()));

@@ -15,6 +15,7 @@ package frc.robot;
  */
 public class RobotMap {
   /* PWM ports */
+  public static int m_rollerMotor      = 9; // PDP 9
 
   /* CAN ports */
   public static int m_pcm12v           = 0;
@@ -25,8 +26,7 @@ public class RobotMap {
   public static int m_leftSlaveMotor   = 13; // VictorSPX PDP 13
   public static int m_rightMasterMotor = 3;  // TalonSRX PDP 3
   public static int m_rightSlaveMotor  = 2;  // VictorSPX PDP 2
-
-  public static int m_rollerMotor      = 10; // TBD
+  // RESERVE PDP 9 for rollerMotor if moved to CAN
   public static int m_wristMotor       = 8;  // TalonSRX PDP 8
 
   /*
