@@ -38,7 +38,7 @@ public class Constants {
 	public static double kIntakeSpeed = 0.75;
 
 	//kMaxRollerPercent - maximum percent speed for the rollers
-	public static double kMaxRollerPercent = 80;
+	public static double kMaxRollerPercent = 1.0; /* TODO: Rename accordinly for Spark */
 
 	//kWristDP, kWristKD, kWristKI - PID constants for Wrist subsystem
 	public static double kWristKP = 1.0;

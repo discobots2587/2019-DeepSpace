@@ -10,8 +10,8 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 
-public class IntakeCargo extends Command {
-  public IntakeCargo() {
+public class StopRollers extends Command {
+  public StopRollers() {
     requires(Robot.m_cargoIntake);
   }
 
@@ -23,11 +23,7 @@ public class IntakeCargo extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    if (Robot.m_cargoIntake.smartIntake) {
-      Robot.m_cargoIntake.spinRollersInWithSensor();
-    } else {
-      Robot.m_cargoIntake.spinRollersIn();
-    }
+    Robot.m_cargoIntake.stopRollers();
   }
 
   // Make this return true when this Command no longer needs to run execute()

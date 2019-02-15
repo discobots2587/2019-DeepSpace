@@ -88,7 +88,8 @@ public class CargoIntake extends Subsystem {
 
   /* TODO: update threshold after calibration */
   public boolean isHoldingCargo() {
-    return m_rollerIR.getValue() < Constants.kRollerIRThreshold; 
+    return false;
+    //return m_rollerIR.getValue() < Constants.kRollerIRThreshold;
   }
 
   // public boolean getRollerLimitState() {
