@@ -26,24 +26,20 @@ public class Hatch extends Subsystem {
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
 
-  private DoubleSolenoid m_beak;
+  private Solenoid m_beak;
   private Solenoid m_launcher;
 
-  /*
-   * TODO: confirm with the design team about the type and number of solenoids
-   * being used
-   * TODO: Verify the CAN id for the PCM and what voltage level is being used
-   */
-
   public Hatch() {
-    this.m_launcher = new Solenoid(RobotMap.m_pcm12v, RobotMap.m_launcher);
-    this.m_beak = new DoubleSolenoid(RobotMap.m_pcm12v, RobotMap.m_beakExtend, RobotMap.m_beakRetract);
+    this.m_launcher = new Solenoid(RobotMap.m_pcm12v, RobotMap.m_hatchSideLauncher);
+    this.m_beak = new Solenoid(RobotMap.m_pcm12v, RobotMap.m_hatchSideBeak);
+    //this.m_launcher = new Solenoid(RobotMap.m_pcm12v, RobotMap.m_cargoSideLauncher);
+    //this.m_beak = new Solenoid(RobotMap.m_pcm12v, RobotMap.m_cargoSideBeak);
   }
 
   @Override
   public void initDefaultCommand() {
     // Beak need to be in retracted position first before game.
-    setDefaultCommand(new ExtendBeak());
+    //setDefaultCommand(new ExtendBeak());
   }
 
   /* Single Solenoid Helper functions */
@@ -56,7 +52,7 @@ public class Hatch extends Subsystem {
   }
 
   public void toggleSolenoid(Solenoid solenoid) {
-    if (solenoid.get() == true) {
+    if (solenoid.get()) {
         pneumaticsOff(solenoid);
     } else {
         pneumaticsOn(solenoid);
@@ -86,11 +82,11 @@ public class Hatch extends Subsystem {
   }
 
   public void extendBeak() {
-    pneumaticsExtend(this.m_beak);
+    pneumaticsOn(this.m_beak);
   }
 
   public void retractBeak() {
-    pneumaticsRetract(this.m_beak);
+    pneumaticsOff(this.m_beak);
   }
 
   /* Launcher actions */
