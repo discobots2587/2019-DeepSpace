@@ -34,13 +34,12 @@ public class RobotMap {
    * solenoids connected to a single PCM must be the same voltage.
    */
   /* PCM (12V) ports */
-  public static int m_beakExtend       = 0;
-  public static int m_beakRetract      = 1;
-  public static int m_launcher         = 2;
+  public static int m_hatchSideBeak     = 0;
+  public static int m_hatchSideLauncher = 1;
+  public static int m_cargoSideBeak     = 2;
+  public static int m_cargoSideLauncher = 4;
 
-  public static int m_backHatchExtend  = 4;
-  public static int m_backHatchRetract = 5;
-  public static int m_backLauncher     = 6;
+  public static int m_shifter           = 3;
   /* PCM (24V) ports */
 
   /* DIO ports */
