@@ -25,13 +25,16 @@ public class LaunchHatch extends Command {
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    Robot.m_hatch.launchHatch();
+    this.timeCount = 0.0;
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-      this.timeCount += 0.02;
+    if (this.timeCount == 0.0) {
+      Robot.m_hatch.launchHatch();
+    }
+    this.timeCount += 0.02;
   }
 
   // Make this return true when this Command no longer needs to run execute()
@@ -48,6 +51,7 @@ public class LaunchHatch extends Command {
   @Override
   protected void end() {
     Robot.m_hatch.disableLauncher();
+    this.timeCount = 0.0;
   }
 
   // Called when another command which requires one or more of the same

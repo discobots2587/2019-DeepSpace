@@ -3,51 +3,54 @@ package frc.robot.lib;
 
 import edu.wpi.first.wpilibj.Joystick;
 
-public class Gamepad extends Joystick {
+public class FightStick extends Joystick {
 
-	//Use 'X' not 'D' on the back of the controller
 	protected static final int DEFAULT_USB_PORT = 0;
 
-	public String name = "Gamepad";
+	public String name = "FightStick";
 
 	public static int AXIS_LX = 0;
 	public static int AXIS_LY = 1;
-	public static int AXIS_LT = 2;
-	public static int AXIS_RT = 3;
-	public static int AXIS_RX = 4;
-	public static int AXIS_RY = 5;
 
+	public static int AXIS_LT = 2;
+    public static int AXIS_RT = 3;
+    
+    public static int AXIS_RX = 4;
+    public static int AXIS_RY = 5;
+    
 	public static int BTN_A = 1;
-	public static int BTN_B = 2;
-	public static int BTN_X = 3;
+    public static int BTN_B = 2;
+    public static int BTN_X = 3;
 	public static int BTN_Y = 4;
 	public static int BTN_LB = 5;
-	public static int BTN_RB = 6;
-
-	public static int BTN_BACK = 7;
-	public static int BTN_START = 8;
+    public static int BTN_RB = 6;
+    
+	public static int BTN_SHARE = 7;
+	public static int BTN_OPTIONS = 8;
+	public static int BTN_L3 = 9;
+	public static int BTN_R3 = 10;
 
 	/**
-	 * Creates a gamepad with name "Gamepad" in USB port 0
+	 * Creates a gamepad with name "FightStick" in USB port 0
 	 */
-	public Gamepad() {
+	public FightStick() {
 		super(DEFAULT_USB_PORT);
 	}
 
 	/**
-	 * Creates a gamepad with name "Gamepad" in USB port <i>port</i>
+	 * Creates a gamepad with name "FightStick" in USB port <i>port</i>
 	 * @param port USB port
 	 */
-	public Gamepad(int port) {
+	public FightStick(int port) {
 		super(port);
 	}
 
 	/**
 	 * Creates a gamepad with name <i>name</i> in USB port <i>port</i>
 	 * @param port USB port
-	 * @param name Gamepad name
+	 * @param name FightStick name
 	 */
-	public Gamepad(int port, String name) {
+	public FightStick(int port, String name) {
 		super(port);
 		this.name = name;
 	}

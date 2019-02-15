@@ -10,26 +10,26 @@ import edu.wpi.first.wpilibj.Joystick;
 
 public class LogitechController extends Joystick {
 
-	//Use 'D' not 'X'
+	//Use 'D' not 'X' on the back of the controller
 	protected static final int DEFAULT_USB_PORT = 0;
 
 	public String name = "Logitech";
 
 	public static int AXIS_LX = 0; // Left joystick X-axis
 	public static int AXIS_LY = 1; // Left joystick Y-axis
-    public static int AXIS_LT = 2; // Left trigger
-	public static int AXIS_RT = 3; // Right trigger
-	public static int AXIS_RX = 4; // Right joystick X-axis
-    public static int AXIS_RY = 5; // Right joystick Y-axis
+	public static int AXIS_RX = 2; // Right joystick X-axis
+    public static int AXIS_RY = 3; // Right joystick Y-axis
 
-	public static int BTN_A = 1;
-	public static int BTN_B = 2;
-	public static int BTN_X = 3;
+	public static int BTN_X = 1;
+	public static int BTN_A = 2;
+	public static int BTN_B = 3;
     public static int BTN_Y = 4;
 	public static int BTN_LB = 5;
-    public static int BTN_RB = 6;
-	public static int BTN_BACK = 7;
-	public static int BTN_START = 8;
+	public static int BTN_RB = 6;
+	public static int BTN_LT = 7;
+	public static int BTN_RT = 8;
+	public static int BTN_BACK = 9;
+	public static int BTN_START = 10;
 
 	/**
 	 * Creates a Logitech with name "Logitech" in USB port 0

@@ -52,7 +52,7 @@ public class Constants {
 	public static int kWristAcceleration = 5000;
 
 	//kHatchDelay - the time that the hatch launcher solenoids wait before retracting
-	public static double kHatchDelay = 0.25;
+	public static double kHatchDelay = 5.0;
 
 	//kRollerIRThreshold - threshold IR value when the cargo is in the rollers (from 0-4096)
 	public static int kRollerIRThreshold = 2000;
