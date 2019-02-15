@@ -18,12 +18,12 @@ public class LogitechController extends Joystick {
 	public static int AXIS_LX = 0; // Left joystick X-axis
 	public static int AXIS_LY = 1; // Left joystick Y-axis
 	public static int AXIS_RX = 2; // Right joystick X-axis
-    public static int AXIS_RY = 3; // Right joystick Y-axis
+  public static int AXIS_RY = 3; // Right joystick Y-axis
 
 	public static int BTN_X = 1;
 	public static int BTN_A = 2;
 	public static int BTN_B = 3;
-    public static int BTN_Y = 4;
+  public static int BTN_Y = 4;
 	public static int BTN_LB = 5;
 	public static int BTN_RB = 6;
 	public static int BTN_LT = 7;

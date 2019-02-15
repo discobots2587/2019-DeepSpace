@@ -13,17 +13,17 @@ public class FightStick extends Joystick {
 	public static int AXIS_LY = 1;
 
 	public static int AXIS_LT = 2;
-    public static int AXIS_RT = 3;
+  public static int AXIS_RT = 3;
     
-    public static int AXIS_RX = 4;
-    public static int AXIS_RY = 5;
+  public static int AXIS_RX = 4;
+  public static int AXIS_RY = 5;
     
 	public static int BTN_A = 1;
-    public static int BTN_B = 2;
-    public static int BTN_X = 3;
+  public static int BTN_B = 2;
+  public static int BTN_X = 3;
 	public static int BTN_Y = 4;
 	public static int BTN_LB = 5;
-    public static int BTN_RB = 6;
+  public static int BTN_RB = 6;
     
 	public static int BTN_SHARE = 7;
 	public static int BTN_OPTIONS = 8;
@@ -78,6 +78,14 @@ public class FightStick extends Joystick {
 	public double getRY() {
 		double val = this.getRawAxis(AXIS_RY) * -1;
 		return val;
+	}
+
+	public double getLT() {
+		return getRawAxis(AXIS_LT);
+	}
+
+	public double getRT() {
+		return getRawAxis(AXIS_RT);
 	}
 
 	public double getDPAD() {
