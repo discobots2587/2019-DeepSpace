@@ -51,10 +51,10 @@ public class DriveTrain extends Subsystem {
     this.m_rightSlave = new VictorSPX(RobotMap.m_rightSlaveMotor);
 
     /* Invert only Left side so Hatch side is front */
-    this.m_leftMaster.setInverted(true);
-    this.m_leftSlave.setInverted(true);
-    this.m_rightMaster.setInverted(false);
-    this.m_rightSlave.setInverted(false);
+    this.m_leftMaster.setInverted(false);
+    this.m_leftSlave.setInverted(false);
+    this.m_rightMaster.setInverted(true);
+    this.m_rightSlave.setInverted(true);
 
     /* Configure master-slave for left and right motors */
     this.m_leftSlave.follow(this.m_leftMaster);
