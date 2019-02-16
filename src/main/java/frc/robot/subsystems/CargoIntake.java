@@ -39,6 +39,8 @@ public class CargoIntake extends Subsystem {
 
   public boolean smartIntake = false;
 
+  private double m_rollerMotorSpeed;
+
   public CargoIntake() {
     //this.m_roller = new TalonSRX(RobotMap.m_rollerMotor);
     this.m_roller = new Spark(RobotMap.m_rollerMotor);
@@ -62,16 +64,19 @@ public class CargoIntake extends Subsystem {
 
   public void spinRollersIn() {
     //m_roller.set(ControlMode.PercentOutput, Constants.kMaxRollerPercent);
+    this.m_rollerMotorSpeed = Constants.kMaxRollerPercent;
     m_roller.set(Constants.kMaxRollerPercent);
   }
 
   public void spinRollersOut() {
     //m_roller.set(ControlMode.PercentOutput, -Constants.kMaxRollerPercent);
+    this.m_rollerMotorSpeed = -Constants.kMaxRollerPercent;
     m_roller.set(-Constants.kMaxRollerPercent);
   }
 
   public void stopRollers() {
     //m_roller.set(ControlMode.PercentOutput, 0);
+    this.m_rollerMotorSpeed = 0;
     m_roller.set(0);
   }
 
@@ -102,6 +107,10 @@ public class CargoIntake extends Subsystem {
   // public boolean getRollerLimitState() {
   //   return m_rollerSwitch.get();
   // }
+
+  public double getRollerSpeed() {
+    return this.m_rollerMotorSpeed;
+  }
 
   @Override
   public void initDefaultCommand() {

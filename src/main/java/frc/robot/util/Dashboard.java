@@ -6,6 +6,7 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import frc.robot.Robot;
+import frc.robot.RobotMap;
 
 public class Dashboard {
 	
@@ -39,6 +40,7 @@ public class Dashboard {
 	}
 	
 	public static void updateLong() {
-        
+		SmartDashboard.putNumber("Roller Motor Current",Robot.m_pdp.getCurrent(RobotMap.m_rollerMotor));
+        SmartDashboard.putNumber("Roller Motor Power", Robot.m_cargoIntake.getRollerSpeed());
 	}
 }
