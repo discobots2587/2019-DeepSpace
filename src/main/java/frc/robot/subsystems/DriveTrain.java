@@ -162,34 +162,34 @@ public class DriveTrain extends Subsystem {
     lastInputs[1] = zRotation;
   }
 
-  public void arcadeDrive(double rawThrottle, double rawTurn) { //contrary to the documentation, but that is ok
+  public void arcadeDrive(double throttle, double turn) { //contrary to the documentation, but that is ok
     double leftMotorSpeed;
     double rightMotorSpeed;
-    double deadzonedThrottle;
-    double deadzonedTurn;
+    //double deadzonedThrottle;
+    //double deadzonedTurn;
 
-    deadzonedThrottle = applyDeadzone(rawThrottle);
-    deadzonedTurn = applyDeadzone(rawTurn);
+    //deadzonedThrottle = applyDeadzone(rawThrottle);
+    //deadzonedTurn = applyDeadzone(rawTurn);
 
     if (this.isReversed){
-      deadzonedThrottle = -deadzonedThrottle;
+      throttle = -throttle;
     }
 
-    if (deadzonedThrottle > 0.0) {
-      if (deadzonedTurn > 0.0) {
-        rightMotorSpeed = deadzonedThrottle - deadzonedTurn;
-        leftMotorSpeed = Math.max(deadzonedThrottle, deadzonedTurn);
+    if (throttle > 0.0) {
+      if (turn > 0.0) {
+        rightMotorSpeed = throttle - turn;
+        leftMotorSpeed = Math.max(throttle, turn);
       } else {
-        rightMotorSpeed = Math.max(deadzonedThrottle, -deadzonedTurn);
-        leftMotorSpeed = deadzonedThrottle + deadzonedTurn;
+        rightMotorSpeed = Math.max(throttle, -turn);
+        leftMotorSpeed = throttle + turn;
       }
     } else {
-      if (deadzonedTurn > 0.0) {
-        leftMotorSpeed = -Math.max(-deadzonedThrottle, deadzonedTurn);
-        rightMotorSpeed = deadzonedThrottle + deadzonedTurn;
+      if (turn > 0.0) {
+        leftMotorSpeed = -Math.max(-throttle, turn);
+        rightMotorSpeed = throttle + turn;
       } else {
-        leftMotorSpeed = deadzonedThrottle - deadzonedTurn;
-        rightMotorSpeed = -Math.max(-deadzonedThrottle, -deadzonedTurn);
+        leftMotorSpeed = throttle - turn;
+        rightMotorSpeed = -Math.max(-throttle, -turn);
       }
     }
 
