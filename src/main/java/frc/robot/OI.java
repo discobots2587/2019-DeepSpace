@@ -64,8 +64,8 @@ public class OI {
    *    - operatorOI-related variables: "o_" followed by the member variable
    *        starting with a lower case letter then camel case
    */
-  private Xbox d_driverOI = new Xbox(0, "Driver OI");
-  private FightStick o_operatorOI = new FightStick(1, "Operator OI");
+  private Xbox d_driverOI = new Xbox(1, "Driver OI");
+  private FightStick o_operatorOI = new FightStick(0, "Operator OI");
 
   /* Driver OI */
   private Button d_btn_RB = new JoystickButton(d_driverOI, Xbox.BTN_RB);
@@ -134,14 +134,19 @@ public class OI {
     /* Wrist-related Commands */
     this.o_axis_LT.whenActive(new WristSetSpeed(-Constants.kMaxWristSpeed/2));
     this.o_axis_LT.whenInactive(new WristSetSpeed(0));
-    this.o_btn_LB.whenPressed(new WristSetSpeed(Constants.kMaxWristSpeed));
+    this.o_btn_LB.whenPressed(new WristSetSpeed(-Constants.kMaxWristSpeed/2));
+    //this.o_btn_LB.whenPressed(new WristSetSpeed(Constants.kMaxWristSpeed));
     this.o_btn_LB.whenReleased(new WristSetSpeed(0));
     //this.o_axis_LT.whenActive(new PresetWristControl(Robot.m_wrist.previousPreset()));
     //this.o_btn_LB.whenPressed(new PresetWristControl(Robot.m_wrist.nextPreset()));
     //this.o_axis_LT.whenActive(new PresetWristControl(Robot.m_wrist.setDownPreset()));
     //this.o_btn_LB.whenPressed(new PresetWristControl(Robot.m_wrist.setUpPreset()));  
     //this.o_btn_share.whenPressed(new PresentWristControl(Robot.m_wrist.setCargoShipPreset()));
-    //his.o_btn_L3.whenPressed(new ToggleWristControl());
+    //this.o_btn_L3.whenPressed(new ToggleWristControl());
+    this.o_axis_RT.whenActive(new WristSetSpeed(-Constants.kMaxWristSpeed/2));
+    this.o_axis_RT.whenInactive(new WristSetSpeed(0));
+    this.o_btn_RB.whenPressed(new WristSetSpeed(Constants.kMaxWristSpeed));
+    this.o_btn_RB.whenReleased(new WristSetSpeed(0));
 
     /* Intake-related Commands */
     this.o_btn_options.whenPressed(new ToggleSmartIntake());
