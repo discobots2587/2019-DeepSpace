@@ -247,4 +247,8 @@ public class DriveTrain extends Subsystem {
     this.m_leftMaster.set(ControlMode.PercentOutput, 0);
     this.m_rightMaster.set(ControlMode.PercentOutput, 0);
   }
+
+  public boolean isFrontToHatch(){
+    return isReversed;
+  }
 }
