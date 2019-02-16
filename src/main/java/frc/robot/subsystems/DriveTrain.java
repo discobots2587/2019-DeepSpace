@@ -10,6 +10,7 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import edu.wpi.first.wpilibj.Solenoid;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
@@ -40,6 +41,8 @@ public class DriveTrain extends Subsystem {
   private double[] lastInputs;
 
   private RampingController m_ramping;
+
+  private Solenoid m_shifter;
 
   public DriveTrain() {
     this.m_leftMaster = new TalonSRX(RobotMap.m_leftMasterMotor);
@@ -97,7 +100,14 @@ public class DriveTrain extends Subsystem {
 
     m_ramping = new RampingController(new double[] {0.5, 0.75}, x -> 0.5*x, x -> x * x, Math::sqrt);
     this.rampingUsed = true;
+<<<<<<< Updated upstream
     this.isReversed = false; //defualt to the hatch side
+=======
+
+    /* Initiliaze solenoid in on position */
+    this.m_shifter = new Solenoid(RobotMap.m_shifter);
+    setLowGear();
+>>>>>>> Stashed changes
   }
 
   @Override
@@ -214,6 +224,18 @@ public class DriveTrain extends Subsystem {
 
     this.m_leftMaster.set(ControlMode.PercentOutput, deadzoneLY);
     this.m_rightMaster.set(ControlMode.PercentOutput, deadzoneRY);
+  }
+ 
+  public Solenoid getShifter() {
+    return m_shifter;
+  }
+
+  public void setHighGear() {
+    m_shifter.set(true);
+  }
+
+  public void setLowGear() { 
+    m_shifter.set(false);
   }
 
   public void setRampingUsed(Boolean used) {
