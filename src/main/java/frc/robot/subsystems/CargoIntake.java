@@ -75,10 +75,16 @@ public class CargoIntake extends Subsystem {
     m_roller.set(0);
   }
 
+  public void holdCargo() {
+    m_roller.set(Constants.kRollerHoldPercent);
+  }
+
   /* TODO: check when limit switches return true */
   public void spinRollersInWithSensor() {
     if (!isHoldingCargo()) {
       spinRollersIn();
+    } else {
+      holdCargo();
     }
   }
 

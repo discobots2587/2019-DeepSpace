@@ -62,4 +62,7 @@ public class Constants {
 
 	//kRollerCurrentThreshold - current output from pdp to roller motor when cargo is held (in amperes)
 	public static double kRollerCurrentThreshold = 20;
+
+	//kRollerHoldPercent - amount of power to send to roller motor to hold cargo
+	public static double kRollerHoldPercent = 0.1;
  }
