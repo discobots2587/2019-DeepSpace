@@ -100,14 +100,11 @@ public class DriveTrain extends Subsystem {
 
     m_ramping = new RampingController(new double[] {0.5, 0.75}, x -> 0.5*x, x -> x * x, Math::sqrt);
     this.rampingUsed = true;
-<<<<<<< Updated upstream
     this.isReversed = false; //defualt to the hatch side
-=======
 
     /* Initiliaze solenoid in on position */
     this.m_shifter = new Solenoid(RobotMap.m_shifter);
     setLowGear();
->>>>>>> Stashed changes
   }
 
   @Override
