@@ -35,9 +35,10 @@ public class Dashboard {
 	
 	
 	public static void updateShort() {
+		//SmartDashboard.putNumber();
 	}
 	
 	public static void updateLong() {
-        SmartDashboard.putNumber("Yaw", Robot.m_pigeon.getYaw());
+        
 	}
 }
