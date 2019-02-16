@@ -186,8 +186,8 @@ public class DriveTrain extends Subsystem {
       }
     }
 
-    this.m_frontLeft.set(ControlMode.PercentOutput, leftMotorSpeed);
-    this.m_frontRight.set(ControlMode.PercentOutput, rightMotorSpeed);
+    this.m_leftMaster.set(ControlMode.PercentOutput, leftMotorSpeed);
+    this.m_rightMaster.set(ControlMode.PercentOutput, rightMotorSpeed);
   }
 
   public void toggleDriveDirection(){
