@@ -18,6 +18,7 @@ import frc.robot.lib.Gamepad;
 import frc.robot.lib.LogitechController;
 import frc.robot.lib.Xbox;
 import frc.robot.commands.*;
+import frc.robot.util.Constants;
 
 /**
  * This class is the glue that binds the controls on the physical operator
@@ -127,10 +128,15 @@ public class OI {
     this.d_btn_X.whenReleased(new StopRollers());
 
     /* TODO: Add o_operaterOI button commands */
-    this.o_btn_RB.whenPressed(new PresetWristControl(Robot.m_wrist.nextPreset()));
-    this.o_btn_LB.whenPressed(new PresetWristControl(Robot.m_wrist.previousPreset()));
+    //this.o_btn_RB.whenPressed(new PresetWristControl(Robot.m_wrist.nextPreset()));
+    //this.o_btn_LB.whenPressed(new PresetWristControl(Robot.m_wrist.previousPreset()));
 
-    this.o_btn_A.whenPressed(new ToggleWristControl());
+    //this.o_btn_A.whenPressed(new ToggleWristControl());
+
+    this.o_btn_Y.whenPressed(new WristSetSpeed(Constants.kMaxWristSpeed));
+    this.o_btn_Y.whenReleased(new WristSetSpeed(0));
+    this.o_btn_A.whenPressed(new WristSetSpeed(-Constants.kMaxWristSpeed/2));
+    this.o_btn_A.whenReleased(new WristSetSpeed(0));
   }
 
   /* Used by the DriveTrain subsystem for default command */

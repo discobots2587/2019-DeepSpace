@@ -56,4 +56,7 @@ public class Constants {
 
 	//kRollerIRThreshold - threshold IR value when the cargo is in the rollers (from 0-4096)
 	public static int kRollerIRThreshold = 2000;
+
+	//kMaxWristSpeed - maximum speed of the wrist
+	public static double kMaxWristSpeed = 0.80;
  }

@@ -42,6 +42,7 @@ public class Wrist extends Subsystem {
   private int currentPreset = 0;
 
   private boolean manualWristControl;
+  private double m_motorSpeed;
 
   public Wrist() {
     m_wrist = new TalonSRX(RobotMap.m_wristMotor);
@@ -70,6 +71,7 @@ public class Wrist extends Subsystem {
 
     this.resetSensors();
     this.manualWristControl = true;
+    this.m_motorSpeed = 0.0;
   }
 
   public void goTo(double pos) {
@@ -88,6 +90,22 @@ public class Wrist extends Subsystem {
   public boolean atTop() {
     return false;
     //return m_wrist.getSensorCollection().isFwdLimitSwitchClosed();
+  }
+
+  public void setMotor(double value) {
+    if (value > Constants.kMaxWristSpeed) {
+      value = Constants.kMaxWristSpeed;
+    } else if (value < -Constants.kMaxWristSpeed) {
+      value = -Constants.kMaxWristSpeed;
+    }
+
+    this.m_motorSpeed = value;
+
+    m_wrist.set(ControlMode.PercentOutput, this.m_motorSpeed);
+  }
+
+  public double getMotorSpeed() {
+    return this.m_motorSpeed;
   }
 
   public void stop() {

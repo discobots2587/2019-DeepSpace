@@ -121,11 +121,11 @@ public class Robot extends TimedRobot {
     /* TODO: Move to Autonomous.java file (if any) */
     Scheduler.getInstance().run();
 
-    if (Robot.m_wrist.getManualWristControl() && !this.m_manualWristControlCommand.isRunning()) {
+    /*if (Robot.m_wrist.getManualWristControl() && !this.m_manualWristControlCommand.isRunning()) {
       this.m_manualWristControlCommand.start();
     } else if (!Robot.m_wrist.getManualWristControl() && this.m_manualWristControlCommand.isRunning()) {
       this.m_manualWristControlCommand.cancel();
-    }
+    }*/
   }
 
   @Override
@@ -151,11 +151,11 @@ public class Robot extends TimedRobot {
     /* TODO: Move to Teleop.java file (if any) */
     Scheduler.getInstance().run();
 
-    if (Robot.m_wrist.getManualWristControl() && !this.m_manualWristControlCommand.isRunning()) {
+    /*if (Robot.m_wrist.getManualWristControl() && !this.m_manualWristControlCommand.isRunning()) {
       this.m_manualWristControlCommand.start();
     } else if (!Robot.m_wrist.getManualWristControl() && this.m_manualWristControlCommand.isRunning()) {
       this.m_manualWristControlCommand.cancel();
-    }
+    }*/
   }
 
   /**
