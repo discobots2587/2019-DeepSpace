@@ -15,7 +15,7 @@ import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.command.Subsystem;
-
+import frc.robot.Robot;
 import frc.robot.RobotMap;
 import frc.robot.util.Constants;
 
@@ -88,7 +88,8 @@ public class CargoIntake extends Subsystem {
 
   /* TODO: update threshold after calibration */
   public boolean isHoldingCargo() {
-    return false;
+    return Robot.m_pdp.getCurrent(RobotMap.m_rollerMotor) > Constants.kRollerCurrentThreshold;
+    // return false;
     //return m_rollerIR.getValue() < Constants.kRollerIRThreshold;
   }
 
