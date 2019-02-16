@@ -68,4 +68,7 @@ public class Constants {
 
 	//kCargoEjectTime - the amount of time the rollers need to spin out to eject cargo (in seconds)
 	public static double kCargoEjectTime = 0.5;
+
+	//kCargoEjectSpinBackTime - the amount of time the rollers need to spin in to give cargo a boost (?) (in seconds)
+	public static double kCargoEjectSpinBackTime = 0.2;
  }
