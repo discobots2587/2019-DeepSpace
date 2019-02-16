@@ -10,6 +10,7 @@ package frc.robot;
 import edu.wpi.cscore.UsbCamera;
 import edu.wpi.cscore.VideoSource;
 import edu.wpi.first.wpilibj.CameraServer;
+import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
@@ -28,6 +29,7 @@ import frc.robot.util.Dashboard;
  */
 public class Robot extends TimedRobot {
   public static OI m_oi;
+  public static PowerDistributionPanel m_pdp = new PowerDistributionPanel();
 
   /* Setup each subsystem */
   public static DriveTrain m_drive = new DriveTrain();
