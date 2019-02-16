@@ -51,19 +51,19 @@ public class Wrist extends Subsystem {
     //m_bottomSwitch = new DigitalInput(RobotMap.m_wristBottomLimit);
 
     /* Config wrist motor and pid */
-    /* TODO: check if motor is inverted */
+    m_wrist.setInverted(true);
     /* TODO: tune PID constants */
     m_wrist.configOpenloopRamp(0.5, 0);
     m_wrist.setNeutralMode(NeutralMode.Brake);
-    m_wrist.configForwardLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyOpen, 0);
-    m_wrist.configReverseLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyOpen, 0);
-    m_wrist.overrideLimitSwitchesEnable(true);
-    m_wrist.config_kP(0, Constants.kWristKP, 0);
-    m_wrist.config_kD(0, Constants.kWristKD, 0);
-    m_wrist.config_kI(0, Constants.kWristKI, 0);
+    //m_wrist.configForwardLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyOpen, 0);
+    //m_wrist.configReverseLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyOpen, 0);
+    //m_wrist.overrideLimitSwitchesEnable(true);
+    //m_wrist.config_kP(0, Constants.kWristKP, 0);
+    //m_wrist.config_kD(0, Constants.kWristKD, 0);
+    //m_wrist.config_kI(0, Constants.kWristKI, 0);
     m_wrist.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 0);
-    m_wrist.configMotionCruiseVelocity(Constants.kWristCruiseVel, 0);
-    m_wrist.configMotionAcceleration(Constants.kWristAcceleration, 0);
+    //m_wrist.configMotionCruiseVelocity(Constants.kWristCruiseVel, 0);
+    //m_wrist.configMotionAcceleration(Constants.kWristAcceleration, 0);
     m_wrist.configContinuousCurrentLimit(40, 0);
     m_wrist.configPeakCurrentLimit(60, 0);
     m_wrist.configPeakCurrentDuration(100, 0);
@@ -72,6 +72,11 @@ public class Wrist extends Subsystem {
     this.resetSensors();
     this.manualWristControl = true;
     this.m_motorSpeed = 0.0;
+  }
+
+  @Override
+  public void initDefaultCommand() {
+    setDefaultCommand(new StopWrist());
   }
 
   public void goTo(double pos) {
@@ -109,7 +114,7 @@ public class Wrist extends Subsystem {
   }
 
   public void stop() {
-    m_wrist.set(ControlMode.PercentOutput, 0);
+   //m_wrist.set(ControlMode.PercentOutput, 0);
   }
 
   /* TODO: check this is the right setting function */
@@ -120,11 +125,6 @@ public class Wrist extends Subsystem {
   /* TODO: check this is the right getting function */
   public double getPos() {
     return m_wrist.getSensorCollection().getQuadraturePosition();
-  }
-
-  @Override
-  public void initDefaultCommand() {
-    setDefaultCommand(new StopWrist());
   }
 
   public Preset nextPreset() {
