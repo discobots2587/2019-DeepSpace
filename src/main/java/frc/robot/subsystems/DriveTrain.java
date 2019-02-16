@@ -249,6 +249,6 @@ public class DriveTrain extends Subsystem {
   }
 
   public boolean isFrontToHatch(){
-    return isReversed;
+    return !isReversed; //when isReversed is true, the front is the cargo side
   }
 }
