@@ -65,4 +65,7 @@ public class Constants {
 
 	//kRollerHoldPercent - amount of power to send to roller motor to hold cargo
 	public static double kRollerHoldPercent = 0.1;
+
+	//kCargoEjectTime - the amount of time the rollers need to spin out to eject cargo (in seconds)
+	public static double kCargoEjectTime = 0.5;
  }
