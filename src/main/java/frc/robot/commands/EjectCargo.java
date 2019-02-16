@@ -27,7 +27,8 @@ public class EjectCargo extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    if(timeCount >= Constants.kCargoEjectTime && timeCount <= Constants.kCargoEjectTime + Constants.kCargoEjectSpinBackTime) {
+    if(timeCount >= Constants.kCargoEjectTime &&
+        timeCount <= Constants.kCargoEjectTime + Constants.kCargoEjectSpinBackTime) {
       Robot.m_cargoIntake.spinRollersIn();
     } else {
       Robot.m_cargoIntake.spinRollersOut();
@@ -39,7 +40,7 @@ public class EjectCargo extends Command {
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return this.timeCount > Constants.kCargoEjectTime;
+    return false;
   }
 
   // Called once after isFinished returns true
