@@ -46,13 +46,13 @@ public class Constants {
 	public static double kWristKI = 0.1;
 
 	//kWristCruiseVel - cruise velocity of wrist motor in encoder units per 100 ms
-	public static int kWristCruiseVel = 700;
+	public static int kWristCruiseVel = 50;
 
 	//kWristAcceleration - max acceleration of wrist motor in encoder units per 100 ms per 1 s
-	public static int kWristAcceleration = 5000;
+	public static int kWristAcceleration = 10;
 
 	//kHatchDelay - the time that the hatch launcher solenoids wait before retracting
-	public static double kHatchDelay = 5.0;
+	public static double kHatchDelay = 3.0;
 
 	//kRollerIRThreshold - threshold IR value when the cargo is in the rollers (from 0-4096)
 	public static int kRollerIRThreshold = 2000;
