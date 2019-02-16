@@ -106,11 +106,19 @@ public class Hatch extends Subsystem {
 
   /* Launcher actions */
   public void launchHatch() {
-    pneumaticsOn(this.m_hatchSideLauncher);
+    if (Robot.m_drive.isFrontToHatch()){
+      pneumaticsOn(this.m_hatchSideLauncher);
+    } else {
+      pneumaticsOn(this.m_cargoSideLauncher);
+    }
   }
 
   public void disableLauncher() {
-    pneumaticsOff(this.m_hatchSideLauncher);
+    if (Robot.m_drive.isFrontToHatch()){
+      pneumaticsOff(this.m_hatchSideLauncher);
+    } else {
+      pneumaticsOff(this.m_cargoSideLauncher);
+    }
   }
 
   public boolean isHatchLaunched() {
