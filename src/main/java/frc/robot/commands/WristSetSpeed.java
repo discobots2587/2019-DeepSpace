@@ -12,7 +12,6 @@ import frc.robot.Robot;
 
 public class WristSetSpeed extends Command {
   double speed;
-  
 
   public WristSetSpeed() {
     requires(Robot.m_wrist);

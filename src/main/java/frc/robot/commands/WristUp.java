@@ -14,7 +14,7 @@ import frc.robot.util.Constants;
 public class WristUp extends Command {
   double motorPowerPercent;
   double maxEncoderPosThreshold;
-  double midEncderPosThreshold;
+  double midEncoderPosThreshold;
 
   public WristUp() {
     // Use requires() here to declare subsystem dependencies
@@ -22,7 +22,7 @@ public class WristUp extends Command {
 
     this.motorPowerPercent = Constants.kMaxWristSpeed;
     this.maxEncoderPosThreshold = Constants.kMaxWristPosThreshold;
-    this.midEncderPosThreshold = Constants.kMidWristPosThreshold;
+    this.midEncoderPosThreshold = Constants.kMidWristPosThreshold;
   }
 
   public WristUp(double motorPowerPercent) {
@@ -31,7 +31,7 @@ public class WristUp extends Command {
 
     this.motorPowerPercent = motorPowerPercent;
     this.maxEncoderPosThreshold = Constants.kMaxWristPosThreshold;
-    this.midEncderPosThreshold = Constants.kMidWristPosThreshold;
+    this.midEncoderPosThreshold = Constants.kMidWristPosThreshold;
   }
 
   public WristUp(double motorPowerPercent, int maxThreshold, int midThreshhold) {
@@ -40,7 +40,7 @@ public class WristUp extends Command {
 
     this.motorPowerPercent = motorPowerPercent;
     this.maxEncoderPosThreshold = maxThreshold; 
-    this.midEncderPosThreshold = midThreshhold;
+    this.midEncoderPosThreshold = midThreshhold;
   }
 
   // Called just before this Command runs the first time
@@ -53,7 +53,7 @@ public class WristUp extends Command {
   protected void execute() {
     if (Robot.m_wrist.getPos() > this.maxEncoderPosThreshold) {
       Robot.m_wrist.stop();
-    } else if (Robot.m_wrist.getPos() > this.midEncderPosThreshold){
+    } else if (Robot.m_wrist.getPos() > this.midEncoderPosThreshold){
       Robot.m_wrist.setMotor(motorPowerPercent / 2);
     } else {
       Robot.m_wrist.setMotor(motorPowerPercent);

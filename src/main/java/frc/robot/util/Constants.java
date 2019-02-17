@@ -72,8 +72,8 @@ public class Constants {
 	//kCargoEjectSpinBackTime - the amount of time the rollers need to spin in to give cargo a boost (?) (in seconds)
 	public static double kCargoEjectSpinBackTime = 0.3;
 
-	//kWristPosThreshold- minimum and maximum values for the encoder on the wrist
+	//kWristPosThreshold - various encoder position thresholds to adjust wrist motor power
 	public static int kMinWristPosThreshold = -2800;
+	public static int kMidWristPosThreshold = -1400;
 	public static int kMaxWristPosThreshold = 0;
-	public static int kMidWristPosThreshold = -1400;  
  }

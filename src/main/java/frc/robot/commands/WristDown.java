@@ -34,12 +34,12 @@ public class WristDown extends Command {
     this.midEncoderPosThreshold = Constants.kMidWristPosThreshold;
   }
 
-  public WristDown(double motorPowerPercent, int threshold, int midThreshold) {
+  public WristDown(double motorPowerPercent, int minThreshold, int midThreshold) {
     // Use requires() here to declare subsystem dependencies
     requires(Robot.m_wrist);
 
     this.motorPowerPercent = motorPowerPercent;
-    this.minEncoderPosThreshold = threshold;
+    this.minEncoderPosThreshold = minThreshold;
     this.midEncoderPosThreshold = midThreshold; 
   }
 
