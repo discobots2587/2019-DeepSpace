@@ -37,6 +37,7 @@ public class Dashboard {
 	}
 
 	public static void updateLong() {
+		SmartDashboard.putNumber("CargoIntake IR raw value", Robot.m_cargoIntake.getRollerIR());
 		SmartDashboard.putNumber("Roller Motor Current",Robot.m_pdp.getCurrent(RobotMap.m_rollerMotor));
 		SmartDashboard.putNumber("Roller Motor Power", Robot.m_cargoIntake.getRollerPercent());
 		SmartDashboard.putNumber("Lift Encoder Position", Robot.m_lift.getPos());
