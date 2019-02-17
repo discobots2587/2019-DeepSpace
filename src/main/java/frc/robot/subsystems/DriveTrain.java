@@ -7,23 +7,16 @@
 
 package frc.robot.subsystems;
 
-import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.command.Subsystem;
-import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.Solenoid;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
-import com.ctre.phoenix.motorcontrol.StatusFrameEnhanced;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 
 import frc.robot.RobotMap;
-import frc.robot.lib.RampedMotor;
-import frc.robot.lib.RampingController;
 import frc.robot.util.Constants;
-import frc.robot.commands.TankDrive;
 import frc.robot.commands.ArcadeDrive;
 
 /**
@@ -34,15 +27,12 @@ public class DriveTrain extends Subsystem {
   private TalonSRX m_rightMaster;
   private VictorSPX m_leftSlave;
   private VictorSPX m_rightSlave;
+  private Solenoid m_shifter;
 
   private boolean rampingUsed;
-  private boolean isHatchSide;
-
   private double[] lastInputs;
 
-  private RampingController m_ramping;
-
-  private Solenoid m_shifter;
+  private boolean isHatchSide;
 
   public DriveTrain() {
     this.m_leftMaster = new TalonSRX(RobotMap.m_leftMasterMotor);
@@ -50,8 +40,16 @@ public class DriveTrain extends Subsystem {
     this.m_leftSlave = new VictorSPX(RobotMap.m_leftSlaveMotor);
     this.m_rightSlave = new VictorSPX(RobotMap.m_rightSlaveMotor);
 
+    this.m_shifter = new Solenoid(RobotMap.m_shifter);
+    this.setLowGear();
+
+    /* Setup ramping */
+    this.lastInputs = new double[2];
+    this.rampingUsed = true;
+
+    /* Setup which side is considered "front": Hatch or Cargo side */
     this.isHatchSide = false;
-    this.toggleDriveDirection(); // default to the hatch side
+    this.toggleDriveDirection(); // default to the Hatch side
 
     /* Configure master-slave for left and right motors */
     this.m_leftSlave.follow(this.m_leftMaster);
@@ -92,47 +90,46 @@ public class DriveTrain extends Subsystem {
     this.m_rightMaster.configPeakCurrentLimit(60, 0);
     this.m_rightMaster.configPeakCurrentDuration(100, 0);
     this.m_rightMaster.enableCurrentLimit(true);
-
-    lastInputs = new double[2];
-
-    m_ramping = new RampingController(new double[] {0.5, 0.75}, x -> 0.5*x, x -> x * x, Math::sqrt);
-    this.rampingUsed = true;
-
-    /* Initiliaze solenoid in on position */
-    this.m_shifter = new Solenoid(RobotMap.m_shifter);
-    setLowGear();
   }
 
   @Override
   public void initDefaultCommand() {
-    /* TODO: Make this extensible to use any kind of drive (e.g., arcade/curvature) */
     setDefaultCommand(new ArcadeDrive());
   }
 
-  public void teleopInit() {
+  /* OI input-handling helper functions */
+  /**
+   * Returns 0.0 if the given value is within the specified range around zero. The remaining range
+   * between the deadband and 1.0 is scaled from 0.0 to 1.0.
+   *
+   * @param value value to clip
+   */
+  public double applyDeadband(double input) {
+    if (Math.abs(input) > Constants.kDeadband) {
+      if (input > 0.0) {
+        return (input - Constants.kDeadband) / (1.0 - Constants.kDeadband);
+      } else {
+        return (input + Constants.kDeadband) / (1.0 - Constants.kDeadband);
+      }
+    } else {
+      return 0.0;
+    }
   }
 
-  public double applyDeadzone (double input){
-    double adjustedInput;
-
-    if (Math.abs(input) <= Constants.kDeadband)
-      adjustedInput = 0;
-    else
-      adjustedInput = input;
-
-    return adjustedInput;
+  public boolean getRampingUsed() {
+    return this.rampingUsed;
   }
 
-  public double applySquaredRamping (double input){
-    double adjustedInput;
+  public void setRampingUsed(boolean used) {
+    this.rampingUsed = used;
+  }
 
-    adjustedInput = input * input;
-
-    return adjustedInput;
+  public double applySquaredRamping(double input) {
+    return input * input;
   }
 
   public double[] applyLowPassRamping (double[] inputs){
-    /* TODO: Adjust Constants.kDriveLowPassFilter to make drive accel/decel at desired rate*/
+    /* Adjust Constants.kDriveLowPassFilter to make drive accel/decel at desired rate */
     double[] adjustedInputs = new double[2];
 
     for (int i = 0; i < 2; i++){
@@ -142,31 +139,24 @@ public class DriveTrain extends Subsystem {
     return adjustedInputs;
   }
 
-
-  public void rampedArcadeDrive(double xSpeed, double zRotation) {
-    
-    double deadzoneSpeed = applyDeadzone(xSpeed);
-    double deadzoneTurn = applyDeadzone(zRotation);
-    double[] rampedInput = applyLowPassRamping(new double[]{deadzoneSpeed, deadzoneTurn});
-
-    // double rampedLY = adjustForSquareRamping(deadzoneSpeed);
-    // double rampedRX = adjustForSquareRamping(deadzoneTurn);
-
-    this.arcadeDrive(rampedInput[0], rampedInput[1]);
-
-    lastInputs[0] = xSpeed;
-    lastInputs[1] = zRotation;
-  }
-
-  public void arcadeDrive(double throttle, double turn) { //contrary to the documentation, but that is ok
+  public void arcadeDrive(double throttle, double turn) {
     double leftMotorOutput;
     double rightMotorOutput;
     double maxInput;
 
-    /* TODO: Check if we need to uncomment the following code */
-    /*if (this.isHatchSide){
-      turn = -turn;
-    }*/
+    throttle = applyDeadband(throttle);
+    turn = applyDeadband(turn);
+
+    if (this.rampingUsed) {
+      /* Save inputs after deadband is applied (if any) */
+      this.lastInputs[0] = throttle;
+      this.lastInputs[1] = turn;
+
+      double[] rampedInput = applyLowPassRamping(new double[]{throttle, turn});
+
+      throttle = rampedInput[0];
+      turn = rampedInput[1];
+    }
 
     /*
      * Arcade drive assuming we never hit the boundaries for the motor are as follows:
@@ -213,10 +203,39 @@ public class DriveTrain extends Subsystem {
     this.m_rightMaster.set(ControlMode.PercentOutput, rightMotorOutput);
   }
 
+  public void tankDrive(double leftPower, double rightPower) {
+    leftPower = applyDeadband(leftPower);
+    rightPower = applyDeadband(rightPower);
+
+    if (this.rampingUsed) {
+      /* Save inputs after deadband is applied (if any) */
+      lastInputs[0] = leftPower;
+      lastInputs[1] = rightPower;
+
+      double[] rampedInput = applyLowPassRamping(new double[]{leftPower, rightPower});
+
+      leftPower = rampedInput[0];
+      rightPower = rampedInput[1];
+    }
+
+    this.m_leftMaster.set(ControlMode.PercentOutput, leftPower);
+    this.m_rightMaster.set(ControlMode.PercentOutput, rightPower);
+  }
+
+  public void stop() {
+    this.m_leftMaster.set(ControlMode.PercentOutput, 0);
+    this.m_rightMaster.set(ControlMode.PercentOutput, 0);
+  }
+
+  /* Drive direction functions */
+  public boolean isFrontToHatch(){
+    return this.isHatchSide;
+  }
+
   public void toggleDriveDirection(){
     this.isHatchSide = !this.isHatchSide;
 
-    /* TODO: Verify that on either side, positive throttle makes the robot go "forward" */
+    /* On either side, positive throttle makes the robot go "forward" */
     if (this.isHatchSide) {
       /* Invert only left side so Hatch side is front */
       this.m_leftMaster.setInverted(true);
@@ -232,50 +251,16 @@ public class DriveTrain extends Subsystem {
     }
   }
 
-  public void rampedTankDrive(double leftSide, double rightSide) {
-    double deadzoneLY = applyDeadzone(leftSide);
-    double deadzoneRY = applyDeadzone(rightSide);
-    double[] rampedInput = applyLowPassRamping(new double[]{deadzoneLY, deadzoneRY});
-
-    // double rampedLY = adjustForSquareRamping(deadzoneLY);
-    // double rampedRX = adjustForSquareRamping(deadzoneRY);
-
-    this.tankDrive(rampedInput[0], rampedInput[1]);
-  }
-  public void tankDrive(double left, double right) {
-    double deadzoneLY = applyDeadzone(left);
-    double deadzoneRY = applyDeadzone(right);
-
-    this.m_leftMaster.set(ControlMode.PercentOutput, deadzoneLY);
-    this.m_rightMaster.set(ControlMode.PercentOutput, deadzoneRY);
-  }
- 
+  /* Shifting functions */
   public Solenoid getShifter() {
     return m_shifter;
   }
 
   public void setHighGear() {
-    m_shifter.set(true);
+    this.m_shifter.set(true);
   }
 
   public void setLowGear() { 
-    m_shifter.set(false);
-  }
-
-  public void setRampingUsed(Boolean used) {
-    this.rampingUsed = used;
-  }
-
-  public Boolean getRampingUsed() {
-    return this.rampingUsed;
-  }
-
-  public void stop() {
-    this.m_leftMaster.set(ControlMode.PercentOutput, 0);
-    this.m_rightMaster.set(ControlMode.PercentOutput, 0);
-  }
-
-  public boolean isFrontToHatch(){
-    return this.isHatchSide;
+    this.m_shifter.set(false);
   }
 }

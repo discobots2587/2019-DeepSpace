@@ -19,6 +19,7 @@ import frc.robot.Robot;
 public class TankDrive extends Command {
 
   public TankDrive() {
+    // Use requires() here to declare subsystem dependencies
     requires(Robot.m_drive);
   }
 
@@ -32,11 +33,7 @@ public class TankDrive extends Command {
   protected void execute() {
     Xbox driverOI = Robot.m_oi.getDriverOI();
     
-    if (Robot.m_drive.getRampingUsed()) {
-      Robot.m_drive.rampedTankDrive(driverOI.getLY(),driverOI.getRY());
-    } else {
-      Robot.m_drive.tankDrive(driverOI.getLY(),driverOI.getRY());
-    }
+    Robot.m_drive.tankDrive(driverOI.getLY(), driverOI.getRY());
   }
 
   // Make this return true when this Command no longer needs to run execute()
@@ -48,13 +45,12 @@ public class TankDrive extends Command {
   // Called once after isFinished returns true
   @Override
   protected void end() {
-    Robot.m_drive.tankDrive(0, 0);
+    Robot.m_drive.stop();
   }
 
   // Called when another command which requires one or more of the same
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
-    end();
   }
 }

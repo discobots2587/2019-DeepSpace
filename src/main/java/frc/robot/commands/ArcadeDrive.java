@@ -15,9 +15,8 @@ import frc.robot.Robot;
 
 public class ArcadeDrive extends Command {
   public ArcadeDrive() {
-    requires(Robot.m_drive);
     // Use requires() here to declare subsystem dependencies
-    // eg. requires(chassis);
+    requires(Robot.m_drive);
   }
 
   // Called just before this Command runs the first time
@@ -30,12 +29,7 @@ public class ArcadeDrive extends Command {
   protected void execute() {
     Xbox driverOI = Robot.m_oi.getDriverOI();
 
-    if (Robot.m_drive.getRampingUsed()) {
-      Robot.m_drive.rampedArcadeDrive(driverOI.getLY(),driverOI.getRX());
-    } else {
-      Robot.m_drive.arcadeDrive(driverOI.getLY(),driverOI.getRX());
-    }
-    
+    Robot.m_drive.arcadeDrive(driverOI.getLY(), driverOI.getRX());
   }
 
   // Make this return true when this Command no longer needs to run execute()
@@ -47,6 +41,7 @@ public class ArcadeDrive extends Command {
   // Called once after isFinished returns true
   @Override
   protected void end() {
+    Robot.m_drive.stop();
   }
 
   // Called when another command which requires one or more of the same
