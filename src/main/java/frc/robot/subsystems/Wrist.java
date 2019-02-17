@@ -114,7 +114,7 @@ public class Wrist extends Subsystem {
   }
 
   public void stop() {
-   //m_wrist.set(ControlMode.PercentOutput, 0);
+    m_wrist.set(ControlMode.PercentOutput, 0);
   }
 
   /* TODO: check this is the right setting function */

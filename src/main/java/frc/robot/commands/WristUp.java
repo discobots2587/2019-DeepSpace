@@ -9,22 +9,36 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
+import frc.robot.util.Constants;
 
-public class WristSetSpeed extends Command {
-  double speed;
-  
+public class WristUp extends Command {
+  double motorPowerPercent;
+  double maxEncoderPosThreshold;
 
-  public WristSetSpeed() {
+  public WristUp() {
+    // Use requires() here to declare subsystem dependencies
     requires(Robot.m_wrist);
 
-    this.speed = 0.0;
+    this.motorPowerPercent = Constants.kMaxWristSpeed;
+    this.maxEncoderPosThreshold = Constants.kMaxWristPosThreshold;
   }
 
-  public WristSetSpeed(double speed) {
+  public WristUp(double motorPowerPercent) {
+    // Use requires() here to declare subsystem dependencies
     requires(Robot.m_wrist);
 
-    this.speed = speed;
+    this.motorPowerPercent = motorPowerPercent;
+    this.maxEncoderPosThreshold = Constants.kMaxWristPosThreshold;
   }
+
+  public WristUp(double motorPowerPercent, int threshold) {
+    // Use requires() here to declare subsystem dependencies
+    requires(Robot.m_wrist);
+
+    this.motorPowerPercent = motorPowerPercent;
+    this.maxEncoderPosThreshold = threshold; 
+  }
+
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
@@ -33,7 +47,11 @@ public class WristSetSpeed extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    Robot.m_wrist.setMotor(speed);
+    if (Robot.m_wrist.getPos() > this.maxEncoderPosThreshold) {
+      Robot.m_wrist.stop();
+    } else {
+      Robot.m_wrist.setMotor(motorPowerPercent);
+    }
   }
 
   // Make this return true when this Command no longer needs to run execute()
