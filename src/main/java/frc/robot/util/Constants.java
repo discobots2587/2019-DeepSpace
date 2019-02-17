@@ -59,4 +59,16 @@ public class Constants {
 
 	//kMaxWristSpeed - maximum speed of the wrist
 	public static double kMaxWristSpeed = 0.80;
+
+	//kRollerCurrentThreshold - current output from pdp to roller motor when cargo is held (in amperes)
+	public static double kRollerCurrentThreshold = 20;
+
+	//kRollerHoldPercent - amount of power to send to roller motor to hold cargo
+	public static double kRollerHoldPercent = 0.1;
+
+	//kCargoEjectTime - the amount of time the rollers need to spin out to eject cargo (in seconds)
+	public static double kCargoEjectTime = 0.5;
+
+	//kCargoEjectSpinBackTime - the amount of time the rollers need to spin in to give cargo a boost (?) (in seconds)
+	public static double kCargoEjectSpinBackTime = 0.2;
  }

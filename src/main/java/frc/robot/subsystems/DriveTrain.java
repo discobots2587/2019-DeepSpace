@@ -10,6 +10,7 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import edu.wpi.first.wpilibj.Solenoid;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
@@ -34,11 +35,14 @@ public class DriveTrain extends Subsystem {
   private VictorSPX m_leftSlave;
   private VictorSPX m_rightSlave;
 
-  private Boolean rampingUsed;
+  private boolean rampingUsed;
+  private boolean isReversed;
 
   private double[] lastInputs;
 
   private RampingController m_ramping;
+
+  private Solenoid m_shifter;
 
   public DriveTrain() {
     this.m_leftMaster = new TalonSRX(RobotMap.m_leftMasterMotor);
@@ -47,10 +51,10 @@ public class DriveTrain extends Subsystem {
     this.m_rightSlave = new VictorSPX(RobotMap.m_rightSlaveMotor);
 
     /* Invert only Left side so Hatch side is front */
-    this.m_leftMaster.setInverted(true);
-    this.m_leftSlave.setInverted(true);
-    this.m_rightMaster.setInverted(false);
-    this.m_rightSlave.setInverted(false);
+    this.m_leftMaster.setInverted(false);
+    this.m_leftSlave.setInverted(false);
+    this.m_rightMaster.setInverted(true);
+    this.m_rightSlave.setInverted(true);
 
     /* Configure master-slave for left and right motors */
     this.m_leftSlave.follow(this.m_leftMaster);
@@ -96,6 +100,11 @@ public class DriveTrain extends Subsystem {
 
     m_ramping = new RampingController(new double[] {0.5, 0.75}, x -> 0.5*x, x -> x * x, Math::sqrt);
     this.rampingUsed = true;
+    this.isReversed = false; //defualt to the hatch side
+
+    /* Initiliaze solenoid in on position */
+    this.m_shifter = new Solenoid(RobotMap.m_shifter);
+    setLowGear();
   }
 
   @Override
@@ -156,14 +165,23 @@ public class DriveTrain extends Subsystem {
   public void arcadeDrive(double throttle, double turn) { //contrary to the documentation, but that is ok
     double leftMotorSpeed;
     double rightMotorSpeed;
+    //double deadzonedThrottle;
+    //double deadzonedTurn;
+
+    //deadzonedThrottle = applyDeadzone(rawThrottle);
+    //deadzonedTurn = applyDeadzone(rawTurn);
+
+    if (this.isReversed){
+      throttle = -throttle;
+    }
 
     if (throttle > 0.0) {
       if (turn > 0.0) {
-        leftMotorSpeed = throttle - turn;
-        rightMotorSpeed = Math.max(throttle, turn);
+        rightMotorSpeed = throttle - turn;
+        leftMotorSpeed = Math.max(throttle, turn);
       } else {
-        leftMotorSpeed = Math.max(throttle, -turn);
-        rightMotorSpeed = throttle + turn;
+        rightMotorSpeed = Math.max(throttle, -turn);
+        leftMotorSpeed = throttle + turn;
       }
     } else {
       if (turn > 0.0) {
@@ -175,7 +193,16 @@ public class DriveTrain extends Subsystem {
       }
     }
 
-    this.tankDrive(-leftMotorSpeed, -rightMotorSpeed);
+    this.m_leftMaster.set(ControlMode.PercentOutput, leftMotorSpeed);
+    this.m_rightMaster.set(ControlMode.PercentOutput, rightMotorSpeed);
+  }
+
+  public void toggleDriveDirection(){
+    if (isReversed){
+      this.isReversed = false;
+    } else{
+      this.isReversed = true;
+    }
   }
 
   public void rampedTankDrive(double leftSide, double rightSide) {
@@ -195,6 +222,18 @@ public class DriveTrain extends Subsystem {
     this.m_leftMaster.set(ControlMode.PercentOutput, deadzoneLY);
     this.m_rightMaster.set(ControlMode.PercentOutput, deadzoneRY);
   }
+ 
+  public Solenoid getShifter() {
+    return m_shifter;
+  }
+
+  public void setHighGear() {
+    m_shifter.set(true);
+  }
+
+  public void setLowGear() { 
+    m_shifter.set(false);
+  }
 
   public void setRampingUsed(Boolean used) {
     this.rampingUsed = used;
@@ -207,5 +246,9 @@ public class DriveTrain extends Subsystem {
   public void stop() {
     this.m_leftMaster.set(ControlMode.PercentOutput, 0);
     this.m_rightMaster.set(ControlMode.PercentOutput, 0);
+  }
+
+  public boolean isFrontToHatch(){
+    return !isReversed; //when isReversed is true, the front is the cargo side
   }
 }

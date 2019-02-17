@@ -122,13 +122,12 @@ public class OI {
     }
     */
 
-
     /* Map d_driverOI buttons/triggers to commands */
     /* TODO: Add quick-turn to this.d_btn_LB (left 90 degres) and this.d_btn_RB (right 90 degrees) */
-    this.d_btn_Y.whenPressed(new DriveToggleRampingUsed()); // top /* TODO: Update to set high gear along with unramp */
-    //this.d_btn_A.whenPressed(); // bottom /* TODO: Update to set low gear along with ramped */
-    this.d_btn_X.whenPressed(new SwitchCamera()); // left /* TODO: Update to include DriveSwitching */
-    //this.d_btn_B.whenPressed(); // right /* TODO: Toggle break/coast mode for motor contollers */
+    this.d_btn_Y.whenPressed(new SetHighGear());
+    this.d_btn_A.whenPressed(new SetLowGear());
+    this.d_btn_X.whenPressed(new SwitchDrivingDirection()); // left
+    this.d_btn_B.whenPressed(new DriveToggleRampingUsed()); // right /* TODO: Toggle break/coast mode for motor contollers */
 
     /* Map o_operaterOI buttons/triggers to commands */
     /* Wrist-related Commands */

@@ -8,15 +8,15 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.Solenoid;
+
 import frc.robot.Robot;
-import frc.robot.util.Constants;
+import frc.robot.subsystems.DriveTrain;
 
-public class EjectCargo extends Command {
-  private double timeCount;
-
-  public EjectCargo() {
-    requires(Robot.m_cargoIntake);
-    this.timeCount = 0;
+public class ToggleGearShifting extends Command {
+  public ToggleGearShifting() {
+    // Use requires() here to declare subsystem dependencies
+    // eg. requires(chassis);
   }
 
   // Called just before this Command runs the first time
@@ -27,14 +27,12 @@ public class EjectCargo extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    if(timeCount >= Constants.kCargoEjectTime &&
-        timeCount <= Constants.kCargoEjectTime + Constants.kCargoEjectSpinBackTime) {
-      Robot.m_cargoIntake.spinRollersIn();
+    Solenoid shift = Robot.m_drive.getShifter();
+    if(shift.get()){
+      shift.set(true);
     } else {
-      Robot.m_cargoIntake.spinRollersOut();
+      shift.set(false);
     }
-
-    this.timeCount += 0.02;
   }
 
   // Make this return true when this Command no longer needs to run execute()
@@ -46,14 +44,11 @@ public class EjectCargo extends Command {
   // Called once after isFinished returns true
   @Override
   protected void end() {
-    this.timeCount = 0;
   }
 
   // Called when another command which requires one or more of the same
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
-    Robot.m_cargoIntake.stopRollers();
-    this.timeCount = 0;
   }
 }

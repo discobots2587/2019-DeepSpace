@@ -15,7 +15,7 @@ import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.command.Subsystem;
-
+import frc.robot.Robot;
 import frc.robot.RobotMap;
 import frc.robot.util.Constants;
 
@@ -38,6 +38,8 @@ public class CargoIntake extends Subsystem {
   private AnalogInput m_rollerIR;
 
   public boolean smartIntake = false;
+
+  private double m_rollerMotorSpeed;
 
   public CargoIntake() {
     //this.m_roller = new TalonSRX(RobotMap.m_rollerMotor);
@@ -62,23 +64,32 @@ public class CargoIntake extends Subsystem {
 
   public void spinRollersIn() {
     //m_roller.set(ControlMode.PercentOutput, Constants.kMaxRollerPercent);
+    this.m_rollerMotorSpeed = Constants.kMaxRollerPercent;
     m_roller.set(Constants.kMaxRollerPercent);
   }
 
   public void spinRollersOut() {
     //m_roller.set(ControlMode.PercentOutput, -Constants.kMaxRollerPercent);
+    this.m_rollerMotorSpeed = -Constants.kMaxRollerPercent;
     m_roller.set(-Constants.kMaxRollerPercent);
   }
 
   public void stopRollers() {
     //m_roller.set(ControlMode.PercentOutput, 0);
+    this.m_rollerMotorSpeed = 0;
     m_roller.set(0);
+  }
+
+  public void holdCargo() {
+    m_roller.set(Constants.kRollerHoldPercent);
   }
 
   /* TODO: check when limit switches return true */
   public void spinRollersInWithSensor() {
     if (!isHoldingCargo()) {
       spinRollersIn();
+    } else {
+      holdCargo();
     }
   }
 
@@ -88,13 +99,18 @@ public class CargoIntake extends Subsystem {
 
   /* TODO: update threshold after calibration */
   public boolean isHoldingCargo() {
-    return false;
+    return Robot.m_pdp.getCurrent(RobotMap.m_rollerMotor) > Constants.kRollerCurrentThreshold;
+    // return false;
     //return m_rollerIR.getValue() < Constants.kRollerIRThreshold;
   }
 
   // public boolean getRollerLimitState() {
   //   return m_rollerSwitch.get();
   // }
+
+  public double getRollerSpeed() {
+    return this.m_rollerMotorSpeed;
+  }
 
   @Override
   public void initDefaultCommand() {

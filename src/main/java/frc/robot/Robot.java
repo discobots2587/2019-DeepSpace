@@ -10,6 +10,7 @@ package frc.robot;
 import edu.wpi.cscore.UsbCamera;
 import edu.wpi.cscore.VideoSource;
 import edu.wpi.first.wpilibj.CameraServer;
+import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
@@ -17,6 +18,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.commands.ManualWristControl;
 import frc.robot.subsystems.*;
+import frc.robot.util.Dashboard;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -27,6 +29,7 @@ import frc.robot.subsystems.*;
  */
 public class Robot extends TimedRobot {
   public static OI m_oi;
+  public static PowerDistributionPanel m_pdp = new PowerDistributionPanel();
 
   /* Setup each subsystem */
   public static DriveTrain m_drive = new DriveTrain();
@@ -67,7 +70,8 @@ public class Robot extends TimedRobot {
   @Override
   public void robotPeriodic() {
     /* TODO: Get Pigeon values (if needed) */
-    /* TODO: Update Dashboard */
+    Dashboard.update();
+
   }
 
   /**

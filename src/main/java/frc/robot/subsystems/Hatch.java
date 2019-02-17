@@ -18,6 +18,7 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 
 import frc.robot.RobotMap;
 import frc.robot.commands.ExtendBeak;
+import frc.robot.Robot;
 
 /**
  * Add your docs here.
@@ -26,14 +27,16 @@ public class Hatch extends Subsystem {
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
 
-  private Solenoid m_beak;
-  private Solenoid m_launcher;
-
+  private Solenoid m_hatchSideBeak;
+  private Solenoid m_hatchSideLauncher;
+  private Solenoid m_cargoSideLauncher;
+  private Solenoid m_cargoSideBeak;
+  
   public Hatch() {
-    this.m_launcher = new Solenoid(RobotMap.m_pcm12v, RobotMap.m_hatchSideLauncher);
-    this.m_beak = new Solenoid(RobotMap.m_pcm12v, RobotMap.m_hatchSideBeak);
-    //this.m_launcher = new Solenoid(RobotMap.m_pcm12v, RobotMap.m_cargoSideLauncher);
-    //this.m_beak = new Solenoid(RobotMap.m_pcm12v, RobotMap.m_cargoSideBeak);
+    this.m_hatchSideLauncher = new Solenoid(RobotMap.m_pcm12v, RobotMap.m_hatchSideLauncher);
+    this.m_hatchSideBeak = new Solenoid(RobotMap.m_pcm12v, RobotMap.m_hatchSideBeak);
+    this.m_cargoSideLauncher = new Solenoid(RobotMap.m_pcm12v, RobotMap.m_cargoSideLauncher);
+    this.m_cargoSideBeak = new Solenoid(RobotMap.m_pcm12v, RobotMap.m_cargoSideBeak);
   }
 
   @Override
@@ -78,27 +81,48 @@ public class Hatch extends Subsystem {
 
   /* Beak actions */
   public void toggleBeak() {
-    toggleSolenoid(this.m_beak);
+    if (Robot.m_drive.isFrontToHatch()){
+      toggleSolenoid(this.m_hatchSideBeak);
+    } else {
+      toggleSolenoid(this.m_cargoSideBeak);
+    }
   }
 
   public void extendBeak() {
-    pneumaticsOn(this.m_beak);
+    if (Robot.m_drive.isFrontToHatch()){
+      pneumaticsOn(this.m_hatchSideBeak);
+    } else {
+      pneumaticsOn(this.m_cargoSideBeak);
+    }
   }
 
   public void retractBeak() {
-    pneumaticsOff(this.m_beak);
+    if (Robot.m_drive.isFrontToHatch()){
+      pneumaticsOff(this.m_hatchSideBeak);
+    } else {
+      pneumaticsOff(this.m_cargoSideBeak);
+    }
   }
 
   /* Launcher actions */
   public void launchHatch() {
-    pneumaticsOn(this.m_launcher);
+    if (Robot.m_drive.isFrontToHatch()){
+      pneumaticsOn(this.m_hatchSideLauncher);
+    } else {
+      pneumaticsOn(this.m_cargoSideLauncher);
+    }
   }
 
   public void disableLauncher() {
-    pneumaticsOff(this.m_launcher);
+    if (Robot.m_drive.isFrontToHatch()){
+      pneumaticsOff(this.m_hatchSideLauncher);
+    } else {
+      pneumaticsOff(this.m_cargoSideLauncher);
+    }
   }
 
   public boolean isHatchLaunched() {
-    return this.m_launcher.get();
+    return this.m_hatchSideLauncher.get();
   }
+
 }

@@ -8,15 +8,14 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
+
 import frc.robot.Robot;
-import frc.robot.util.Constants;
+import frc.robot.subsystems.DriveTrain;
 
-public class EjectCargo extends Command {
-  private double timeCount;
-
-  public EjectCargo() {
-    requires(Robot.m_cargoIntake);
-    this.timeCount = 0;
+public class SetLowGear extends Command {
+  public SetLowGear() {
+    // Use requires() here to declare subsystem dependencies
+    requires(Robot.m_drive);
   }
 
   // Called just before this Command runs the first time
@@ -27,33 +26,23 @@ public class EjectCargo extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    if(timeCount >= Constants.kCargoEjectTime &&
-        timeCount <= Constants.kCargoEjectTime + Constants.kCargoEjectSpinBackTime) {
-      Robot.m_cargoIntake.spinRollersIn();
-    } else {
-      Robot.m_cargoIntake.spinRollersOut();
-    }
-
-    this.timeCount += 0.02;
+    Robot.m_drive.setLowGear();
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return false;
+    return true;
   }
 
   // Called once after isFinished returns true
   @Override
   protected void end() {
-    this.timeCount = 0;
   }
 
   // Called when another command which requires one or more of the same
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
-    Robot.m_cargoIntake.stopRollers();
-    this.timeCount = 0;
   }
 }
