@@ -13,7 +13,7 @@ import frc.robot.Robot;
 public class SwitchDrivingDirection extends Command {
   public SwitchDrivingDirection() {
     // Use requires() here to declare subsystem dependencies
-    // eg. requires(chassis);
+    requires(Robot.m_drive);
   }
 
   // Called just before this Command runs the first time
