@@ -8,13 +8,12 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
+
 import frc.robot.Robot;
-import frc.robot.subsystems.DriveTrain;
 
 public class DriveToggleRampingUsed extends Command {
   public DriveToggleRampingUsed() {
     // Use requires() here to declare subsystem dependencies
-    // eg. requires(chassis);
     requires(Robot.m_drive);
   }
 
