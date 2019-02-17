@@ -7,15 +7,11 @@
 
 package frc.robot;
 
-import edu.wpi.cscore.UsbCamera;
-import edu.wpi.cscore.VideoSource;
-import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
-import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 import frc.robot.commands.ManualWristControl;
 import frc.robot.subsystems.*;
 import frc.robot.util.Dashboard;
@@ -38,7 +34,7 @@ public class Robot extends TimedRobot {
   public static Wrist m_wrist = new Wrist();
   public static USBCamera m_camera = new USBCamera();
 
-  Command m_manualWristControlCommand;
+  Command m_manualWristControlCommand = new ManualWristControl();
   
   /**
    * This function is run when the robot is first started up and should be
@@ -51,12 +47,10 @@ public class Robot extends TimedRobot {
     // which commands extend), subsystems are not guaranteed to be
     // yet. Thus, their requires() statements may grab null pointers. Bad
     // news. Don't move it.
-    this.m_oi = new OI();
-    this.m_camera.cameraInit();
-    /* TODO: Initialize Dashboard */
+    m_oi = new OI();
 
-    this.m_manualWristControlCommand = new ManualWristControl();
-
+    m_camera.cameraInit();
+    Dashboard.init();
   }
 
   /**
@@ -69,9 +63,8 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotPeriodic() {
-    /* TODO: Get Pigeon values (if needed) */
+    /* TODO: Get Pigeon values (if any) */
     Dashboard.update();
-
   }
 
   /**
@@ -101,20 +94,6 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousInit() {
-    /* TODO: Move to Autonomous.java file (if any) */
-    //m_autonomousCommand = m_chooser.getSelected();
-
-    /*
-     * String autoSelected = SmartDashboard.getString("Auto Selector",
-     * "Default"); switch(autoSelected) { case "My Auto": autonomousCommand
-     * = new MyAutoCommand(); break; case "Default Auto": default:
-     * autonomousCommand = new ExampleCommand(); break; }
-     */
-
-    // schedule the autonomous command (example)
-    /*if (m_autonomousCommand != null) {
-      m_autonomousCommand.start();
-    }*/
   }
 
   /**
@@ -122,19 +101,12 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousPeriodic() {
-    /* TODO: Move to Autonomous.java file (if any) */
     Scheduler.getInstance().run();
-
-    /*if (Robot.m_wrist.getManualWristControl() && !this.m_manualWristControlCommand.isRunning()) {
-      this.m_manualWristControlCommand.start();
-    } else if (!Robot.m_wrist.getManualWristControl() && this.m_manualWristControlCommand.isRunning()) {
-      this.m_manualWristControlCommand.cancel();
-    }*/
+    this.manualWristControl();
   }
 
   @Override
   public void teleopInit() {
-    /* TODO: Move to Teleop.java file (if any) */
     // This makes sure that the autonomous stops running when
     // teleop starts running. If you want the autonomous to
     // continue until interrupted by another command, remove
@@ -152,14 +124,8 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void teleopPeriodic() {
-    /* TODO: Move to Teleop.java file (if any) */
     Scheduler.getInstance().run();
-
-    /*if (Robot.m_wrist.getManualWristControl() && !this.m_manualWristControlCommand.isRunning()) {
-      this.m_manualWristControlCommand.start();
-    } else if (!Robot.m_wrist.getManualWristControl() && this.m_manualWristControlCommand.isRunning()) {
-      this.m_manualWristControlCommand.cancel();
-    }*/
+    this.manualWristControl();
   }
 
   /**
@@ -167,5 +133,18 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void testPeriodic() {
+    Scheduler.getInstance().run();
+    this.manualWristControl();
+  }
+
+  public void manualWristControl() {
+    if (Robot.m_wrist.getManualWristControl() &&
+        !this.m_manualWristControlCommand.isRunning()) {
+      this.m_manualWristControlCommand.start();
+    } else if (!Robot.m_wrist.getManualWristControl() &&
+        this.m_manualWristControlCommand.isRunning() &&
+        this.m_manualWristControlCommand != null) {
+      this.m_manualWristControlCommand.cancel();
+    }
   }
 }
