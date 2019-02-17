@@ -7,26 +7,20 @@
 
 package frc.robot.subsystems;
 
-import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.cscore.UsbCamera;
 import edu.wpi.cscore.VideoSource;
 import edu.wpi.cscore.VideoSink;
+import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.command.Subsystem;
-
-import frc.robot.Robot;
 
 /**
  * Add your docs here.
  */
 public class USBCamera extends Subsystem {
-  // Put methods for controlling this subsystem
-  // here. Call these from Commands.
-
   private UsbCamera m_camera1;
   private UsbCamera m_camera2;
   private VideoSink m_server;
   private int activeCameraID;
-  
 
   public USBCamera() {
     m_camera1 = CameraServer.getInstance().startAutomaticCapture();
@@ -40,13 +34,16 @@ public class USBCamera extends Subsystem {
     m_camera2.setConnectionStrategy(VideoSource.ConnectionStrategy.kKeepOpen);
 
     m_server = CameraServer.getInstance().getServer();
+    this.setCamera(m_camera1);
+  }
 
-    this.setCamera(m_camera1); //initialize to camera 1
+  @Override
+  public void initDefaultCommand() {
   }
   
   public void cameraInit() {
     new Thread(()-> {
-      Robot.m_camera.setCamera(Robot.m_camera.getCamera(1));
+      this.setCamera(this.getCamera(1));
     }).start();
   }
 
@@ -55,7 +52,7 @@ public class USBCamera extends Subsystem {
   }
 
   public void setCamera(UsbCamera camera) {
-    m_server.setSource(camera);
+    this.m_server.setSource(camera);
     this.activeCameraID = getCameraID(camera);
   }
 
@@ -72,11 +69,11 @@ public class USBCamera extends Subsystem {
 
   public UsbCamera getCamera(int cameraNumber) {
     if (cameraNumber == 1)
-      return m_camera1;
+      return this.m_camera1;
     else if (cameraNumber == 2)
-      return m_camera2;
+      return this.m_camera2;
 
-    return m_camera1;
+    return this.m_camera1;
   }
   
   public int getActiveCameraID(){
@@ -84,16 +81,10 @@ public class USBCamera extends Subsystem {
   }
   
   public void toggleCameras() {
-    if(activeCameraID == 1){
-      setCamera(m_camera2);
-    }else{
-      setCamera(m_camera1);
+    if (activeCameraID == 1) {
+      this.setCamera(this.m_camera2);
+    } else {
+      this.setCamera(this.m_camera1);
     }
-  }
-
-  @Override
-  public void initDefaultCommand() {
-    // Set the default command for a subsystem here.
-    //setDefaultCommand(new MySpecialCommand());
   }
 }
