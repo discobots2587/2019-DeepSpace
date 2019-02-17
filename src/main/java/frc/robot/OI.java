@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.buttons.Trigger;
 
+import frc.robot.lib.AXISButton;
 import frc.robot.lib.DPADButton;
 import frc.robot.lib.FightStick;
 import frc.robot.lib.Xbox;
@@ -95,10 +96,10 @@ public class OI {
   private Button o_btn_LB = new JoystickButton(o_operatorOI, FightStick.BTN_LB);
 
   /* bottom buttons from left to right */
-  private Trigger o_axis_LT = new JoystickButton(o_operatorOI, FightStick.AXIS_LT);
+  private AXISButton o_btn_LT = new AXISButton(o_operatorOI, FightStick.AXIS_LT);
   private Button o_btn_A = new JoystickButton(o_operatorOI, FightStick.BTN_A);
   private Button o_btn_B = new JoystickButton(o_operatorOI, FightStick.BTN_B);
-  private Trigger o_axis_RT = new JoystickButton(o_operatorOI, FightStick.AXIS_RT);
+  private AXISButton o_btn_RT = new AXISButton(o_operatorOI, FightStick.AXIS_RT);
 
   /* dpad buttons */
   private Button o_dpad_up = new DPADButton(o_operatorOI, DPADButton.POV.UP);
@@ -107,61 +108,43 @@ public class OI {
   private Button o_dpad_left = new DPADButton(o_operatorOI, DPADButton.POV.LEFT);
 
   public OI() {
-    /* TODO: Determine if Dashboard.controllerChooser is needed */
-    /*
-    switch(Dashboard.controllerChooser.getSelected()) {
-      case XBOX:
-        this.d_driverOI = new Xbox(0, "Driver OI");
-        this.d_btn_RT = new AXISButton(d_driverOI, Gamepad.BTN_RT);
-        this.d_btn_LT = new AXISButton(d_driverOI, Gamepad.BTN_LT);
-        break;
-      case DUALSHOCK:
-        break;
-      default:
-        break;
-    }
-    */
-
     /* Map d_driverOI buttons/triggers to commands */
-    /* TODO: Add quick-turn to this.d_btn_LB (left 90 degres) and this.d_btn_RB (right 90 degrees) */
     this.d_btn_Y.whenPressed(new SetHighGear());
     this.d_btn_A.whenPressed(new SetLowGear());
-    this.d_btn_X.whenPressed(new SwitchDrivingDirection()); // left
-    this.d_btn_B.whenPressed(new DriveToggleRampingUsed()); // right /* TODO: Toggle break/coast mode for motor contollers */
+    this.d_btn_X.whenPressed(new SwitchDrivingDirection());
+    this.d_btn_B.whenPressed(new DriveToggleRampingUsed());
+    /* TODO: (OPTIONAL) Add quick-turn to this.d_btn_LB (left 90 degres) and this.d_btn_RB (right 90 degrees) */
+    /* TODO: (OPTIONAL) Toggle break/coast mode for motor contollers */
 
     /* Map o_operaterOI buttons/triggers to commands */
     /* Wrist-related Commands */
-    this.o_axis_LT.whenActive(new WristSetSpeed(-Constants.kMaxWristSpeed/2));
-    this.o_axis_LT.whenInactive(new WristSetSpeed(0));
-    this.o_btn_LB.whenPressed(new WristSetSpeed(-Constants.kMaxWristSpeed/2));
-    //this.o_btn_LB.whenPressed(new WristSetSpeed(Constants.kMaxWristSpeed));
+    /* - Simple Manual Wrist */
+    this.o_btn_LT.whenPressed(new WristSetSpeed(-Constants.kMaxWristSpeed)); // Move wrist down
+    this.o_btn_LT.whenReleased(new WristSetSpeed(0));
+    this.o_btn_LB.whenPressed(new WristSetSpeed(Constants.kMaxWristSpeed)); // Move wrist up
     this.o_btn_LB.whenReleased(new WristSetSpeed(0));
-    //this.o_axis_LT.whenActive(new PresetWristControl(Robot.m_wrist.previousPreset()));
-    //this.o_btn_LB.whenPressed(new PresetWristControl(Robot.m_wrist.nextPreset()));
-    //this.o_axis_LT.whenActive(new PresetWristControl(Robot.m_wrist.setDownPreset()));
-    //this.o_btn_LB.whenPressed(new PresetWristControl(Robot.m_wrist.setUpPreset()));  
+    /* - Smart Automated Wrist (MotionMagic) */
+    //this.o_btn_L3.whenPressed(new ToggleWristControl()); // Toggles between Manual and Preset modes
     //this.o_btn_share.whenPressed(new PresentWristControl(Robot.m_wrist.setCargoShipPreset()));
-    //this.o_btn_L3.whenPressed(new ToggleWristControl());
-    this.o_axis_RT.whenActive(new WristSetSpeed(-Constants.kMaxWristSpeed/2));
-    this.o_axis_RT.whenInactive(new WristSetSpeed(0));
-    this.o_btn_RB.whenPressed(new WristSetSpeed(Constants.kMaxWristSpeed));
-    this.o_btn_RB.whenReleased(new WristSetSpeed(0));
+    //this.o_btn_LB.whenPressed(new PresetWristControl(Robot.m_wrist.setUpPreset()));
+    //this.o_btn_LT.whenPressed(new PresetWristControl(Robot.m_wrist.setDownPreset()));
 
     /* Intake-related Commands */
     this.o_btn_options.whenPressed(new ToggleSmartIntake());
-    this.o_btn_A.whileHeld(new EjectCargo());
-    this.o_btn_A.whenReleased(new StopRollers());
     this.o_btn_X.whileHeld(new IntakeCargo());
     this.o_btn_X.whenReleased(new StopRollers());
+    this.o_btn_A.whileHeld(new EjectCargo());
+    this.o_btn_A.whenReleased(new StopRollers());
 
     /* Hatch-related Commands */
-    this.o_btn_B.whenPressed(new LaunchHatch());
     this.o_btn_Y.whenPressed(new ToggleBeak());
+    this.o_btn_B.whenPressed(new LaunchHatch());
 
     /* Elevator related commands */
-    //this.o_axis_RT.whenActive(new PresetElevatorControl(Robot.m_elevator.previousPreset()));
-    //this.o_btn_RB.whenPressed(new PresetElevatorControl(Robot.m_elevator.nextPreset()));
+    /* TODO: Uncomment below commands once Elevator subsystem is implemented */
     //this.o_btn_R3.whenPressed(new PresetElevatorControl(Robot.m_elevator.resetPreset()));
+    //this.o_btn_RB.whenPressed(new PresetElevatorControl(Robot.m_elevator.nextPreset()));
+    //this.o_btn_RT.whenActive(new PresetElevatorControl(Robot.m_elevator.previousPreset()));
   }
 
   /* Used by the DriveTrain subsystem for default command */
