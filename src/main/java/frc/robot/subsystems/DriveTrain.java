@@ -52,10 +52,12 @@ public class DriveTrain extends Subsystem {
     this.toggleDriveDirection(); // default to the Hatch side
 
     /* Configure master-slave for left and right motors */
+    this.m_leftMaster.setNeutralMode(NeutralMode.Brake);
     this.m_leftSlave.follow(this.m_leftMaster);
-    this.m_leftSlave.setNeutralMode(NeutralMode.Coast);
+    this.m_leftSlave.setNeutralMode(NeutralMode.Brake);
+    this.m_rightMaster.setNeutralMode(NeutralMode.Brake);
     this.m_rightSlave.follow(this.m_rightMaster);
-    this.m_rightSlave.setNeutralMode(NeutralMode.Coast);
+    this.m_rightSlave.setNeutralMode(NeutralMode.Brake);
 
     /* Setup control */
     this.m_leftMaster.configOpenloopRamp(0.4, 10);
