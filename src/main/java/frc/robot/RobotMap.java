@@ -28,6 +28,8 @@ public class RobotMap {
   public static int m_rightSlaveMotor  = 2;  // VictorSPX PDP 2
   // RESERVE PDP 9 for rollerMotor if moved to CAN
   public static int m_wristMotor       = 8;  // TalonSRX PDP 8
+  public static int m_liftMasterMotor  = 20; // TalonSRX PDP 0
+  public static int m_liftSlaveMotor   = 1;  // VictorSPX PDP 1
 
   /*
    * The PCM is capable of powering either 12V or 24V solenoids, but all

@@ -60,6 +60,9 @@ public class Constants {
 	//kMaxWristSpeed - maximum speed of the wrist
 	public static double kMaxWristSpeed = 0.80;
 
+	//kMaxWristSpeed - maximum speed of the wrist
+	public static double kMaxLiftSpeed = 0.40;
+
 	//kRollerCurrentThreshold - current output from PDP to roller motor when cargo is held (in amperes)
 	public static double kRollerCurrentThreshold = 20.0; // full stall is ~35.0 - no ball ~3.5 - initial possession ~14
 
