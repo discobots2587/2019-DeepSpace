@@ -122,6 +122,12 @@ public class DriveTrain extends Subsystem {
 
   public void setRampingUsed(boolean used) {
     this.rampingUsed = used;
+    this.resetLastInputs();
+  }
+
+  public void resetLastInputs() {
+    this.lastInputs[0] = 0;
+    this.lastInputs[1] = 1;
   }
 
   public double applySquaredRamping(double input) {
@@ -148,10 +154,6 @@ public class DriveTrain extends Subsystem {
     turn = applyDeadband(turn);
 
     if (this.rampingUsed) {
-      /* Save inputs after deadband is applied (if any) */
-      this.lastInputs[0] = throttle;
-      this.lastInputs[1] = turn;
-
       double[] rampedInput = applyLowPassRamping(new double[]{throttle, turn});
 
       throttle = rampedInput[0];
@@ -182,25 +184,37 @@ public class DriveTrain extends Subsystem {
     maxInput = Math.copySign(Math.max(Math.abs(throttle), Math.abs(turn)), throttle);
 
     if (throttle >= 0.0) {
-      if (turn >= 0.0) { // turn right
+      if (turn >= 0.0) { // robot turn right
         leftMotorOutput = maxInput; // posThrottle + posTurn can be >1.0
         rightMotorOutput = throttle - turn;
-      } else { // turn left
+      } else { // robot turn left
         leftMotorOutput = throttle + turn;
         rightMotorOutput = maxInput; // posThrottle - negTurn = posThrottle + posTurn can be >1.0
       }
-    } else {
-      if (turn >= 0.0) { // turn right
+    } else { // turn like a car does in reverse
+      if (turn >= 0.0) { // robot turn right
         leftMotorOutput = throttle + turn;
         rightMotorOutput = maxInput; // negThrottle - posTurn = negThrottle + negTurn can be <-1.0
-      } else { // turn left
+      } else { // robot turn left
         leftMotorOutput = maxInput; // negThrottle + negTurn can be <-1.0
         rightMotorOutput = throttle - turn;
       }
     }
 
+    /* Since we inverted the motor, we need to change what is left side and right side */
+    if (this.isHatchSide) {
+      double saveLeftMotorOutput = leftMotorOutput;
+      leftMotorOutput = rightMotorOutput;
+      rightMotorOutput = saveLeftMotorOutput;
+    }
+
     this.m_leftMaster.set(ControlMode.PercentOutput, leftMotorOutput);
     this.m_rightMaster.set(ControlMode.PercentOutput, rightMotorOutput);
+
+    if (this.rampingUsed) {
+      this.lastInputs[0] = throttle;
+      this.lastInputs[1] = turn;
+    }
   }
 
   public void tankDrive(double leftPower, double rightPower) {
@@ -208,23 +222,33 @@ public class DriveTrain extends Subsystem {
     rightPower = applyDeadband(rightPower);
 
     if (this.rampingUsed) {
-      /* Save inputs after deadband is applied (if any) */
-      lastInputs[0] = leftPower;
-      lastInputs[1] = rightPower;
-
       double[] rampedInput = applyLowPassRamping(new double[]{leftPower, rightPower});
 
       leftPower = rampedInput[0];
       rightPower = rampedInput[1];
     }
 
+    /* Since we inverted the motor, we need to change what is left side and right side */
+    if (this.isHatchSide) {
+      double saveLeftPower = leftPower;
+      leftPower = rightPower;
+      rightPower = saveLeftPower;
+    }
+
     this.m_leftMaster.set(ControlMode.PercentOutput, leftPower);
     this.m_rightMaster.set(ControlMode.PercentOutput, rightPower);
+
+    if (this.rampingUsed) {
+      this.lastInputs[0] = leftPower;
+      this.lastInputs[1] = rightPower;
+    }
   }
 
   public void stop() {
     this.m_leftMaster.set(ControlMode.PercentOutput, 0);
     this.m_rightMaster.set(ControlMode.PercentOutput, 0);
+
+    this.resetLastInputs();
   }
 
   /* Drive direction functions */
@@ -238,17 +262,19 @@ public class DriveTrain extends Subsystem {
     /* On either side, positive throttle makes the robot go "forward" */
     if (this.isHatchSide) {
       /* Invert only left side so Hatch side is front */
-      this.m_leftMaster.setInverted(true);
-      this.m_leftSlave.setInverted(true);
-      this.m_rightMaster.setInverted(false);
-      this.m_rightSlave.setInverted(false);
-    } else {
-      /* Invert only right side so Cargo side is front */
       this.m_leftMaster.setInverted(false);
       this.m_leftSlave.setInverted(false);
       this.m_rightMaster.setInverted(true);
       this.m_rightSlave.setInverted(true);
+    } else {
+      /* Invert only right side so Cargo side is front */
+      this.m_leftMaster.setInverted(true);
+      this.m_leftSlave.setInverted(true);
+      this.m_rightMaster.setInverted(false);
+      this.m_rightSlave.setInverted(false);
     }
+
+    this.resetLastInputs();
   }
 
   /* Shifting functions */
