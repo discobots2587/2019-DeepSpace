@@ -7,25 +7,17 @@
 
 package frc.robot.subsystems;
 
-import java.util.concurrent.TimeUnit;
-
-import javax.swing.SingleSelectionModel;
-
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Solenoid;
-import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 import frc.robot.RobotMap;
-import frc.robot.commands.ExtendBeak;
 import frc.robot.Robot;
 
 /**
  * Add your docs here.
  */
 public class Hatch extends Subsystem {
-  // Put methods for controlling this subsystem
-  // here. Call these from Commands.
 
   private Solenoid m_hatchSideBeak;
   private Solenoid m_hatchSideLauncher;
@@ -41,7 +33,7 @@ public class Hatch extends Subsystem {
 
   @Override
   public void initDefaultCommand() {
-    // Beak need to be in retracted position first before game.
+    /* Ideally, the beak should be extended by default since we are likely preloading with a hatch */
     //setDefaultCommand(new ExtendBeak());
   }
 
@@ -56,9 +48,9 @@ public class Hatch extends Subsystem {
 
   public void toggleSolenoid(Solenoid solenoid) {
     if (solenoid.get()) {
-        pneumaticsOff(solenoid);
+        this.pneumaticsOff(solenoid);
     } else {
-        pneumaticsOn(solenoid);
+        this.pneumaticsOn(solenoid);
     }
   }
 
@@ -73,56 +65,55 @@ public class Hatch extends Subsystem {
 
   public void toggleSolenoid(DoubleSolenoid solenoid) {
     if (solenoid.get().equals(DoubleSolenoid.Value.kForward)) {
-        pneumaticsRetract(solenoid);
+        this.pneumaticsRetract(solenoid);
     } else {
-        pneumaticsExtend(solenoid);
+        this.pneumaticsExtend(solenoid);
     }
   }
 
   /* Beak actions */
   public void toggleBeak() {
     if (Robot.m_drive.isFrontToHatch()){
-      toggleSolenoid(this.m_hatchSideBeak);
+      this.toggleSolenoid(this.m_hatchSideBeak);
     } else {
-      toggleSolenoid(this.m_cargoSideBeak);
+      this.toggleSolenoid(this.m_cargoSideBeak);
     }
   }
 
   public void extendBeak() {
     if (Robot.m_drive.isFrontToHatch()){
-      pneumaticsOn(this.m_hatchSideBeak);
+      this.pneumaticsOn(this.m_hatchSideBeak);
     } else {
-      pneumaticsOn(this.m_cargoSideBeak);
+      this.pneumaticsOn(this.m_cargoSideBeak);
     }
   }
 
   public void retractBeak() {
     if (Robot.m_drive.isFrontToHatch()){
-      pneumaticsOff(this.m_hatchSideBeak);
+      this.pneumaticsOff(this.m_hatchSideBeak);
     } else {
-      pneumaticsOff(this.m_cargoSideBeak);
+      this.pneumaticsOff(this.m_cargoSideBeak);
     }
   }
 
   /* Launcher actions */
   public void launchHatch() {
     if (Robot.m_drive.isFrontToHatch()){
-      pneumaticsOn(this.m_hatchSideLauncher);
+      this.pneumaticsOn(this.m_hatchSideLauncher);
     } else {
-      pneumaticsOn(this.m_cargoSideLauncher);
+      this.pneumaticsOn(this.m_cargoSideLauncher);
     }
   }
 
   public void disableLauncher() {
     if (Robot.m_drive.isFrontToHatch()){
-      pneumaticsOff(this.m_hatchSideLauncher);
+      this.pneumaticsOff(this.m_hatchSideLauncher);
     } else {
-      pneumaticsOff(this.m_cargoSideLauncher);
+      this.pneumaticsOff(this.m_cargoSideLauncher);
     }
   }
 
   public boolean isHatchLaunched() {
     return this.m_hatchSideLauncher.get();
   }
-
 }
