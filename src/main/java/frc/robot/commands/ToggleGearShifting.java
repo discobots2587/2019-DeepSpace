@@ -11,12 +11,14 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.Solenoid;
 
 import frc.robot.Robot;
-import frc.robot.subsystems.DriveTrain;
 
 public class ToggleGearShifting extends Command {
+  Solenoid shift;
+
   public ToggleGearShifting() {
     // Use requires() here to declare subsystem dependencies
-    // eg. requires(chassis);
+    requires(Robot.m_drive);
+    shift = Robot.m_drive.getShifter();
   }
 
   // Called just before this Command runs the first time
@@ -27,18 +29,13 @@ public class ToggleGearShifting extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    Solenoid shift = Robot.m_drive.getShifter();
-    if(shift.get()){
-      shift.set(true);
-    } else {
-      shift.set(false);
-    }
+    shift.set(!shift.get());
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return false;
+    return true;
   }
 
   // Called once after isFinished returns true
