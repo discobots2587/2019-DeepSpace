@@ -13,7 +13,7 @@ import frc.robot.Robot;
 
 public class IntakeCargo extends Command {
   public IntakeCargo() {
-    // DON'T setup subsystem dependency, we need to interrupt this command
+    requires(Robot.m_cargoIntake);
   }
 
   // Called just before this Command runs the first time
@@ -34,7 +34,7 @@ public class IntakeCargo extends Command {
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return Robot.m_cargoIntake.getSmartIntake() && Robot.m_cargoIntake.isHoldingCargo();
+    return !Robot.m_cargoIntake.getSmartIntake();
   }
 
   // Called once after isFinished returns true
@@ -46,5 +46,6 @@ public class IntakeCargo extends Command {
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
+    Robot.m_cargoIntake.stopRollers();
   }
 }
