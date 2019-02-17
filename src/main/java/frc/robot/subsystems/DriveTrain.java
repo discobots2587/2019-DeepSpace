@@ -36,7 +36,7 @@ public class DriveTrain extends Subsystem {
   private VictorSPX m_rightSlave;
 
   private boolean rampingUsed;
-  private boolean isReversed;
+  private boolean isHatchSide;
 
   private double[] lastInputs;
 
@@ -50,11 +50,8 @@ public class DriveTrain extends Subsystem {
     this.m_leftSlave = new VictorSPX(RobotMap.m_leftSlaveMotor);
     this.m_rightSlave = new VictorSPX(RobotMap.m_rightSlaveMotor);
 
-    /* Invert only Left side so Hatch side is front */
-    this.m_leftMaster.setInverted(false);
-    this.m_leftSlave.setInverted(false);
-    this.m_rightMaster.setInverted(true);
-    this.m_rightSlave.setInverted(true);
+    this.isHatchSide = false;
+    this.toggleDriveDirection(); // default to the hatch side
 
     /* Configure master-slave for left and right motors */
     this.m_leftSlave.follow(this.m_leftMaster);
@@ -100,7 +97,6 @@ public class DriveTrain extends Subsystem {
 
     m_ramping = new RampingController(new double[] {0.5, 0.75}, x -> 0.5*x, x -> x * x, Math::sqrt);
     this.rampingUsed = true;
-    this.isReversed = false; //defualt to the hatch side
 
     /* Initiliaze solenoid in on position */
     this.m_shifter = new Solenoid(RobotMap.m_shifter);
@@ -163,45 +159,76 @@ public class DriveTrain extends Subsystem {
   }
 
   public void arcadeDrive(double throttle, double turn) { //contrary to the documentation, but that is ok
-    double leftMotorSpeed;
-    double rightMotorSpeed;
-    //double deadzonedThrottle;
-    //double deadzonedTurn;
+    double leftMotorOutput;
+    double rightMotorOutput;
+    double maxInput;
 
-    //deadzonedThrottle = applyDeadzone(rawThrottle);
-    //deadzonedTurn = applyDeadzone(rawTurn);
+    /* TODO: Check if we need to uncomment the following code */
+    /*if (this.isHatchSide){
+      turn = -turn;
+    }*/
 
-    if (this.isReversed){
-      throttle = -throttle;
-    }
+    /*
+     * Arcade drive assuming we never hit the boundaries for the motor are as follows:
+     * - leftMotorOutput = throttle + turn;
+     * - rightMotorOutput = throttle - turn;
+     *
+     * Examples:
+     * 1) full throttle
+     * - leftMotorOutput = 1.0 + 0 = 1.0
+     * - rightMotorOutput = 1.0 - 0 = 1.0
+     *
+     * 2) full left with 50% throttle
+     * - leftMotorOutput = 0.5 + -1.0 = -0.5
+     * - rightMotorOutput = 0.5 - 1.0 = 1.5
+     *
+     * 3) full right with 100% throttle
+     * - leftMotorOutput = 1.0 + 1.0 = 2.0
+     * - rightMotorOutput = 1.0 - 1.0 = 0
+     *
+     * Since we have limits at [-1.0, 1.0], we need to handle this when we can possible be >1.0 or <1.0
+     * NOTE: We copy the sign for "throttle" b/c we check throttle sign check is done in the outer-most if-statements
+     */
+    maxInput = Math.copySign(Math.max(Math.abs(throttle), Math.abs(turn)), throttle);
 
-    if (throttle > 0.0) {
-      if (turn > 0.0) {
-        rightMotorSpeed = throttle - turn;
-        leftMotorSpeed = Math.max(throttle, turn);
-      } else {
-        rightMotorSpeed = Math.max(throttle, -turn);
-        leftMotorSpeed = throttle + turn;
+    if (throttle >= 0.0) {
+      if (turn >= 0.0) { // turn right
+        leftMotorOutput = maxInput; // posThrottle + posTurn can be >1.0
+        rightMotorOutput = throttle - turn;
+      } else { // turn left
+        leftMotorOutput = throttle + turn;
+        rightMotorOutput = maxInput; // posThrottle - negTurn = posThrottle + posTurn can be >1.0
       }
     } else {
-      if (turn > 0.0) {
-        leftMotorSpeed = -Math.max(-throttle, turn);
-        rightMotorSpeed = throttle + turn;
-      } else {
-        leftMotorSpeed = throttle - turn;
-        rightMotorSpeed = -Math.max(-throttle, -turn);
+      if (turn >= 0.0) { // turn right
+        leftMotorOutput = throttle + turn;
+        rightMotorOutput = maxInput; // negThrottle - posTurn = negThrottle + negTurn can be <-1.0
+      } else { // turn left
+        leftMotorOutput = maxInput; // negThrottle + negTurn can be <-1.0
+        rightMotorOutput = throttle - turn;
       }
     }
 
-    this.m_leftMaster.set(ControlMode.PercentOutput, leftMotorSpeed);
-    this.m_rightMaster.set(ControlMode.PercentOutput, rightMotorSpeed);
+    this.m_leftMaster.set(ControlMode.PercentOutput, leftMotorOutput);
+    this.m_rightMaster.set(ControlMode.PercentOutput, rightMotorOutput);
   }
 
   public void toggleDriveDirection(){
-    if (isReversed){
-      this.isReversed = false;
-    } else{
-      this.isReversed = true;
+    this.isHatchSide = !this.isHatchSide;
+
+    /* TODO: Verify that on either side, positive throttle makes the robot go "forward" */
+    if (this.isHatchSide) {
+      /* Invert only left side so Hatch side is front */
+      this.m_leftMaster.setInverted(true);
+      this.m_leftSlave.setInverted(true);
+      this.m_rightMaster.setInverted(false);
+      this.m_rightSlave.setInverted(false);
+    } else {
+      /* Invert only right side so Cargo side is front */
+      this.m_leftMaster.setInverted(false);
+      this.m_leftSlave.setInverted(false);
+      this.m_rightMaster.setInverted(true);
+      this.m_rightSlave.setInverted(true);
     }
   }
 
@@ -249,6 +276,6 @@ public class DriveTrain extends Subsystem {
   }
 
   public boolean isFrontToHatch(){
-    return !isReversed; //when isReversed is true, the front is the cargo side
+    return this.isHatchSide;
   }
 }
