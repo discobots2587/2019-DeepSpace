@@ -9,7 +9,6 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
-import edu.wpi.first.wpilibj.buttons.Trigger;
 
 import frc.robot.lib.AXISButton;
 import frc.robot.lib.DPADButton;
@@ -131,8 +130,8 @@ public class OI {
 
     /* Intake-related Commands */
     this.o_btn_options.whenPressed(new ToggleSmartIntake());
-    this.o_btn_X.whileHeld(new IntakeCargo());
-    this.o_btn_X.whenReleased(new StopRollers());
+    this.o_btn_X.whenPressed(new IntakeCargo()); // keep intaking rollers until another command interrupts
+    //this.o_btn_X.whenReleased(new StopRollers());
     this.o_btn_A.whileHeld(new EjectCargo());
     this.o_btn_A.whenReleased(new StopRollers());
 

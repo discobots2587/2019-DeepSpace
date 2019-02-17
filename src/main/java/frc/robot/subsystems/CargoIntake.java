@@ -15,6 +15,7 @@ import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.command.Subsystem;
+
 import frc.robot.Robot;
 import frc.robot.RobotMap;
 import frc.robot.util.Constants;
@@ -27,19 +28,14 @@ import frc.robot.util.Constants;
  * to detect when the arm is in the upright or down positions.
  */
 public class CargoIntake extends Subsystem {
-  // initializing Talon motor to spin intake
   //private TalonSRX m_roller;
   private Spark m_roller;
-
-  // initializing limit switch to detect when cargo is in place
-  // private DigitalInput m_rollerSwitch;
 
   // initializing IR sensor to detect when cargo is in place
   private AnalogInput m_rollerIR;
 
-  public boolean smartIntake = false;
-
-  private double m_rollerMotorSpeed;
+  private boolean smartIntake = true;
+  private double m_rollerMotorPercent;
 
   public CargoIntake() {
     //this.m_roller = new TalonSRX(RobotMap.m_rollerMotor);
@@ -62,59 +58,60 @@ public class CargoIntake extends Subsystem {
     //this.m_roller.enableCurrentLimit(true);
   }
 
+  @Override
+  public void initDefaultCommand() {
+  }
+
+  public boolean getSmartIntake() {
+    return this.smartIntake;
+  }
+
+  public void setSmartIntake(boolean smartIntake) {
+    this.smartIntake = smartIntake;
+  }
+
+  public double getRollerPercent() {
+    return this.m_rollerMotorPercent;
+  }
+
   public void spinRollersIn() {
     //m_roller.set(ControlMode.PercentOutput, Constants.kMaxRollerPercent);
-    this.m_rollerMotorSpeed = Constants.kMaxRollerPercent;
-    m_roller.set(Constants.kMaxRollerPercent);
+    this.m_rollerMotorPercent = Constants.kMaxRollerPercent;
+    this.m_roller.set(this.m_rollerMotorPercent);
   }
 
   public void spinRollersOut() {
     //m_roller.set(ControlMode.PercentOutput, -Constants.kMaxRollerPercent);
-    this.m_rollerMotorSpeed = -Constants.kMaxRollerPercent;
-    m_roller.set(-Constants.kMaxRollerPercent);
+    this.m_rollerMotorPercent = -Constants.kMaxRollerPercent;
+    this.m_roller.set(m_rollerMotorPercent);
+  }
+
+  public void spinRollersInWithSensor() {
+    if (this.isHoldingCargo()) {
+      this.limitRollersIn();
+    } else {
+      this.spinRollersIn();
+    }
   }
 
   public void stopRollers() {
     //m_roller.set(ControlMode.PercentOutput, 0);
-    this.m_rollerMotorSpeed = 0;
-    m_roller.set(0);
+    this.m_rollerMotorPercent = 0;
+    this.m_roller.set(this.m_rollerMotorPercent);
   }
 
-  public void holdCargo() {
-    m_roller.set(Constants.kRollerHoldPercent);
-  }
-
-  /* TODO: check when limit switches return true */
-  public void spinRollersInWithSensor() {
-    if (!isHoldingCargo()) {
-      spinRollersIn();
-    } else {
-      holdCargo();
-    }
-  }
-
-  public int getRollerIR() {
-    return m_rollerIR.getValue();
+  public void limitRollersIn() {
+    this.m_rollerMotorPercent = Constants.kRollerHoldPercent;
+    this.m_roller.set(this.m_rollerMotorPercent);
   }
 
   /* TODO: update threshold after calibration */
   public boolean isHoldingCargo() {
     return Robot.m_pdp.getCurrent(RobotMap.m_rollerMotor) > Constants.kRollerCurrentThreshold;
-    // return false;
-    //return m_rollerIR.getValue() < Constants.kRollerIRThreshold;
+    //return this.m_rollerIR.getValue() < Constants.kRollerIRThreshold;
   }
 
-  // public boolean getRollerLimitState() {
-  //   return m_rollerSwitch.get();
-  // }
-
-  public double getRollerSpeed() {
-    return this.m_rollerMotorSpeed;
-  }
-
-  @Override
-  public void initDefaultCommand() {
-    // Set the default command for a subsystem here.
-    // setDefaultCommand(new MySpecialCommand());
+  public int getRollerIR() {
+    return this.m_rollerIR.getValue();
   }
 }
