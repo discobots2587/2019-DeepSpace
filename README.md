@@ -7,7 +7,7 @@ All developers are expected to join the `#coding` and `#github` channels in the 
 
 The Discobots 2019 Coding team includes:
 * Mentors: @Peter Vu (lead), @nolanshah (part-time)
-* Contributors: @yunchao, @rmeno_12, @Alaric, Dane
+* Contributors: @yunchao, @rmeno_12, @Alaric, @Case Briscoe, Dane
 * Interested: @rykerg, Dean, @Dan Bizman, @Jonathan_T, @akkim3, @ekint, @Andrew Valdez
 
 PM the lead coding mentor directly on Slack if you have any questions or need direction for current/new tasks.
