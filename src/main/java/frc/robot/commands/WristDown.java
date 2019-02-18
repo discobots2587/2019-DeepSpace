@@ -13,7 +13,7 @@ import frc.robot.util.Constants;
 
 public class WristDown extends Command {
   double motorPowerPercent;
-  int minEncoderPosThreshold;
+  int maxEncoderPosThreshold; // Encoder values increase when wrist goes down
   int midEncoderPosThreshold;
 
   public WristDown() {
@@ -21,7 +21,7 @@ public class WristDown extends Command {
     requires(Robot.m_wrist);
 
     this.motorPowerPercent = Constants.kMaxWristSpeed;
-    this.minEncoderPosThreshold = Constants.kMinWristPosThreshold;
+    this.maxEncoderPosThreshold = Constants.kMaxWristPosThreshold;
     this.midEncoderPosThreshold = Constants.kMidWristPosThreshold;
   }
 
@@ -30,16 +30,16 @@ public class WristDown extends Command {
     requires(Robot.m_wrist);
 
     this.motorPowerPercent = motorPowerPercent;
-    this.minEncoderPosThreshold = Constants.kMinWristPosThreshold;
+    this.maxEncoderPosThreshold = Constants.kMaxWristPosThreshold;
     this.midEncoderPosThreshold = Constants.kMidWristPosThreshold;
   }
 
-  public WristDown(double motorPowerPercent, int minThreshold, int midThreshold) {
+  public WristDown(double motorPowerPercent, int maxThreshold, int midThreshold) {
     // Use requires() here to declare subsystem dependencies
     requires(Robot.m_wrist);
 
     this.motorPowerPercent = motorPowerPercent;
-    this.minEncoderPosThreshold = minThreshold;
+    this.maxEncoderPosThreshold = maxThreshold;
     this.midEncoderPosThreshold = midThreshold; 
   }
 
@@ -51,10 +51,10 @@ public class WristDown extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    if (Robot.m_wrist.getPos() < this.minEncoderPosThreshold) {
+    if (Robot.m_wrist.getPos() > this.maxEncoderPosThreshold) {
       Robot.m_wrist.stop();
-    } else if (Robot.m_wrist.getPos() < this.midEncoderPosThreshold){
-      Robot.m_wrist.setMotor(motorPowerPercent / 2);
+    } else if (Robot.m_wrist.getPos() > this.midEncoderPosThreshold){
+      Robot.m_wrist.setMotor(motorPowerPercent / 4);
     } else {
       Robot.m_wrist.setMotor(motorPowerPercent);
     }
