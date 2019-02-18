@@ -17,7 +17,6 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.robot.RobotMap;
-import frc.robot.commands.StopWrist;
 import frc.robot.util.Constants;
 import frc.robot.util.Preset;
 
@@ -76,7 +75,6 @@ public class Wrist extends Subsystem {
 
   @Override
   public void initDefaultCommand() {
-    setDefaultCommand(new StopWrist());
   }
 
   public void goTo(double pos) {
