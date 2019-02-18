@@ -4,7 +4,7 @@ package frc.robot.util;
 public class Constants {
 	
 	//kDeadband - driving ignores this value and lower for the controller inputs
-	public static double kDeadband = 0.00;
+	public static double kDeadband = 0.05;
 	
 	//kRampband - used only in auton, this is the most the drive motor can change by (2.0 or higher makes this negligible)
 	public static double kRampband = 0.05;
@@ -38,7 +38,7 @@ public class Constants {
 	public static double kIntakeSpeed = 0.75;
 
 	//kMaxRollerPercent - maximum percent speed for the rollers
-	public static double kMaxRollerPercent = 1.0; /* TODO: Rename accordinly for Spark */
+	public static double kMaxRollerPercent = 1.0;
 
 	//kWristDP, kWristKD, kWristKI - PID constants for Wrist subsystem
 	public static double kWristKP = 1.0;
@@ -60,15 +60,23 @@ public class Constants {
 	//kMaxWristSpeed - maximum speed of the wrist
 	public static double kMaxWristSpeed = 0.80;
 
+	//kMaxWristSpeed - maximum speed of the wrist
+	public static double kMaxLiftSpeed = 0.40;
+
 	//kRollerCurrentThreshold - current output from PDP to roller motor when cargo is held (in amperes)
-	public static double kRollerCurrentThreshold = 20.0; // full stall is ~35.0
+	public static double kRollerCurrentThreshold = 20.0; // full stall is ~35.0 - no ball ~3.5 - initial possession ~14
 
 	//kRollerHoldPercent - amount of power to send to roller motor to hold cargo
-	public static double kRollerHoldPercent = 0.1;
+	public static double kRollerHoldPercent = 0.02;
 
 	//kCargoEjectTime - the amount of time the rollers need to spin out to eject cargo (in seconds)
 	public static double kCargoEjectTime = 0.1;
 
 	//kCargoEjectSpinBackTime - the amount of time the rollers need to spin in to give cargo a boost (?) (in seconds)
-	public static double kCargoEjectSpinBackTime = 0.2;
+	public static double kCargoEjectSpinBackTime = 0.3;
+
+	//kWristPosThreshold - various encoder position thresholds to adjust wrist motor power
+	public static int kMinWristPosThreshold = -2800;
+	public static int kMidWristPosThreshold = -1400;
+	public static int kMaxWristPosThreshold = 0;
  }

@@ -118,9 +118,9 @@ public class OI {
     /* Map o_operaterOI buttons/triggers to commands */
     /* Wrist-related Commands */
     /* - Simple Manual Wrist */
-    this.o_btn_LT.whenPressed(new WristSetSpeed(-Constants.kMaxWristSpeed)); // Move wrist down
+    this.o_btn_LT.whileHeld(new WristDown(-Constants.kMaxWristSpeed, Constants.kMinWristPosThreshold));
     this.o_btn_LT.whenReleased(new WristSetSpeed(0));
-    this.o_btn_LB.whenPressed(new WristSetSpeed(Constants.kMaxWristSpeed)); // Move wrist up
+    this.o_btn_LB.whileHeld(new WristUp(Constants.kMaxWristSpeed, Constants.kMaxWristPosThreshold));
     this.o_btn_LB.whenReleased(new WristSetSpeed(0));
     /* - Smart Automated Wrist (MotionMagic) */
     //this.o_btn_L3.whenPressed(new ToggleWristControl()); // Toggles between Manual and Preset modes
@@ -130,8 +130,8 @@ public class OI {
 
     /* Intake-related Commands */
     this.o_btn_options.whenPressed(new ToggleSmartIntake());
-    this.o_btn_X.whenPressed(new IntakeCargo()); // keep intaking rollers until another command interrupts
-    //this.o_btn_X.whenReleased(new StopRollers());
+    this.o_btn_X.whileHeld(new IntakeCargo());
+    this.o_btn_X.whenReleased(new StopRollers());
     this.o_btn_A.whileHeld(new EjectCargo());
     this.o_btn_A.whenReleased(new StopRollers());
 
@@ -144,6 +144,11 @@ public class OI {
     //this.o_btn_R3.whenPressed(new PresetElevatorControl(Robot.m_elevator.resetPreset()));
     //this.o_btn_RB.whenPressed(new PresetElevatorControl(Robot.m_elevator.nextPreset()));
     //this.o_btn_RT.whenActive(new PresetElevatorControl(Robot.m_elevator.previousPreset()));
+    /* Simple elevator commands */
+    this.o_btn_RT.whenPressed(new LiftSetSpeed(-Constants.kMaxLiftSpeed/2)); // Move lift down
+    this.o_btn_RT.whenReleased(new LiftSetSpeed(0));
+    this.o_btn_RB.whenPressed(new LiftSetSpeed(Constants.kMaxLiftSpeed)); // Move lift up
+    this.o_btn_RB.whenReleased(new LiftSetSpeed(0));
   }
 
   /* Used by the DriveTrain subsystem for default command */

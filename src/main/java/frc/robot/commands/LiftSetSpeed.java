@@ -8,14 +8,22 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
-
 import frc.robot.Robot;
 
-public class IntakeCargo extends Command {
-  public IntakeCargo() {
-    requires(Robot.m_cargoIntake);
+public class LiftSetSpeed extends Command {
+  double speed;
+
+  public LiftSetSpeed() {
+    requires(Robot.m_lift);
+
+    this.speed = 0.0;
   }
 
+  public LiftSetSpeed(double speed) {
+    requires(Robot.m_lift);
+
+    this.speed = speed;
+  }
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
@@ -24,17 +32,13 @@ public class IntakeCargo extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    if (Robot.m_cargoIntake.getSmartIntake()) {
-      Robot.m_cargoIntake.spinRollersInWithSensor();
-    } else {
-      Robot.m_cargoIntake.spinRollersIn();
-    }
+    Robot.m_lift.setMotor(speed);
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return !Robot.m_cargoIntake.getSmartIntake();
+    return true;
   }
 
   // Called once after isFinished returns true
@@ -46,6 +50,5 @@ public class IntakeCargo extends Command {
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
-    Robot.m_cargoIntake.stopRollers();
   }
 }

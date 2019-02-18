@@ -23,6 +23,7 @@ public class EjectCargo extends Command {
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
+    this.timeCount = 0;
   }
 
   // Called repeatedly when this Command is scheduled to run
@@ -38,13 +39,14 @@ public class EjectCargo extends Command {
       this.timeCount += 0.02;
     } else {
       Robot.m_cargoIntake.spinRollersOut();
+      this.timeCount = 0;
     }
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return false;
+    return !Robot.m_cargoIntake.getSmartIntake();
   }
 
   // Called once after isFinished returns true

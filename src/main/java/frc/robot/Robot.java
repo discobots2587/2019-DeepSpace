@@ -32,6 +32,7 @@ public class Robot extends TimedRobot {
   public static Hatch m_hatch = new Hatch();
   public static CargoIntake m_cargoIntake = new CargoIntake();
   public static Wrist m_wrist = new Wrist();
+  public static Lift m_lift = new Lift();
   public static USBCamera m_camera = new USBCamera();
 
   Command m_manualWristControlCommand = new ManualWristControl();
