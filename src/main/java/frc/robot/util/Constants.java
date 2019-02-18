@@ -76,7 +76,7 @@ public class Constants {
 	public static double kCargoEjectSpinBackTime = 0.3;
 
 	//kWristPosThreshold - various encoder position thresholds to adjust wrist motor power
-	public static int kMinWristPosThreshold = -2800;
-	public static int kMidWristPosThreshold = -1400;
+	public static int kMinWristPosThreshold = 2800;
+	public static int kMidWristPosThreshold = 1400;
 	public static int kMaxWristPosThreshold = 0;
  }
