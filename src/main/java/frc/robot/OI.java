@@ -118,9 +118,13 @@ public class OI {
     /* Map o_operaterOI buttons/triggers to commands */
     /* Wrist-related Commands */
     /* - Simple Manual Wrist */
-    this.o_btn_LT.whileHeld(new WristDown(-Constants.kMaxWristSpeed, Constants.kMinWristPosThreshold));
+    this.o_btn_LT.whileHeld(new WristDown(-Constants.kMaxWristSpeed,
+                                          Constants.kMinWristPosThreshold,
+                                          Constants.kMidWristPosThreshold));
     this.o_btn_LT.whenReleased(new WristSetSpeed(0));
-    this.o_btn_LB.whileHeld(new WristUp(Constants.kMaxWristSpeed, Constants.kMaxWristPosThreshold));
+    this.o_btn_LB.whileHeld(new WristUp(Constants.kMaxWristSpeed,
+                                        Constants.kMaxWristPosThreshold,
+                                        Constants.kMidWristPosThreshold));
     this.o_btn_LB.whenReleased(new WristSetSpeed(0));
     /* - Smart Automated Wrist (MotionMagic) */
     //this.o_btn_L3.whenPressed(new ToggleWristControl()); // Toggles between Manual and Preset modes
