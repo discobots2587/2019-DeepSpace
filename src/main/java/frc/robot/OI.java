@@ -90,6 +90,10 @@ public class OI {
   private Button o_btn_Y = new JoystickButton(d_driverOI, Xbox.BTN_Y);
   private Button o_btn_back = new JoystickButton(d_driverOI, Xbox.BTN_BACK);
   private Button o_btn_start = new JoystickButton(d_driverOI, Xbox.BTN_START);
+  private AXISButton o_axisBtn_LT = new AXISButton(o_operatorOI, 2, Constants.kAxisButtonSensitivity);
+  private AXISButton o_axisBtn_RT = new AXISButton(o_operatorOI, 3, Constants.kAxisButtonSensitivity);
+
+
 
   public OI() {
     /* Map d_driverOI buttons/triggers to commands */
@@ -103,14 +107,14 @@ public class OI {
     /* Map o_operaterOI buttons/triggers to commands */
     /* Wrist-related Commands */
     /* - Simple Manual Wrist */
-    this.o_btn_LB.whileHeld(new WristDown(-Constants.kMaxWristSpeed,
+    this.o_axisBtn_LT.whileHeld(new WristDown(-Constants.kMaxWristSpeed,
                                           Constants.kMinWristPosThreshold,
                                           Constants.kMidWristPosThreshold));
-    this.o_btn_LB.whenReleased(new WristSetSpeed(0));
-    this.o_btn_RB.whileHeld(new WristUp(Constants.kMaxWristSpeed,
+    this.o_axisBtn_LT.whenReleased(new WristSetSpeed(0));
+    this.o_axisBtn_RT.whileHeld(new WristUp(Constants.kMaxWristSpeed,
                                         Constants.kMaxWristPosThreshold,
                                         Constants.kMidWristPosThreshold));
-    this.o_btn_RB.whenReleased(new WristSetSpeed(0));
+    this.o_axisBtn_RT.whenReleased(new WristSetSpeed(0));
     /* - Smart Automated Wrist (MotionMagic) */
     //this.o_btn_L3.whenPressed(new ToggleWristControl()); // Toggles between Manual and Preset modes
     //this.o_btn_share.whenPressed(new PresentWristControl(Robot.m_wrist.setCargoShipPreset()));
@@ -119,13 +123,13 @@ public class OI {
 
     /* Intake-related Commands */
     this.o_btn_back.whenPressed(new ToggleSmartIntake());
-    this.o_btn_X.whileHeld(new IntakeCargo());
-    this.o_btn_X.whenReleased(new StopRollers());
+    this.o_btn_Y.whileHeld(new IntakeCargo());
+    this.o_btn_Y.whenReleased(new StopRollers());
     this.o_btn_A.whileHeld(new EjectCargo());
     this.o_btn_A.whenReleased(new StopRollers());
 
     /* Hatch-related Commands */
-    this.o_btn_Y.whenPressed(new ToggleBeak());
+    this.o_btn_LB.whenPressed(new ToggleBeak());
     this.o_btn_B.whenPressed(new LaunchHatch());
 
     /* Elevator related commands */
