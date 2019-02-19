@@ -129,7 +129,7 @@ public class OI {
     this.o_btn_A.whenReleased(new StopRollers());
 
     /* Hatch-related Commands */
-    this.o_btn_LB.whenPressed(new ToggleBeak());
+    this.o_btn_X.whenPressed(new ToggleBeak());
     this.o_btn_B.whenPressed(new LaunchHatch());
 
     /* Elevator related commands */
@@ -138,10 +138,10 @@ public class OI {
     //this.o_btn_RB.whenPressed(new PresetElevatorControl(Robot.m_elevator.nextPreset()));
     //this.o_btn_RT.whenActive(new PresetElevatorControl(Robot.m_elevator.previousPreset()));
     /* Simple elevator commands */
-    //this.o_btn_RT.whenPressed(new LiftSetSpeed(-Constants.kMaxLiftSpeed/2)); // Move lift down
-    //this.o_btn_RT.whenReleased(new LiftSetSpeed(0));
-    //this.o_btn_RB.whenPressed(new LiftSetSpeed(Constants.kMaxLiftSpeed)); // Move lift up
-    //this.o_btn_RB.whenReleased(new LiftSetSpeed(0));
+    this.o_btn_LB.whenPressed(new LiftSetSpeed(-Constants.kMaxLiftSpeed/2)); // Move lift down
+    this.o_btn_LB.whenReleased(new LiftSetSpeed(0));
+    this.o_btn_RB.whenPressed(new LiftSetSpeed(Constants.kMaxLiftSpeed)); // Move lift up
+    this.o_btn_RB.whenReleased(new LiftSetSpeed(0));
   }
 
   /* Used by the DriveTrain subsystem for default command */
