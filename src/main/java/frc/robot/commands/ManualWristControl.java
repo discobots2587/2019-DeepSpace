@@ -9,8 +9,7 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
-import frc.robot.lib.FightStick;
-import frc.robot.lib.LogitechController;
+import frc.robot.lib.Xbox;
 
 public class ManualWristControl extends Command {
   private double pos;
@@ -29,8 +28,8 @@ public class ManualWristControl extends Command {
   /* TODO: possibly tune the conversation factor in deltaPos */
   @Override
   protected void execute() {
-    FightStick operatorOI = Robot.m_oi.getOperatorOI();
-    double deltaPos = operatorOI.getRY() * 100;
+    Xbox operatorOI = Robot.m_oi.getOperatorOI();
+    double deltaPos = operatorOI.getLY() * 10;
 
     if(Robot.m_wrist.atBottom() && deltaPos < 0) {
       pos += 0;
@@ -53,11 +52,13 @@ public class ManualWristControl extends Command {
   // Called once after isFinished returns true
   @Override
   protected void end() {
+    Robot.m_wrist.stop();
   }
 
   // Called when another command which requires one or more of the same
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
+    Robot.m_wrist.stop();
   }
 }
