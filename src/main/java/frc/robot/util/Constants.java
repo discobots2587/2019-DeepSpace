@@ -79,4 +79,7 @@ public class Constants {
 	public static int kMinWristPosThreshold = 2800;
 	public static int kMidWristPosThreshold = 1400;
 	public static int kMaxWristPosThreshold = 0;
+
+	//kAxisButtonSensitivity - when axis button input surpass this number, the input from the axis button will be likea normal button
+	public static double kAxisButtonSensitivity = 0.4;
  }
