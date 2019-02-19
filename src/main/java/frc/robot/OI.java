@@ -90,8 +90,8 @@ public class OI {
   private Button o_btn_Y = new JoystickButton(d_driverOI, Xbox.BTN_Y);
   private Button o_btn_back = new JoystickButton(d_driverOI, Xbox.BTN_BACK);
   private Button o_btn_start = new JoystickButton(d_driverOI, Xbox.BTN_START);
-  private AXISButton o_axisBtn_LT = new AXISButton(o_operatorOI, 2, Constants.kAxisButtonSensitivity);
-  private AXISButton o_axisBtn_RT = new AXISButton(o_operatorOI, 3, Constants.kAxisButtonSensitivity);
+  private AXISButton o_axisBtn_LT = new AXISButton(o_operatorOI, Xbox.AXIS_LT, Constants.kAxisButtonSensitivity);
+  private AXISButton o_axisBtn_RT = new AXISButton(o_operatorOI, Xbox.AXIS_RT, Constants.kAxisButtonSensitivity);
 
 
 
