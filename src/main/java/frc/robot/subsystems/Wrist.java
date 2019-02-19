@@ -35,8 +35,8 @@ public class Wrist extends Subsystem {
 
   /* TODO: add more presets as we need them */
   /* TODO: check/test/correct value of TOP preset */
-  private static final Preset BOTTOM = new Preset(0);
-  private static final Preset TOP = new Preset(5000);
+  private static final Preset BOTTOM = new Preset(Constants.kMaxWristPosThreshold);
+  private static final Preset TOP = new Preset(Constants.kMinWristPosThreshold);
   private static final Preset[] wristPresets = new Preset[] {BOTTOM, TOP};
   private int currentPreset = 0;
 
@@ -57,12 +57,12 @@ public class Wrist extends Subsystem {
     //m_wrist.configForwardLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyOpen, 0);
     //m_wrist.configReverseLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyOpen, 0);
     //m_wrist.overrideLimitSwitchesEnable(true);
-    //m_wrist.config_kP(0, Constants.kWristKP, 0);
-    //m_wrist.config_kD(0, Constants.kWristKD, 0);
-    //m_wrist.config_kI(0, Constants.kWristKI, 0);
+    m_wrist.config_kP(0, Constants.kWristKP, 0);
+    m_wrist.config_kD(0, Constants.kWristKD, 0);
+    m_wrist.config_kI(0, Constants.kWristKI, 0);
     m_wrist.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 0);
-    //m_wrist.configMotionCruiseVelocity(Constants.kWristCruiseVel, 0);
-    //m_wrist.configMotionAcceleration(Constants.kWristAcceleration, 0);
+    m_wrist.configMotionCruiseVelocity(Constants.kWristCruiseVel, 0);
+    m_wrist.configMotionAcceleration(Constants.kWristAcceleration, 0);
     m_wrist.configContinuousCurrentLimit(40, 0);
     m_wrist.configPeakCurrentLimit(60, 0);
     m_wrist.configPeakCurrentDuration(100, 0);
@@ -78,7 +78,7 @@ public class Wrist extends Subsystem {
   }
 
   public void goTo(double pos) {
-    //m_wrist.set(ControlMode.MotionMagic, pos);
+    m_wrist.set(ControlMode.MotionMagic, pos);
   }
 
   public void goTo(Preset preset) {
@@ -86,12 +86,12 @@ public class Wrist extends Subsystem {
   }
 
   public boolean atBottom() {
-    return false;
+    return this.getPos() > Constants.kMaxWristPosThreshold;
     //return m_wrist.getSensorCollection().isRevLimitSwitchClosed();
   }
 
   public boolean atTop() {
-    return false;
+    return this.getPos() < Constants.kMinWristPosThreshold;
     //return m_wrist.getSensorCollection().isFwdLimitSwitchClosed();
   }
 
@@ -115,12 +115,18 @@ public class Wrist extends Subsystem {
     m_wrist.set(ControlMode.PercentOutput, 0);
   }
 
-  /* TODO: check this is the right setting function */
   public void resetSensors() {
     m_wrist.getSensorCollection().setQuadraturePosition(0, 0);
   }
 
-  /* TODO: check this is the right getting function */
+  public void resetUpPosition() {
+    m_wrist.getSensorCollection().setQuadraturePosition(Constants.kMinWristPosThreshold, 0);
+  }
+
+  public void resetDownPosition() {
+    this.m_wrist.getSensorCollection().setQuadraturePosition(Constants.kMaxWristPosThreshold, 0);
+  }
+
   public double getPos() {
     return m_wrist.getSensorCollection().getQuadraturePosition();
   }

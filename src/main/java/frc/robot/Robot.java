@@ -139,12 +139,9 @@ public class Robot extends TimedRobot {
   }
 
   public void manualWristControl() {
-    if (Robot.m_wrist.getManualWristControl() &&
-        !this.m_manualWristControlCommand.isRunning()) {
+    if (Robot.m_wrist.getManualWristControl() && !this.m_manualWristControlCommand.isRunning()) {
       this.m_manualWristControlCommand.start();
-    } else if (!Robot.m_wrist.getManualWristControl() &&
-        this.m_manualWristControlCommand.isRunning() &&
-        this.m_manualWristControlCommand != null) {
+    } else if (!Robot.m_wrist.getManualWristControl() && this.m_manualWristControlCommand.isRunning()) {
       this.m_manualWristControlCommand.cancel();
     }
   }
