@@ -133,7 +133,15 @@ public class DriveTrain extends Subsystem {
   }
 
   public double applySquaredRamping(double input) {
-    return input * input;
+    double adjustedInput;
+
+    if (input < 0) {
+      adjustedInput = input * input * -1;
+    } else {
+      adjustedInput = input * input;
+    }
+
+    return adjustedInput;
   }
 
   public double[] applyLowPassRamping (double[] inputs){
@@ -158,8 +166,8 @@ public class DriveTrain extends Subsystem {
     if (this.rampingUsed) {
       double[] rampedInput = applyLowPassRamping(new double[]{throttle, turn});
 
-      throttle = rampedInput[0];
-      turn = rampedInput[1];
+      throttle = applySquaredRamping(rampedInput[0]);
+      turn = applySquaredRamping(rampedInput[1]);
     }
 
     /*
