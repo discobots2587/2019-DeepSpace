@@ -15,6 +15,7 @@ import edu.wpi.first.wpilibj.command.Scheduler;
 import frc.robot.commands.ManualWristControl;
 import frc.robot.subsystems.*;
 import frc.robot.util.Dashboard;
+import frc.robot.util.PressureSensor;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -26,6 +27,7 @@ import frc.robot.util.Dashboard;
 public class Robot extends TimedRobot {
   public static OI m_oi;
   public static PowerDistributionPanel m_pdp = new PowerDistributionPanel();
+  public static PressureSensor m_pressureSensor = new PressureSensor(RobotMap.m_pressure);
 
   /* Setup each subsystem */
   public static DriveTrain m_drive = new DriveTrain();
