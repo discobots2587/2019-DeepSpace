@@ -252,6 +252,13 @@ public class DriveTrain extends Subsystem {
     double angularPower;
     boolean overPower;
 
+    if (this.rampingUsed) {
+      double[] rampedInput = applyLowPassRamping(new double[]{throttle, turn});
+
+      throttle = rampedInput[0];
+      turn = rampedInput[1];
+    }
+
     if(quickTurn){
       if(Math.abs(throttle) < m_quickStopThreshold){
         m_quickStopAccumulator = (1 - m_quickStopAlpha) * m_quickStopAccumulator + m_quickStopAlpha * limit(turn) * 2;
@@ -295,6 +302,11 @@ public class DriveTrain extends Subsystem {
     if(maxMagnitude > 1.0){
       leftMotorOutput /= maxMagnitude;
       rightMotorOutput /= maxMagnitude;
+    }
+        
+    if (this.rampingUsed) {
+      this.lastInputs[0] = throttle;
+      this.lastInputs[1] = turn;
     }
   }
 
