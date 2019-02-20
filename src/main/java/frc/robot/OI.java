@@ -82,14 +82,14 @@ public class OI {
   private Button d_dpad_left = new DPADButton(d_driverOI, DPADButton.POV.LEFT);
 
   /* Operator OI */
-  private Button o_btn_RB = new JoystickButton(d_driverOI, Xbox.BTN_RB);
-  private Button o_btn_LB = new JoystickButton(d_driverOI, Xbox.BTN_LB);
-  private Button o_btn_A = new JoystickButton(d_driverOI, Xbox.BTN_A);
-  private Button o_btn_X = new JoystickButton(d_driverOI, Xbox.BTN_X);
-  private Button o_btn_B = new JoystickButton(d_driverOI, Xbox.BTN_B);
-  private Button o_btn_Y = new JoystickButton(d_driverOI, Xbox.BTN_Y);
-  private Button o_btn_back = new JoystickButton(d_driverOI, Xbox.BTN_BACK);
-  private Button o_btn_start = new JoystickButton(d_driverOI, Xbox.BTN_START);
+  private Button o_btn_RB = new JoystickButton(o_operatorOI, Xbox.BTN_RB);
+  private Button o_btn_LB = new JoystickButton(o_operatorOI, Xbox.BTN_LB);
+  private Button o_btn_A = new JoystickButton(o_operatorOI, Xbox.BTN_A);
+  private Button o_btn_X = new JoystickButton(o_operatorOI, Xbox.BTN_X);
+  private Button o_btn_B = new JoystickButton(o_operatorOI, Xbox.BTN_B);
+  private Button o_btn_Y = new JoystickButton(o_operatorOI, Xbox.BTN_Y);
+  private Button o_btn_back = new JoystickButton(o_operatorOI, Xbox.BTN_BACK);
+  private Button o_btn_start = new JoystickButton(o_operatorOI, Xbox.BTN_START);
   private AXISButton o_axisBtn_LT = new AXISButton(o_operatorOI, Xbox.AXIS_LT, Constants.kAxisButtonSensitivity);
   private AXISButton o_axisBtn_RT = new AXISButton(o_operatorOI, Xbox.AXIS_RT, Constants.kAxisButtonSensitivity);
 
