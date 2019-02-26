@@ -8,7 +8,10 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.hal.FRCNetComm.tInstances;
+import edu.wpi.first.hal.FRCNetComm.tResourceType;
 import edu.wpi.first.wpilibj.Solenoid;
+import edu.wpi.first.hal.HAL;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
@@ -31,6 +34,13 @@ public class DriveTrain extends Subsystem {
 
   private boolean rampingUsed;
   private double[] lastInputs;
+
+  public static final double kDefaultQuickStopThreshold = 0.2;
+  public static final double kDefaultQuickStopAlpha = 0.1;
+
+  private double m_quickStopThreshold = kDefaultQuickStopThreshold; 
+  private double m_quickStopAlpha = kDefaultQuickStopAlpha;
+  private double m_quickStopAccumulator;
 
   private boolean isHatchSide;
 
@@ -133,7 +143,15 @@ public class DriveTrain extends Subsystem {
   }
 
   public double applySquaredRamping(double input) {
-    return input * input;
+    double adjustedInput;
+
+    if (input < 0) {
+      adjustedInput = input * input * -1;
+    } else {
+      adjustedInput = input * input;
+    }
+
+    return adjustedInput;
   }
 
   public double[] applyLowPassRamping (double[] inputs){
@@ -158,8 +176,8 @@ public class DriveTrain extends Subsystem {
     if (this.rampingUsed) {
       double[] rampedInput = applyLowPassRamping(new double[]{throttle, turn});
 
-      throttle = rampedInput[0];
-      turn = rampedInput[1];
+      throttle = applySquaredRamping(rampedInput[0]);
+      turn = applySquaredRamping(rampedInput[1]);
     }
 
     /*
@@ -213,6 +231,87 @@ public class DriveTrain extends Subsystem {
     this.m_leftMaster.set(ControlMode.PercentOutput, leftMotorOutput);
     this.m_rightMaster.set(ControlMode.PercentOutput, rightMotorOutput);
 
+    if (this.rampingUsed) {
+      this.lastInputs[0] = throttle;
+      this.lastInputs[1] = turn;
+    }
+  }
+
+  /*
+   * Ensures input is no larger than MAX_VALUE and no smaller than MIN_VALUE
+   */
+  public double limit(double input) {
+    double limitInput = input; 
+
+    if (input > 1) {
+      limitInput = 1;
+    } else if (input < -1) {
+      limitInput = -1;
+    }
+
+    return limitInput;
+  }
+
+  public void curvatureDrive(double throttle, double turn, boolean quickTurn) {
+
+    throttle = applyDeadband(throttle);
+    turn = applyDeadband(turn);
+
+    double angularPower;
+    boolean overPower;
+
+    if (this.rampingUsed) {
+      double[] rampedInput = applyLowPassRamping(new double[]{throttle, turn});
+
+      throttle = rampedInput[0];
+      turn = rampedInput[1];
+    }
+
+    if(quickTurn){
+      if(Math.abs(throttle) < m_quickStopThreshold){
+        m_quickStopAccumulator = (1 - m_quickStopAlpha) * m_quickStopAccumulator + m_quickStopAlpha * limit(turn) * 2;
+      }
+      overPower = true;
+      angularPower = turn; 
+    } else { 
+      overPower = false; 
+      angularPower = Math.abs(throttle) * turn - m_quickStopAccumulator;
+
+      if(m_quickStopAccumulator > 1){
+        m_quickStopAccumulator -= 1;
+      } else if(m_quickStopAccumulator < -1){
+        m_quickStopAccumulator += 1;
+      } else {
+        m_quickStopAccumulator = 0.0;
+      }
+    }
+
+    double leftMotorOutput = throttle + turn; 
+    double rightMotorOutput = throttle - turn;
+
+    if(overPower){
+      if(leftMotorOutput > 1.0){
+        rightMotorOutput -= leftMotorOutput - 1.0;
+        leftMotorOutput = 1.0;
+      } else if(rightMotorOutput > 1.0) {
+        leftMotorOutput -= rightMotorOutput - 1.0;
+        rightMotorOutput = 1.0;
+      } else if(leftMotorOutput < -1.0) {
+          rightMotorOutput -= leftMotorOutput + 1.0;
+          leftMotorOutput = -1.0;
+      } else if(rightMotorOutput < -1.0) {
+        leftMotorOutput -= rightMotorOutput + 1.0;
+        rightMotorOutput = -1.0;
+      }
+    }
+
+    double maxMagnitude = Math.max(Math.abs(leftMotorOutput), Math.abs(rightMotorOutput));
+
+    if(maxMagnitude > 1.0){
+      leftMotorOutput /= maxMagnitude;
+      rightMotorOutput /= maxMagnitude;
+    }
+        
     if (this.rampingUsed) {
       this.lastInputs[0] = throttle;
       this.lastInputs[1] = turn;

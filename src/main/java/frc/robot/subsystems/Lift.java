@@ -39,7 +39,7 @@ public class Lift extends Subsystem {
     //m_bottomSwitch = new DigitalInput(RobotMap.m_liftMasterBottomLimit);
 
     /* Config wrist motor and pid */
-    m_liftMaster.setInverted(true);
+    m_liftMaster.setInverted(false);
     m_liftSlave.setInverted(true);
 
     /* Configure master-slave for lift motors */

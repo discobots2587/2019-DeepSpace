@@ -65,7 +65,7 @@ public class OI {
    *        starting with a lower case letter then camel case
    */
   private Xbox d_driverOI = new Xbox(1, "Driver OI");
-  private FightStick o_operatorOI = new FightStick(0, "Operator OI");
+  private Xbox o_operatorOI = new Xbox(0, "Operator OI");
 
   /* Driver OI */
   private Button d_btn_RB = new JoystickButton(d_driverOI, Xbox.BTN_RB);
@@ -82,29 +82,18 @@ public class OI {
   private Button d_dpad_left = new DPADButton(d_driverOI, DPADButton.POV.LEFT);
 
   /* Operator OI */
-  /* top buttons from left to right */
-  private Button o_btn_share = new JoystickButton(o_operatorOI, FightStick.BTN_SHARE);
-  private Button o_btn_options = new JoystickButton(o_operatorOI, FightStick.BTN_OPTIONS);
-  private Button o_btn_L3 = new JoystickButton(o_operatorOI, FightStick.BTN_L3);
-  private Button o_btn_R3 = new JoystickButton(o_operatorOI, FightStick.BTN_R3);
+  private Button o_btn_RB = new JoystickButton(o_operatorOI, Xbox.BTN_RB);
+  private Button o_btn_LB = new JoystickButton(o_operatorOI, Xbox.BTN_LB);
+  private Button o_btn_A = new JoystickButton(o_operatorOI, Xbox.BTN_A);
+  private Button o_btn_X = new JoystickButton(o_operatorOI, Xbox.BTN_X);
+  private Button o_btn_B = new JoystickButton(o_operatorOI, Xbox.BTN_B);
+  private Button o_btn_Y = new JoystickButton(o_operatorOI, Xbox.BTN_Y);
+  private Button o_btn_back = new JoystickButton(o_operatorOI, Xbox.BTN_BACK);
+  private Button o_btn_start = new JoystickButton(o_operatorOI, Xbox.BTN_START);
+  private AXISButton o_axisBtn_LT = new AXISButton(o_operatorOI, Xbox.AXIS_LT, Constants.kAxisButtonSensitivity);
+  private AXISButton o_axisBtn_RT = new AXISButton(o_operatorOI, Xbox.AXIS_RT, Constants.kAxisButtonSensitivity);
 
-  /* middle buttons from left to right */
-  private Button o_btn_RB = new JoystickButton(o_operatorOI, FightStick.BTN_RB);
-  private Button o_btn_X = new JoystickButton(o_operatorOI, FightStick.BTN_X);
-  private Button o_btn_Y = new JoystickButton(o_operatorOI, FightStick.BTN_Y);
-  private Button o_btn_LB = new JoystickButton(o_operatorOI, FightStick.BTN_LB);
 
-  /* bottom buttons from left to right */
-  private AXISButton o_btn_LT = new AXISButton(o_operatorOI, FightStick.AXIS_LT);
-  private Button o_btn_A = new JoystickButton(o_operatorOI, FightStick.BTN_A);
-  private Button o_btn_B = new JoystickButton(o_operatorOI, FightStick.BTN_B);
-  private AXISButton o_btn_RT = new AXISButton(o_operatorOI, FightStick.AXIS_RT);
-
-  /* dpad buttons */
-  private Button o_dpad_up = new DPADButton(o_operatorOI, DPADButton.POV.UP);
-  private Button o_dpad_down = new DPADButton(o_operatorOI, DPADButton.POV.DOWN);
-  private Button o_dpad_right = new DPADButton(o_operatorOI, DPADButton.POV.RIGHT);
-  private Button o_dpad_left = new DPADButton(o_operatorOI, DPADButton.POV.LEFT);
 
   public OI() {
     /* Map d_driverOI buttons/triggers to commands */
@@ -118,14 +107,14 @@ public class OI {
     /* Map o_operaterOI buttons/triggers to commands */
     /* Wrist-related Commands */
     /* - Simple Manual Wrist */
-    this.o_btn_LT.whileHeld(new WristDown(-Constants.kMaxWristSpeed,
+    this.o_axisBtn_LT.whileHeld(new WristDown(-Constants.kMaxWristSpeed,
                                           Constants.kMinWristPosThreshold,
                                           Constants.kMidWristPosThreshold));
-    this.o_btn_LT.whenReleased(new WristSetSpeed(0));
-    this.o_btn_LB.whileHeld(new WristUp(Constants.kMaxWristSpeed,
+    this.o_axisBtn_LT.whenReleased(new WristSetSpeed(0));
+    this.o_axisBtn_RT.whileHeld(new WristUp(Constants.kMaxWristSpeed,
                                         Constants.kMaxWristPosThreshold,
                                         Constants.kMidWristPosThreshold));
-    this.o_btn_LB.whenReleased(new WristSetSpeed(0));
+    this.o_axisBtn_RT.whenReleased(new WristSetSpeed(0));
     /* - Smart Automated Wrist (MotionMagic) */
     //this.o_btn_L3.whenPressed(new ToggleWristControl()); // Toggles between Manual and Preset modes
     //this.o_btn_share.whenPressed(new PresentWristControl(Robot.m_wrist.setCargoShipPreset()));
@@ -133,14 +122,14 @@ public class OI {
     //this.o_btn_LT.whenPressed(new PresetWristControl(Robot.m_wrist.setDownPreset()));
 
     /* Intake-related Commands */
-    this.o_btn_options.whenPressed(new ToggleSmartIntake());
-    this.o_btn_X.whileHeld(new IntakeCargo());
-    this.o_btn_X.whenReleased(new StopRollers());
+    this.o_btn_back.whenPressed(new ToggleSmartIntake());
+    this.o_btn_Y.whileHeld(new IntakeCargo());
+    this.o_btn_Y.whenReleased(new StopRollers());
     this.o_btn_A.whileHeld(new EjectCargo());
     this.o_btn_A.whenReleased(new StopRollers());
 
     /* Hatch-related Commands */
-    this.o_btn_Y.whenPressed(new ToggleBeak());
+    this.o_btn_X.whenPressed(new ToggleBeak());
     this.o_btn_B.whenPressed(new LaunchHatch());
 
     /* Elevator related commands */
@@ -149,8 +138,8 @@ public class OI {
     //this.o_btn_RB.whenPressed(new PresetElevatorControl(Robot.m_elevator.nextPreset()));
     //this.o_btn_RT.whenActive(new PresetElevatorControl(Robot.m_elevator.previousPreset()));
     /* Simple elevator commands */
-    this.o_btn_RT.whenPressed(new LiftSetSpeed(-Constants.kMaxLiftSpeed/2)); // Move lift down
-    this.o_btn_RT.whenReleased(new LiftSetSpeed(0));
+    this.o_btn_LB.whenPressed(new LiftSetSpeed(-Constants.kMaxLiftSpeed/2)); // Move lift down
+    this.o_btn_LB.whenReleased(new LiftSetSpeed(0));
     this.o_btn_RB.whenPressed(new LiftSetSpeed(Constants.kMaxLiftSpeed)); // Move lift up
     this.o_btn_RB.whenReleased(new LiftSetSpeed(0));
   }
@@ -160,7 +149,7 @@ public class OI {
     return this.d_driverOI;
   }
 
-  public FightStick getOperatorOI() {
+  public Xbox getOperatorOI() {
     return this.o_operatorOI;
   }
 }
