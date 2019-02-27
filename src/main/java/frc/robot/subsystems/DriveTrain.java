@@ -28,8 +28,8 @@ import frc.robot.commands.ArcadeDrive;
 public class DriveTrain extends Subsystem {
   private TalonSRX m_leftMaster;
   private TalonSRX m_rightMaster;
-  private VictorSPX m_leftSlave;
-  private VictorSPX m_rightSlave;
+  private TalonSRX m_leftSlave;
+  private TalonSRX m_rightSlave;
   private Solenoid m_shifter;
 
   private boolean rampingUsed;
@@ -47,8 +47,8 @@ public class DriveTrain extends Subsystem {
   public DriveTrain() {
     this.m_leftMaster = new TalonSRX(RobotMap.m_leftMasterMotor);
     this.m_rightMaster = new TalonSRX(RobotMap.m_rightMasterMotor);
-    this.m_leftSlave = new VictorSPX(RobotMap.m_leftSlaveMotor);
-    this.m_rightSlave = new VictorSPX(RobotMap.m_rightSlaveMotor);
+    this.m_leftSlave = new TalonSRX(RobotMap.m_leftSlaveMotor);
+    this.m_rightSlave = new TalonSRX(RobotMap.m_rightSlaveMotor);
 
     this.m_shifter = new Solenoid(RobotMap.m_shifter);
     this.setLowGear();
