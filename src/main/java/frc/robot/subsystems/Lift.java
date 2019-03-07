@@ -31,6 +31,13 @@ public class Lift extends Subsystem {
   private boolean manualWristControl;
   private double m_motorSpeed;
 
+  /* TODO: add more presets as we need them */
+  /* TODO: check/test/correct value of TOP preset */
+  private static final Preset BOTTOM = new Preset(0);
+  private static final Preset TOP = new Preset(5000);
+  private static final Preset[] liftPresets = new Preset[] {BOTTOM, TOP};
+  private int currentPreset = 0;
+
   public Lift() {
     m_liftMaster = new TalonSRX(RobotMap.m_liftMasterMotor);
     m_liftSlave = new VictorSPX(RobotMap.m_liftSlaveMotor);
