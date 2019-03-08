@@ -79,6 +79,14 @@ public class Lift extends Subsystem {
   public void initDefaultCommand() {
   }
 
+  public void goTo(double pos) {
+    m_liftMaster.set(ControlMode.MotionMagic, pos);
+  }
+
+  public void goTo(Preset preset) {
+    m_liftMaster.set(ControlMode.MotionMagic, preset.getPos());
+  }
+
   public void setMotor(double value) {
     if (value > Constants.kMaxLiftSpeed) {
       value = Constants.kMaxLiftSpeed;
