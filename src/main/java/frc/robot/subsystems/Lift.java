@@ -89,6 +89,24 @@ public class Lift extends Subsystem {
     m_liftMaster.set(ControlMode.MotionMagic, preset.getPos());
   }
 
+  public Preset nextPreset() {
+    if (currentPreset == liftPresets.length - 1) {
+      return liftPresets[currentPreset];
+    } else {
+      currentPreset += 1;
+      return liftPresets[currentPreset];
+    }
+  }
+
+  public Preset previousPreset() {
+    if (currentPreset == 0) {
+      return liftPresets[currentPreset];
+    } else {
+      currentPreset -= 1;
+      return liftPresets[currentPreset];
+    }
+  }
+
   public void setMotor(double value) {
     if (value > Constants.kMaxLiftSpeed) {
       value = Constants.kMaxLiftSpeed;
