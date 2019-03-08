@@ -31,6 +31,8 @@ public class Lift extends Subsystem {
   private boolean manualWristControl;
   private double m_motorSpeed;
 
+  public int posThreshold = 25;
+
   /* TODO: add more presets as we need them */
   /* TODO: check/test/correct value of TOP preset */
   private static final Preset BOTTOM = new Preset(0);
@@ -121,5 +123,15 @@ public class Lift extends Subsystem {
   }
   public void toggleWristControl() {
     this.manualWristControl = !this.manualWristControl;
+  }
+
+  public boolean atBottom() {
+    return false;
+    // return Math.abs(m_liftMaster.getSensorCollection().getQuadraturePosition() - BOTTOM.getPos()) <= posThreshold; 
+  }
+
+  public boolean atTop() {
+    return false;
+    // return Math.abs(m_liftMaster.getSensorCollection().getQuadraturePosition() - TOP.getPos()) <= posThreshold; 
   }
 }
