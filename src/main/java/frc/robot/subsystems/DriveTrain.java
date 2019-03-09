@@ -143,15 +143,7 @@ public class DriveTrain extends Subsystem {
   }
 
   public double applySquaredRamping(double input) {
-    double adjustedInput;
-
-    if (input < 0) {
-      adjustedInput = input * input * -1;
-    } else {
-      adjustedInput = input * input;
-    }
-
-    return adjustedInput;
+    return input * Math.abs(input);
   }
 
   public double[] applyLowPassRamping (double[] inputs){
