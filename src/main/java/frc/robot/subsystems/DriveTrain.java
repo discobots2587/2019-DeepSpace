@@ -166,10 +166,10 @@ public class DriveTrain extends Subsystem {
     turn = applyDeadband(turn);
 
     if (this.rampingUsed) {
-      double[] rampedInput = applyLowPassRamping(new double[]{throttle, turn});
+      double[] rampedInput = new double[]{throttle, turn};
 
       throttle = applySquaredRamping(rampedInput[0]);
-      turn = applySquaredRamping(rampedInput[1]);
+      turn = Constants.kRampingAdjust * applySquaredRamping(rampedInput[1]);
     }
 
     /*
@@ -381,5 +381,14 @@ public class DriveTrain extends Subsystem {
 
   public void setLowGear() { 
     this.m_shifter.set(false);
+  }
+
+  public String getSide(){
+    if (this.isHatchSide){
+      return "Hatch Side";
+    }
+    else {
+      return "Cargo Side";
+    }
   }
 }

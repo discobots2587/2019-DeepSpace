@@ -2,9 +2,12 @@ package frc.robot.util;
 
 //Constants - useful numbers put into a place that makes them easy to change (no magic numbers!)
 public class Constants {
+
+	//kRampingAdjust - multiply ramped value by this constant
+	public static double kRampingAdjust = 0.7;
 	
 	//kDeadband - driving ignores this value and lower for the controller inputs
-	public static double kDeadband = 0.05;
+	public static double kDeadband = 0.03;
 	
 	//kRampband - used only in auton, this is the most the drive motor can change by (2.0 or higher makes this negligible)
 	public static double kRampband = 0.05;
