@@ -45,5 +45,6 @@ public class Dashboard {
 		SmartDashboard.putNumber("Wrist Encoder Position", Robot.m_wrist.getPos());
 		SmartDashboard.putNumber("Wrist Motor Power", Robot.m_wrist.getMotorSpeed());
 		SmartDashboard.putNumber("Pneumatics PSI",Robot.m_pressureSensor.getPSI());
+		SmartDashboard.putString("Front side:",Robot.m_drive.getSide());
 	}
 }
