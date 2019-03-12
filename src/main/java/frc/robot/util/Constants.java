@@ -64,7 +64,7 @@ public class Constants {
 	public static double kMaxWristSpeed = 0.90;
 
 	//kMaxWristSpeed - maximum speed of the wrist
-	public static double kMaxLiftSpeed = 0.30;
+	public static double kMaxLiftSpeed = 0.50;
 
 	//kLiftHoldSpeed - speed to hold lift in place
 	public static double kLiftHoldSpeed = 0.10;
