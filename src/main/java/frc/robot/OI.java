@@ -139,9 +139,9 @@ public class OI {
     //this.o_btn_RT.whenActive(new PresetElevatorControl(Robot.m_elevator.previousPreset()));
     /* Simple elevator commands */
     this.o_btn_LB.whenPressed(new LiftSetSpeed(-Constants.kMaxLiftSpeed/2)); // Move lift down
-    this.o_btn_LB.whenReleased(new LiftSetSpeed(0));
+    this.o_btn_LB.whenReleased(new LiftSetSpeed(Constants.kLiftHoldSpeed));
     this.o_btn_RB.whenPressed(new LiftSetSpeed(Constants.kMaxLiftSpeed)); // Move lift up
-    this.o_btn_RB.whenReleased(new LiftSetSpeed(0));
+    this.o_btn_RB.whenReleased(new LiftSetSpeed(Constants.kLiftHoldSpeed));
   }
 
   /* Used by the DriveTrain subsystem for default command */
