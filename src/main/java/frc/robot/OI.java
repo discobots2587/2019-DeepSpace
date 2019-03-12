@@ -92,6 +92,10 @@ public class OI {
   private Button o_btn_start = new JoystickButton(o_operatorOI, Xbox.BTN_START);
   private AXISButton o_axisBtn_LT = new AXISButton(o_operatorOI, Xbox.AXIS_LT, Constants.kAxisButtonSensitivity);
   private AXISButton o_axisBtn_RT = new AXISButton(o_operatorOI, Xbox.AXIS_RT, Constants.kAxisButtonSensitivity);
+  private Button o_dpad_up = new DPADButton(o_operatorOI, DPADButton.POV.UP);
+  private Button o_dpad_down = new DPADButton(o_operatorOI, DPADButton.POV.DOWN);
+  private Button o_dpad_right = new DPADButton(o_operatorOI, DPADButton.POV.RIGHT);
+  private Button o_dpad_left = new DPADButton(o_operatorOI, DPADButton.POV.LEFT);
 
 
 
@@ -138,10 +142,10 @@ public class OI {
     //this.o_btn_RB.whenPressed(new PresetElevatorControl(Robot.m_elevator.nextPreset()));
     //this.o_btn_RT.whenActive(new PresetElevatorControl(Robot.m_elevator.previousPreset()));
     /* Simple elevator commands */
-    this.o_btn_LB.whenPressed(new LiftSetSpeed(-Constants.kMaxLiftSpeed/2)); // Move lift down
-    this.o_btn_LB.whenReleased(new LiftSetSpeed(Constants.kLiftHoldSpeed));
-    this.o_btn_RB.whenPressed(new LiftSetSpeed(Constants.kMaxLiftSpeed)); // Move lift up
-    this.o_btn_RB.whenReleased(new LiftSetSpeed(Constants.kLiftHoldSpeed));
+    this.o_dpad_down.whenPressed(new LiftSetSpeed(-Constants.kMaxLiftSpeed/2)); // Move lift down
+    this.o_dpad_down.whenReleased(new LiftSetSpeed(Constants.kLiftHoldSpeed));
+    this.o_dpad_up.whenPressed(new LiftSetSpeed(Constants.kMaxLiftSpeed)); // Move lift up
+    this.o_dpad_up.whenReleased(new LiftSetSpeed(Constants.kLiftHoldSpeed));
   }
 
   /* Used by the DriveTrain subsystem for default command */
