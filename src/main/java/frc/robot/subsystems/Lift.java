@@ -31,6 +31,15 @@ public class Lift extends Subsystem {
   private boolean manualWristControl;
   private double m_motorSpeed;
 
+  public int posThreshold = 25;
+
+  /* TODO: add more presets as we need them */
+  /* TODO: check/test/correct value of TOP preset */
+  private static final Preset BOTTOM = new Preset(0);
+  private static final Preset TOP = new Preset(5000);
+  private static final Preset[] liftPresets = new Preset[] {BOTTOM, TOP};
+  private int currentPreset = 0;
+
   public Lift() {
     m_liftMaster = new TalonSRX(RobotMap.m_liftMasterMotor);
     m_liftSlave = new VictorSPX(RobotMap.m_liftSlaveMotor);
@@ -72,6 +81,32 @@ public class Lift extends Subsystem {
   public void initDefaultCommand() {
   }
 
+  public void goTo(double pos) {
+    m_liftMaster.set(ControlMode.MotionMagic, pos);
+  }
+
+  public void goTo(Preset preset) {
+    m_liftMaster.set(ControlMode.MotionMagic, preset.getPos());
+  }
+
+  public Preset nextPreset() {
+    if (currentPreset == liftPresets.length - 1) {
+      return liftPresets[currentPreset];
+    } else {
+      currentPreset += 1;
+      return liftPresets[currentPreset];
+    }
+  }
+
+  public Preset previousPreset() {
+    if (currentPreset == 0) {
+      return liftPresets[currentPreset];
+    } else {
+      currentPreset -= 1;
+      return liftPresets[currentPreset];
+    }
+  }
+
   public void setMotor(double value) {
     if (value > Constants.kMaxLiftSpeed) {
       value = Constants.kMaxLiftSpeed;
@@ -106,5 +141,15 @@ public class Lift extends Subsystem {
   }
   public void toggleWristControl() {
     this.manualWristControl = !this.manualWristControl;
+  }
+
+  public boolean atBottom() {
+    return false;
+    // return Math.abs(m_liftMaster.getSensorCollection().getQuadraturePosition() - BOTTOM.getPos()) <= posThreshold; 
+  }
+
+  public boolean atTop() {
+    return false;
+    // return Math.abs(m_liftMaster.getSensorCollection().getQuadraturePosition() - TOP.getPos()) <= posThreshold; 
   }
 }
