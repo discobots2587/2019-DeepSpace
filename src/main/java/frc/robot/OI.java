@@ -114,11 +114,11 @@ public class OI {
     this.o_axisBtn_LT.whileHeld(new WristDown(-Constants.kMaxWristSpeed,
                                           Constants.kMinWristPosThreshold,
                                           Constants.kMidWristPosThreshold));
-    this.o_axisBtn_LT.whenReleased(new WristSetSpeed(0));
-    this.o_axisBtn_RT.whileHeld(new WristUp(Constants.kMaxWristSpeed,
+    this.o_axisBtn_LT.whenReleased(new WristSetSpeed(Constants.kRollerHoldPercent));
+    this.o_btn_LB.whenPressed(new WristUp(Constants.kMaxWristSpeed,
                                         Constants.kMaxWristPosThreshold,
                                         Constants.kMidWristPosThreshold));
-    this.o_axisBtn_RT.whenReleased(new WristSetSpeed(0));
+    this.o_btn_LB.whenReleased(new WristSetSpeed(0));
     /* - Smart Automated Wrist (MotionMagic) */
     //this.o_btn_L3.whenPressed(new ToggleWristControl()); // Toggles between Manual and Preset modes
     //this.o_btn_share.whenPressed(new PresentWristControl(Robot.m_wrist.setCargoShipPreset()));
