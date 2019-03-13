@@ -51,9 +51,9 @@ public class WristDown extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    if (Robot.m_wrist.getPos() > this.maxEncoderPosThreshold) {
+    if (/*Robot.m_wrist.getPos() > this.maxEncoderPosThreshold*/ false) {
       Robot.m_wrist.stop();
-    } else if (Robot.m_wrist.getPos() > this.midEncoderPosThreshold){
+    } else if (/*Robot.m_wrist.getPos() > this.midEncoderPosThreshold*/ false){
       Robot.m_wrist.setMotor(motorPowerPercent / 4);
     } else {
       Robot.m_wrist.setMotor(motorPowerPercent);

@@ -28,8 +28,8 @@ import frc.robot.util.Constants;
  * to detect when the arm is in the upright or down positions.
  */
 public class CargoIntake extends Subsystem {
-  //private TalonSRX m_roller;
-  private Spark m_roller;
+  private TalonSRX m_roller;
+  //private Spark m_roller;
 
   // initializing IR sensor to detect when cargo is in place
   private AnalogInput m_rollerIR;
@@ -38,8 +38,8 @@ public class CargoIntake extends Subsystem {
   private double m_rollerMotorPercent;
 
   public CargoIntake() {
-    //this.m_roller = new TalonSRX(RobotMap.m_rollerMotor);
-    this.m_roller = new Spark(RobotMap.m_rollerMotor);
+    this.m_roller = new TalonSRX(RobotMap.m_rollerMotor);
+    //this.m_roller = new Spark(RobotMap.m_rollerMotor);
     
     // this.m_rollerSwitch = new DigitalInput(RobotMap.m_cargoRollerLimit);
     /* TODO: check if we want to set up averaging */
@@ -75,15 +75,15 @@ public class CargoIntake extends Subsystem {
   }
 
   public void spinRollersIn() {
-    //m_roller.set(ControlMode.PercentOutput, Constants.kMaxRollerPercent);
-    this.m_rollerMotorPercent = Constants.kMaxRollerPercent;
-    this.m_roller.set(this.m_rollerMotorPercent);
+    m_roller.set(ControlMode.PercentOutput, -Constants.kMaxRollerPercent);
+    //this.m_rollerMotorPercent = Constants.kMaxRollerPercent;
+    //this.m_roller.set(ControlMode.PercentOutput, m_rollerMotorPercent);
   }
 
   public void spinRollersOut() {
-    //m_roller.set(ControlMode.PercentOutput, -Constants.kMaxRollerPercent);
-    this.m_rollerMotorPercent = -Constants.kMaxRollerPercent;
-    this.m_roller.set(m_rollerMotorPercent);
+    m_roller.set(ControlMode.PercentOutput, Constants.kMaxRollerPercent);
+    //this.m_rollerMotorPercent = -Constants.kMaxRollerPercent;
+    //this.m_roller.set(ControlMode.PercentOutput, m_rollerMotorPercent);
   }
 
   public void spinRollersInWithSensor() {
@@ -95,14 +95,14 @@ public class CargoIntake extends Subsystem {
   }
 
   public void stopRollers() {
-    //m_roller.set(ControlMode.PercentOutput, 0);
-    this.m_rollerMotorPercent = 0;
-    this.m_roller.set(this.m_rollerMotorPercent);
+    m_roller.set(ControlMode.PercentOutput, 0);
+    //this.m_rollerMotorPercent = 0;
+    //this.m_roller.set(ControlMode.PercentOutput, this.m_rollerMotorPercent);
   }
 
   public void limitRollersIn() {
     this.m_rollerMotorPercent = Constants.kRollerHoldPercent;
-    this.m_roller.set(this.m_rollerMotorPercent);
+    this.m_roller.set(ControlMode.PercentOutput, this.m_rollerMotorPercent);
   }
 
   /* TODO: update threshold after calibration */

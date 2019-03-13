@@ -167,8 +167,8 @@ public class DriveTrain extends Subsystem {
 
     if (this.rampingUsed) {
       double[] rampedInput = new double[]{throttle, turn};
-
-      throttle = applySquaredRamping(rampedInput[0]);
+      double[] lowpassRampedInput = applyLowPassRamping(rampedInput);
+      throttle = lowpassRampedInput[0];
       turn = Constants.kRampingAdjust * applySquaredRamping(rampedInput[1]);
     }
 

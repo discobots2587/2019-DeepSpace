@@ -4,7 +4,7 @@ package frc.robot.util;
 public class Constants {
 
 	//kRampingAdjust - multiply ramped value by this constant
-	public static double kRampingAdjust = 0.7;
+	public static double kRampingAdjust = 0.5;
 	
 	//kDeadband - driving ignores this value and lower for the controller inputs
 	public static double kDeadband = 0.03;
@@ -61,16 +61,19 @@ public class Constants {
 	public static int kRollerIRThreshold = 2000;
 
 	//kMaxWristSpeed - maximum speed of the wrist
-	public static double kMaxWristSpeed = 0.80;
+	public static double kMaxWristSpeed = 0.90;
 
 	//kMaxWristSpeed - maximum speed of the wrist
-	public static double kMaxLiftSpeed = 0.40;
+	public static double kMaxLiftSpeed = 0.50;
+
+	//kLiftHoldSpeed - speed to hold lift in place
+	public static double kLiftHoldSpeed = 0.10;
 
 	//kRollerCurrentThreshold - current output from PDP to roller motor when cargo is held (in amperes)
 	public static double kRollerCurrentThreshold = 20.0; // full stall is ~35.0 - no ball ~3.5 - initial possession ~14
 
 	//kRollerHoldPercent - amount of power to send to roller motor to hold cargo
-	public static double kRollerHoldPercent = 0.02;
+	public static double kRollerHoldPercent = 0.10;
 
 	//kCargoEjectTime - the amount of time the rollers need to spin out to eject cargo (in seconds)
 	public static double kCargoEjectTime = 0.1;
