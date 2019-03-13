@@ -73,7 +73,7 @@ public class Constants {
 	public static double kRollerCurrentThreshold = 20.0; // full stall is ~35.0 - no ball ~3.5 - initial possession ~14
 
 	//kRollerHoldPercent - amount of power to send to roller motor to hold cargo
-	public static double kRollerHoldPercent = 0.02;
+	public static double kRollerHoldPercent = 0.10;
 
 	//kCargoEjectTime - the amount of time the rollers need to spin out to eject cargo (in seconds)
 	public static double kCargoEjectTime = 0.1;
