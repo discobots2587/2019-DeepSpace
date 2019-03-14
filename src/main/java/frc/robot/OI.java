@@ -103,8 +103,8 @@ public class OI {
 
   public OI() {
     /* Map d_driverOI buttons/triggers to commands */
-    this.d_btn_Y.whenPressed(new SetHighGear());
-    this.d_btn_A.whenPressed(new SetLowGear());
+    /*this.d_btn_Y.whenPressed(new SetHighGear());
+    this.d_btn_A.whenPressed(new SetLowGear()); */
     this.d_btn_X.whenPressed(new SwitchDrivingDirection());
     this.d_btn_B.whenPressed(new DriveToggleRampingUsed());
     this.d_btn_start.whenPressed(new GearShift());
@@ -122,6 +122,10 @@ public class OI {
     this.d_dpad_down.whenReleased(new LiftSetSpeed(Constants.kLiftHoldSpeed));
     this.d_dpad_up.whenPressed(new LiftSetSpeed(Constants.kMaxLiftSpeed)); // Move lift up
     this.d_dpad_up.whenReleased(new LiftSetSpeed(Constants.kLiftHoldSpeed));
+    this.d_btn_Y.whileHeld(new IntakeCargo());
+    this.d_btn_Y.whenReleased(new StopRollers());
+    this.d_btn_A.whileHeld(new EjectCargo());
+    this.d_btn_A.whenReleased(new StopRollers());
 
     /* TODO: (OPTIONAL) Add quick-turn to this.d_btn_LB (left 90 degres) and this.d_btn_RB (right 90 degrees) */
     /* TODO: (OPTIONAL) Toggle break/coast mode for motor contollers */
