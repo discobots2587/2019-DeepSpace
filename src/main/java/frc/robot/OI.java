@@ -107,7 +107,7 @@ public class OI {
     /*this.d_btn_Y.whenPressed(new SetHighGear());
     this.d_btn_A.whenPressed(new SetLowGear()); */
     this.d_btn_X.whenPressed(new SwitchDrivingDirection());
-    this.d_btn_B.whenPressed(new DriveToggleRampingUsed());
+    //this.d_btn_B.whenPressed(new DriveToggleRampingUsed());
     this.d_btn_back.whenPressed(new ToggleOperatorControls());
     this.d_btn_start.whenPressed(new GearShift());
     this.driverOperatorEnabled = false;
@@ -176,6 +176,7 @@ public class OI {
       this.d_btn_Y.whenReleased(new StopRollers());
       this.d_btn_A.whileHeld(new EjectCargo());
       this.d_btn_A.whenReleased(new StopRollers());
+      this.d_btn_B.whenPressed(new LaunchHatch());
     } else {
       this.d_axisBtn_LT.whileHeld(new DoNothing());
       this.d_axisBtn_LT.whenReleased(new DoNothing());
@@ -189,6 +190,7 @@ public class OI {
       this.d_btn_Y.whenReleased(new DoNothing());
       this.d_btn_A.whileHeld(new DoNothing());
       this.d_btn_A.whenReleased(new DoNothing());
+      this.d_btn_B.whenPressed(new DoNothing());
     }
   }
 
