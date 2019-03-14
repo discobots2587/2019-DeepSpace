@@ -66,6 +66,7 @@ public class OI {
    */
   private Xbox d_driverOI = new Xbox(1, "Driver OI");
   private Xbox o_operatorOI = new Xbox(0, "Operator OI");
+  private boolean driverOperatorEnabled;
 
   /* Driver OI */
   private Button d_btn_RB = new JoystickButton(d_driverOI, Xbox.BTN_RB);
@@ -107,25 +108,9 @@ public class OI {
     this.d_btn_A.whenPressed(new SetLowGear()); */
     this.d_btn_X.whenPressed(new SwitchDrivingDirection());
     this.d_btn_B.whenPressed(new DriveToggleRampingUsed());
+    this.d_btn_back.whenPressed(new ToggleOperatorControls());
     this.d_btn_start.whenPressed(new GearShift());
-
-    /* copy of operatorOI */
-    this.d_axisBtn_LT.whileHeld(new WristDown(-Constants.kMaxWristSpeed,
-                                          Constants.kMinWristPosThreshold,
-                                          Constants.kMidWristPosThreshold));
-    this.d_axisBtn_LT.whenReleased(new WristSetSpeed(Constants.kRollerHoldPercent));
-    this.d_btn_LB.whenPressed(new WristUp(Constants.kMaxWristSpeed,
-                                        Constants.kMaxWristPosThreshold,
-                                        Constants.kMidWristPosThreshold));
-    this.d_btn_LB.whenReleased(new WristSetSpeed(0));
-    this.d_dpad_down.whenPressed(new LiftSetSpeed(-Constants.kMaxLiftSpeed/2)); // Move lift down
-    this.d_dpad_down.whenReleased(new LiftSetSpeed(Constants.kLiftHoldSpeed));
-    this.d_dpad_up.whenPressed(new LiftSetSpeed(Constants.kMaxLiftSpeed)); // Move lift up
-    this.d_dpad_up.whenReleased(new LiftSetSpeed(Constants.kLiftHoldSpeed));
-    this.d_btn_Y.whileHeld(new IntakeCargo());
-    this.d_btn_Y.whenReleased(new StopRollers());
-    this.d_btn_A.whileHeld(new EjectCargo());
-    this.d_btn_A.whenReleased(new StopRollers());
+    this.driverOperatorEnabled = false;
 
     /* TODO: (OPTIONAL) Add quick-turn to this.d_btn_LB (left 90 degres) and this.d_btn_RB (right 90 degrees) */
     /* TODO: (OPTIONAL) Toggle break/coast mode for motor contollers */
@@ -168,6 +153,43 @@ public class OI {
     this.o_dpad_down.whenReleased(new LiftSetSpeed(Constants.kLiftHoldSpeed));
     this.o_dpad_up.whenPressed(new LiftSetSpeed(Constants.kMaxLiftSpeed)); // Move lift up
     this.o_dpad_up.whenReleased(new LiftSetSpeed(Constants.kLiftHoldSpeed));
+  }
+
+  public void toggleDriverOperatorControls() {
+    this.driverOperatorEnabled = !this.driverOperatorEnabled;
+
+    if (this.driverOperatorEnabled) {
+      /* copy of operatorOI */
+      this.d_axisBtn_LT.whileHeld(new WristDown(-Constants.kMaxWristSpeed,
+        Constants.kMinWristPosThreshold,
+        Constants.kMidWristPosThreshold));
+      this.d_axisBtn_LT.whenReleased(new WristSetSpeed(Constants.kRollerHoldPercent));
+      this.d_btn_LB.whenPressed(new WristUp(Constants.kMaxWristSpeed,
+        Constants.kMaxWristPosThreshold,
+        Constants.kMidWristPosThreshold));
+      this.d_btn_LB.whenReleased(new WristSetSpeed(0));
+      this.d_dpad_down.whenPressed(new LiftSetSpeed(-Constants.kMaxLiftSpeed/2)); // Move lift down
+      this.d_dpad_down.whenReleased(new LiftSetSpeed(Constants.kLiftHoldSpeed));
+      this.d_dpad_up.whenPressed(new LiftSetSpeed(Constants.kMaxLiftSpeed)); // Move lift up
+      this.d_dpad_up.whenReleased(new LiftSetSpeed(Constants.kLiftHoldSpeed));
+      this.d_btn_Y.whileHeld(new IntakeCargo());
+      this.d_btn_Y.whenReleased(new StopRollers());
+      this.d_btn_A.whileHeld(new EjectCargo());
+      this.d_btn_A.whenReleased(new StopRollers());
+    } else {
+      this.d_axisBtn_LT.whileHeld(new DoNothing());
+      this.d_axisBtn_LT.whenReleased(new DoNothing());
+      this.d_btn_LB.whenPressed(new DoNothing());
+      this.d_btn_LB.whenReleased(new DoNothing());
+      this.d_dpad_down.whenPressed(new DoNothing());
+      this.d_dpad_down.whenReleased(new DoNothing());
+      this.d_dpad_up.whenPressed(new DoNothing());
+      this.d_dpad_up.whenReleased(new DoNothing());
+      this.d_btn_Y.whileHeld(new DoNothing());
+      this.d_btn_Y.whenReleased(new DoNothing());
+      this.d_btn_A.whileHeld(new DoNothing());
+      this.d_btn_A.whenReleased(new DoNothing());
+    }
   }
 
   /* Used by the DriveTrain subsystem for default command */
