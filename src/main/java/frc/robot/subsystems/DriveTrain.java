@@ -43,6 +43,7 @@ public class DriveTrain extends Subsystem {
   private double m_quickStopAccumulator;
 
   private boolean isHatchSide;
+  private boolean isLowGear;
 
   public DriveTrain() {
     this.m_leftMaster = new TalonSRX(RobotMap.m_leftMasterMotor);
@@ -377,10 +378,19 @@ public class DriveTrain extends Subsystem {
 
   public void setHighGear() {
     this.m_shifter.set(true);
+    this.isLowGear = false;
   }
 
   public void setLowGear() { 
     this.m_shifter.set(false);
+    this.isLowGear = true;
+  }
+  public void toggleGearShift(){
+    if (isLowGear) {
+      setHighGear();
+    } else {
+      setLowGear();
+    }
   }
 
   public String getSide(){
