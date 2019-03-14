@@ -107,6 +107,7 @@ public class OI {
     this.d_btn_A.whenPressed(new SetLowGear());
     this.d_btn_X.whenPressed(new SwitchDrivingDirection());
     this.d_btn_B.whenPressed(new DriveToggleRampingUsed());
+    this.d_btn_start.whenPressed(new GearShift());
 
     /* copy of operatorOI */
     this.d_axisBtn_LT.whileHeld(new WristDown(-Constants.kMaxWristSpeed,
