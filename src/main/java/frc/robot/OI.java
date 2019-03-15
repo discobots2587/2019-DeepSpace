@@ -154,12 +154,12 @@ public class OI {
     //this.o_dpad_down.whenPressed(new LiftSetSpeed(-Constants.kMaxLiftSpeed/2)); // Move lift down
     this.o_dpad_down.whenPressed(new LowerLift(-Constants.kMaxLiftSpeed,
       Constants.kMinLiftPosThreshold,
-      Constants.kMinLiftPosThreshold+Constants.kLiftPosThresholdOffset));
+      Constants.kMinLiftPosThreshold-Constants.kLiftPosThresholdOffset));
     this.o_dpad_down.whenReleased(new LiftSetSpeed(Constants.kLiftHoldSpeed));
     //this.d_dpad_up.whenPressed(new LiftSetSpeed(Constants.kMaxLiftSpeed)); // Move lift up
     this.o_dpad_up.whenPressed(new RaiseLift(Constants.kMaxLiftSpeed,
       Constants.kMaxLiftPosThreshold,
-      Constants.kMaxLiftPosThreshold-Constants.kLiftPosThresholdOffset));
+      Constants.kMaxLiftPosThreshold+Constants.kLiftPosThresholdOffset));
     this.o_dpad_up.whenReleased(new LiftSetSpeed(Constants.kLiftHoldSpeed));
   }
 
@@ -179,12 +179,12 @@ public class OI {
       //this.d_dpad_down.whenPressed(new LiftSetSpeed(-Constants.kMaxLiftSpeed/2)); // Move lift down
       this.d_dpad_down.whenPressed(new LowerLift(-Constants.kMaxLiftSpeed,
         Constants.kMinLiftPosThreshold,
-        Constants.kMinLiftPosThreshold+Constants.kLiftPosThresholdOffset));
+        Constants.kMinLiftPosThreshold-Constants.kLiftPosThresholdOffset));
       this.d_dpad_down.whenReleased(new LiftSetSpeed(Constants.kLiftHoldSpeed));
       //this.d_dpad_up.whenPressed(new LiftSetSpeed(Constants.kMaxLiftSpeed)); // Move lift up
       this.d_dpad_up.whenPressed(new RaiseLift(Constants.kMaxLiftSpeed,
         Constants.kMaxLiftPosThreshold,
-        Constants.kMaxLiftPosThreshold-Constants.kLiftPosThresholdOffset));
+        Constants.kMaxLiftPosThreshold+Constants.kLiftPosThresholdOffset));
       this.d_dpad_up.whenReleased(new LiftSetSpeed(Constants.kLiftHoldSpeed));
       this.d_btn_Y.whileHeld(new IntakeCargo());
       this.d_btn_Y.whenReleased(new StopRollers());
