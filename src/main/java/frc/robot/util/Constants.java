@@ -84,7 +84,13 @@ public class Constants {
 	//kWristPosThreshold - various encoder position thresholds to adjust wrist motor power
 	public static int kMinWristPosThreshold = 2800;
 	public static int kMidWristPosThreshold = 1400;
-	public static int kMaxWristPosThreshold = 0;
+	public static int kMaxWristPosThreshold = 0; // default when wrist 90 degrees
+
+	//kLiftPosThreshold - various encoder position thresholds to adjust lift motor power
+	public static int kMinLiftPosThreshold = 0; // default when lift at bottom
+	public static int kMaxLiftPosThreshold = 5000; // TODO: Calibrate to L3 rocket!
+	public static int kMidLiftPosThreshold = kMaxLiftPosThreshold / 2;
+	public static int kLiftPosThresholdOffset = 200; // TODO: Calibrate towards the ends of lift positions
 
 	//kAxisButtonSensitivity - when axis button input surpass this number, the input from the axis button will be likea normal button
 	public static double kAxisButtonSensitivity = 0.4;
