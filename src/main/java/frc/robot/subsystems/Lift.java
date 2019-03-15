@@ -30,6 +30,7 @@ public class Lift extends Subsystem {
 
   private boolean manualWristControl;
   private double m_motorSpeed;
+  private boolean m_smartMode;
 
   public Lift() {
     m_liftMaster = new TalonSRX(RobotMap.m_liftMasterMotor);
@@ -66,6 +67,7 @@ public class Lift extends Subsystem {
     this.resetSensors();
     this.manualWristControl = true;
     this.m_motorSpeed = 0.0;
+    this.m_smartMode = true;
   }
 
   @Override
@@ -106,5 +108,13 @@ public class Lift extends Subsystem {
   }
   public void toggleWristControl() {
     this.manualWristControl = !this.manualWristControl;
+  }
+
+  public boolean getSmartMode() {
+    return this.m_smartMode;
+  }
+
+  public void toggleSmartMode() {
+    this.m_smartMode = !this.m_smartMode;
   }
 }

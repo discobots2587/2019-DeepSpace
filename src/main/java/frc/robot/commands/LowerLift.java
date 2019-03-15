@@ -53,9 +53,9 @@ public class LowerLift extends Command {
   protected void execute() {
     /* TODO: Check to see if encoder increases when lowering - update if not */
     // Assumes encoder values increase as lift is lowered
-    if (Robot.m_lift.getPos() > this.maxEncoderPosThreshold) {
+    if (Robot.m_lift.getSmartMode() && Robot.m_lift.getPos() > this.maxEncoderPosThreshold) {
       Robot.m_lift.stop();
-    } else if (Robot.m_lift.getPos() > this.midEncoderPosThreshold){
+    } else if (Robot.m_lift.getSmartMode() && Robot.m_lift.getPos() > this.midEncoderPosThreshold){
       Robot.m_lift.setMotor(motorPowerPercent / 4);
     } else {
       Robot.m_lift.setMotor(motorPowerPercent);
