@@ -51,9 +51,9 @@ public class WristUp extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    if (/*Robot.m_wrist.getPos() < this.minEncoderPosThreshold */ false) {
+    if (Robot.m_wrist.getPos() < this.minEncoderPosThreshold) {
       Robot.m_wrist.stop();
-    } else if (/*Robot.m_wrist.getPos() < this.midEncoderPosThreshold */ false){
+    } else if (Robot.m_wrist.getPos() < this.midEncoderPosThreshold){
       Robot.m_wrist.setMotor(motorPowerPercent / 4);
     } else {
       Robot.m_wrist.setMotor(motorPowerPercent);
