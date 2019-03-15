@@ -121,7 +121,7 @@ public class OI {
     this.o_axisBtn_LT.whileHeld(new WristDown(-Constants.kMaxWristSpeed,
                                           Constants.kMinWristPosThreshold,
                                           Constants.kMidWristPosThreshold));
-    this.o_axisBtn_LT.whenReleased(new WristSetSpeed(Constants.kRollerHoldPercent));
+    this.o_axisBtn_LT.whenReleased(new WristSetSpeed(0));
     this.o_btn_LB.whenPressed(new WristUp(Constants.kMaxWristSpeed,
                                         Constants.kMaxWristPosThreshold,
                                         Constants.kMidWristPosThreshold));
@@ -163,7 +163,7 @@ public class OI {
       this.d_axisBtn_LT.whileHeld(new WristDown(-Constants.kMaxWristSpeed,
         Constants.kMinWristPosThreshold,
         Constants.kMidWristPosThreshold));
-      this.d_axisBtn_LT.whenReleased(new WristSetSpeed(Constants.kRollerHoldPercent));
+      this.d_axisBtn_LT.whenReleased(new WristSetSpeed(0));
       this.d_btn_LB.whenPressed(new WristUp(Constants.kMaxWristSpeed,
         Constants.kMaxWristPosThreshold,
         Constants.kMidWristPosThreshold));
@@ -202,4 +202,14 @@ public class OI {
   public Xbox getOperatorOI() {
     return this.o_operatorOI;
   }
+public String getDriverMode() {
+  String mode = null;
+  if (this.driverOperatorEnabled) {
+    mode = "Driver + Operator";
+  } else {
+    mode = "Driver";
+  }
+  return mode;
+}
+
 }
