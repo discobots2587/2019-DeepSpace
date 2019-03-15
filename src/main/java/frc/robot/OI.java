@@ -126,6 +126,7 @@ public class OI {
                                         Constants.kMaxWristPosThreshold,
                                         Constants.kMidWristPosThreshold));
     this.o_btn_LB.whenReleased(new WristSetSpeed(0));
+
     /* - Smart Automated Wrist (MotionMagic) */
     //this.o_btn_L3.whenPressed(new ToggleWristControl()); // Toggles between Manual and Preset modes
     //this.o_btn_share.whenPressed(new PresentWristControl(Robot.m_wrist.setCargoShipPreset()));
@@ -161,6 +162,18 @@ public class OI {
       Constants.kMaxLiftPosThreshold,
       Constants.kMaxLiftPosThreshold-Constants.kLiftPosThresholdOffset));
     this.o_dpad_up.whenReleased(new LiftSetSpeed(Constants.kLiftHoldSpeed));
+
+    /* Copied to RT/RB triggers as well */
+    //this.o_axisBtn_RT.whileHeld(new LiftSetSpeed(-Constants.kMaxLiftSpeed/2)); // Move lift down
+    this.o_axisBtn_RT.whileHeld(new LowerLift(-Constants.kMaxLiftSpeed,
+      Constants.kMinLiftPosThreshold,
+      Constants.kMinLiftPosThreshold+Constants.kLiftPosThresholdOffset));
+    this.o_axisBtn_RT.whenReleased(new LiftSetSpeed(Constants.kLiftHoldSpeed));
+    //this.o_axisBtn_RT.whenPressed(new LiftSetSpeed(Constants.kMaxLiftSpeed)); // Move lift up
+    this.o_btn_RB.whenPressed(new RaiseLift(Constants.kMaxLiftSpeed,
+      Constants.kMaxLiftPosThreshold,
+      Constants.kMaxLiftPosThreshold-Constants.kLiftPosThresholdOffset));
+    this.o_btn_RB.whenReleased(new LiftSetSpeed(Constants.kLiftHoldSpeed));
   }
 
   public void toggleDriverOperatorControls() {
@@ -176,6 +189,8 @@ public class OI {
         Constants.kMaxWristPosThreshold,
         Constants.kMidWristPosThreshold));
       this.d_btn_LB.whenReleased(new WristSetSpeed(0));
+
+      /* Lift operation */
       //this.d_dpad_down.whenPressed(new LiftSetSpeed(-Constants.kMaxLiftSpeed/2)); // Move lift down
       this.d_dpad_down.whenPressed(new LowerLift(-Constants.kMaxLiftSpeed,
         Constants.kMinLiftPosThreshold,
@@ -186,6 +201,15 @@ public class OI {
         Constants.kMaxLiftPosThreshold,
         Constants.kMaxLiftPosThreshold-Constants.kLiftPosThresholdOffset));
       this.d_dpad_up.whenReleased(new LiftSetSpeed(Constants.kLiftHoldSpeed));
+      this.d_axisBtn_RT.whileHeld(new LowerLift(-Constants.kMaxLiftSpeed,
+        Constants.kMinLiftPosThreshold,
+        Constants.kMinLiftPosThreshold+Constants.kLiftPosThresholdOffset));
+      this.d_axisBtn_RT.whenReleased(new LiftSetSpeed(Constants.kLiftHoldSpeed));
+      this.d_btn_RB.whenPressed(new RaiseLift(Constants.kMaxLiftSpeed,
+        Constants.kMaxLiftPosThreshold,
+        Constants.kMaxLiftPosThreshold-Constants.kLiftPosThresholdOffset));
+      this.d_btn_RB.whenReleased(new LiftSetSpeed(Constants.kLiftHoldSpeed));
+
       this.d_btn_Y.whileHeld(new IntakeCargo());
       this.d_btn_Y.whenReleased(new StopRollers());
       this.d_btn_A.whileHeld(new EjectCargo());
@@ -205,6 +229,10 @@ public class OI {
       this.d_btn_A.whileHeld(new DoNothing());
       this.d_btn_A.whenReleased(new DoNothing());
       this.d_btn_B.whenPressed(new DoNothing());
+      this.d_axisBtn_RT.whileHeld(new DoNothing());
+      this.d_axisBtn_RT.whenReleased(new DoNothing());
+      this.d_btn_RB.whenPressed(new DoNothing());
+      this.d_btn_RB.whenReleased(new DoNothing());
     }
   }
 
