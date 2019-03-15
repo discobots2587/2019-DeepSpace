@@ -81,8 +81,8 @@ public class OI {
   private Button d_dpad_down = new DPADButton(d_driverOI, DPADButton.POV.DOWN);
   private Button d_dpad_right = new DPADButton(d_driverOI, DPADButton.POV.RIGHT);
   private Button d_dpad_left = new DPADButton(d_driverOI, DPADButton.POV.LEFT);
-  private AXISButton d_axisBtn_LT = new AXISButton(o_operatorOI, Xbox.AXIS_LT, Constants.kAxisButtonSensitivity);
-  private AXISButton d_axisBtn_RT = new AXISButton(o_operatorOI, Xbox.AXIS_RT, Constants.kAxisButtonSensitivity);
+  private AXISButton d_axisBtn_LT = new AXISButton(d_driverOI, Xbox.AXIS_LT, Constants.kAxisButtonSensitivity);
+  private AXISButton d_axisBtn_RT = new AXISButton(d_driverOI, Xbox.AXIS_RT, Constants.kAxisButtonSensitivity);
 
   /* Operator OI */
   private Button o_btn_RB = new JoystickButton(o_operatorOI, Xbox.BTN_RB);
