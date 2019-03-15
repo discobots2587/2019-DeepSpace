@@ -38,8 +38,8 @@ public class RobotMap {
   /* PCM (12V) ports */
   public static int m_hatchSideBeak     = 0;
   public static int m_hatchSideLauncher = 1;
-  public static int m_cargoSideBeak     = 2;
-  public static int m_cargoSideLauncher = 4;
+  public static int m_cargoSideBeak     = 4;
+  public static int m_cargoSideLauncher = 2;
 
   public static int m_shifter           = 3;
   /* PCM (24V) ports */
