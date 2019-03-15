@@ -132,8 +132,10 @@ public class OI {
     //this.o_btn_LB.whenPressed(new PresetWristControl(Robot.m_wrist.setUpPreset()));
     //this.o_btn_LT.whenPressed(new PresetWristControl(Robot.m_wrist.setDownPreset()));
 
+    /* Mode-switching Commands */
+    this.o_btn_back.whenPressed(new ToggleSmartMode());
+
     /* Intake-related Commands */
-    this.o_btn_back.whenPressed(new ToggleSmartIntake());
     this.o_btn_Y.whileHeld(new IntakeCargo());
     this.o_btn_Y.whenReleased(new StopRollers());
     this.o_btn_A.whileHeld(new EjectCargo());

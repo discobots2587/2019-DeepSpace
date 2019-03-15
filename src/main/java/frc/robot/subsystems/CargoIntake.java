@@ -34,7 +34,7 @@ public class CargoIntake extends Subsystem {
   // initializing IR sensor to detect when cargo is in place
   private AnalogInput m_rollerIR;
 
-  private boolean smartIntake = true;
+  private boolean m_smartMode = true;
   private double m_rollerMotorPercent;
 
   public CargoIntake() {
@@ -63,11 +63,15 @@ public class CargoIntake extends Subsystem {
   }
 
   public boolean getSmartIntake() {
-    return this.smartIntake;
+    return this.m_smartMode;
   }
 
-  public void setSmartIntake(boolean smartIntake) {
-    this.smartIntake = smartIntake;
+  public void toggleSmartMode() {
+    this.m_smartMode = !this.m_smartMode;
+  }
+
+  public void setSmartMode(boolean smartMode) {
+    this.m_smartMode = smartMode;
   }
 
   public double getRollerPercent() {
