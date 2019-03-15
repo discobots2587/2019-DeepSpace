@@ -132,8 +132,10 @@ public class OI {
     //this.o_btn_LB.whenPressed(new PresetWristControl(Robot.m_wrist.setUpPreset()));
     //this.o_btn_LT.whenPressed(new PresetWristControl(Robot.m_wrist.setDownPreset()));
 
+    /* Mode-switching Commands */
+    this.o_btn_back.whenPressed(new ToggleSmartMode());
+
     /* Intake-related Commands */
-    this.o_btn_back.whenPressed(new ToggleSmartIntake());
     this.o_btn_Y.whileHeld(new IntakeCargo());
     this.o_btn_Y.whenReleased(new StopRollers());
     this.o_btn_A.whileHeld(new EjectCargo());
@@ -149,9 +151,15 @@ public class OI {
     //this.o_btn_RB.whenPressed(new PresetElevatorControl(Robot.m_elevator.nextPreset()));
     //this.o_btn_RT.whenActive(new PresetElevatorControl(Robot.m_elevator.previousPreset()));
     /* Simple elevator commands */
-    this.o_dpad_down.whenPressed(new LiftSetSpeed(-Constants.kMaxLiftSpeed/2)); // Move lift down
+    //this.o_dpad_down.whenPressed(new LiftSetSpeed(-Constants.kMaxLiftSpeed/2)); // Move lift down
+    this.o_dpad_down.whenPressed(new LowerLift(-Constants.kMaxLiftSpeed,
+      Constants.kMinLiftPosThreshold,
+      Constants.kMinLiftPosThreshold+Constants.kLiftPosThresholdOffset));
     this.o_dpad_down.whenReleased(new LiftSetSpeed(Constants.kLiftHoldSpeed));
-    this.o_dpad_up.whenPressed(new LiftSetSpeed(Constants.kMaxLiftSpeed)); // Move lift up
+    //this.d_dpad_up.whenPressed(new LiftSetSpeed(Constants.kMaxLiftSpeed)); // Move lift up
+    this.o_dpad_up.whenPressed(new RaiseLift(Constants.kMaxLiftSpeed,
+      Constants.kMaxLiftPosThreshold,
+      Constants.kMaxLiftPosThreshold-Constants.kLiftPosThresholdOffset));
     this.o_dpad_up.whenReleased(new LiftSetSpeed(Constants.kLiftHoldSpeed));
   }
 
@@ -168,9 +176,15 @@ public class OI {
         Constants.kMaxWristPosThreshold,
         Constants.kMidWristPosThreshold));
       this.d_btn_LB.whenReleased(new WristSetSpeed(0));
-      this.d_dpad_down.whenPressed(new LiftSetSpeed(-Constants.kMaxLiftSpeed/2)); // Move lift down
+      //this.d_dpad_down.whenPressed(new LiftSetSpeed(-Constants.kMaxLiftSpeed/2)); // Move lift down
+      this.d_dpad_down.whenPressed(new LowerLift(-Constants.kMaxLiftSpeed,
+        Constants.kMinLiftPosThreshold,
+        Constants.kMinLiftPosThreshold+Constants.kLiftPosThresholdOffset));
       this.d_dpad_down.whenReleased(new LiftSetSpeed(Constants.kLiftHoldSpeed));
-      this.d_dpad_up.whenPressed(new LiftSetSpeed(Constants.kMaxLiftSpeed)); // Move lift up
+      //this.d_dpad_up.whenPressed(new LiftSetSpeed(Constants.kMaxLiftSpeed)); // Move lift up
+      this.d_dpad_up.whenPressed(new RaiseLift(Constants.kMaxLiftSpeed,
+        Constants.kMaxLiftPosThreshold,
+        Constants.kMaxLiftPosThreshold-Constants.kLiftPosThresholdOffset));
       this.d_dpad_up.whenReleased(new LiftSetSpeed(Constants.kLiftHoldSpeed));
       this.d_btn_Y.whileHeld(new IntakeCargo());
       this.d_btn_Y.whenReleased(new StopRollers());

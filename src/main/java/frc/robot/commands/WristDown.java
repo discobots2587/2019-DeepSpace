@@ -20,7 +20,7 @@ public class WristDown extends Command {
     // Use requires() here to declare subsystem dependencies
     requires(Robot.m_wrist);
 
-    this.motorPowerPercent = Constants.kMaxWristSpeed;
+    this.motorPowerPercent = -Constants.kMaxWristSpeed;
     this.maxEncoderPosThreshold = Constants.kMaxWristPosThreshold;
     this.midEncoderPosThreshold = Constants.kMidWristPosThreshold;
   }
@@ -51,9 +51,9 @@ public class WristDown extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    if (/*Robot.m_wrist.getPos() > this.maxEncoderPosThreshold*/ false) {
+    if (Robot.m_wrist.getSmartMode() && Robot.m_wrist.getPos() > this.maxEncoderPosThreshold) {
       Robot.m_wrist.stop();
-    } else if (/*Robot.m_wrist.getPos() > this.midEncoderPosThreshold*/ false){
+    } else if (Robot.m_wrist.getSmartMode() && Robot.m_wrist.getPos() > this.midEncoderPosThreshold){
       Robot.m_wrist.setMotor(motorPowerPercent / 4);
     } else {
       Robot.m_wrist.setMotor(motorPowerPercent);
