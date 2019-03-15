@@ -20,7 +20,7 @@ public class WristDown extends Command {
     // Use requires() here to declare subsystem dependencies
     requires(Robot.m_wrist);
 
-    this.motorPowerPercent = Constants.kMaxWristSpeed;
+    this.motorPowerPercent = -Constants.kMaxWristSpeed;
     this.maxEncoderPosThreshold = Constants.kMaxWristPosThreshold;
     this.midEncoderPosThreshold = Constants.kMidWristPosThreshold;
   }

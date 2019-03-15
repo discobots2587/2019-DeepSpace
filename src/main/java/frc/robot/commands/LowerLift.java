@@ -13,7 +13,7 @@ import frc.robot.util.Constants;
 
 public class LowerLift extends Command {
   double motorPowerPercent;
-  int maxEncoderPosThreshold; // Encoder values increase when lift goes down
+  int minEncoderPosThreshold; // Encoder values increase when lift goes up
   int midEncoderPosThreshold;
 
   public LowerLift() {
@@ -21,7 +21,7 @@ public class LowerLift extends Command {
     requires(Robot.m_lift);
 
     this.motorPowerPercent = Constants.kMaxLiftSpeed;
-    this.maxEncoderPosThreshold = Constants.kMaxLiftPosThreshold;
+    this.minEncoderPosThreshold = Constants.kMinLiftPosThreshold;
     this.midEncoderPosThreshold = Constants.kMidLiftPosThreshold;
   }
 
@@ -30,17 +30,17 @@ public class LowerLift extends Command {
     requires(Robot.m_lift);
 
     this.motorPowerPercent = motorPowerPercent;
-    this.maxEncoderPosThreshold = Constants.kMaxLiftPosThreshold;
+    this.minEncoderPosThreshold = Constants.kMinLiftPosThreshold;
     this.midEncoderPosThreshold = Constants.kMidLiftPosThreshold;
   }
 
-  public LowerLift(double motorPowerPercent, int maxThreshold, int midThreshold) {
+  public LowerLift(double motorPowerPercent, int minThreshold, int midThreshhold) {
     // Use requires() here to declare subsystem dependencies
     requires(Robot.m_lift);
 
     this.motorPowerPercent = motorPowerPercent;
-    this.maxEncoderPosThreshold = maxThreshold;
-    this.midEncoderPosThreshold = midThreshold; 
+    this.minEncoderPosThreshold = minThreshold;
+    this.midEncoderPosThreshold = midThreshhold;
   }
 
   // Called just before this Command runs the first time
@@ -51,11 +51,11 @@ public class LowerLift extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    /* TODO: Check to see if encoder increases when lowering - update if not */
-    // Assumes encoder values increase as lift is lowered
-    if (Robot.m_lift.getSmartMode() && Robot.m_lift.getPos() > this.maxEncoderPosThreshold) {
+    /* TODO: Check to see if encoder decreases when raising - update if not */
+    // Assumes encoder values decrease as lift is raised
+    if (Robot.m_lift.getSmartMode() && Robot.m_lift.getPos() < this.minEncoderPosThreshold) {
       Robot.m_lift.stop();
-    } else if (Robot.m_lift.getSmartMode() && Robot.m_lift.getPos() > this.midEncoderPosThreshold){
+    } else if (Robot.m_lift.getSmartMode() && Robot.m_lift.getPos() < this.midEncoderPosThreshold){
       Robot.m_lift.setMotor(motorPowerPercent / 4);
     } else {
       Robot.m_lift.setMotor(motorPowerPercent);

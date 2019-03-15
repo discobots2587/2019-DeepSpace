@@ -13,8 +13,8 @@ import frc.robot.util.Constants;
 
 public class WristUp extends Command {
   double motorPowerPercent;
-  double minEncoderPosThreshold; // Encoder values decrease when wrist goes up
-  double midEncoderPosThreshold;
+  int minEncoderPosThreshold; // Encoder values decrease when wrist goes up
+  int midEncoderPosThreshold;
 
   public WristUp() {
     // Use requires() here to declare subsystem dependencies
