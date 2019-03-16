@@ -14,7 +14,7 @@ public class PressureSensor {
 		double voltage = sensorInput.getAverageVoltage();
 		double voltage0to4 = (voltage - 0.5);
 		voltage0to4 = (voltage0to4 < 0) ? 0 : voltage0to4;
-		return (voltage0to4) * 40.1785714286;
+		return (voltage0to4) * 60;
 	}
 
 	public double getVoltage() {
