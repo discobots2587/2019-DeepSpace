@@ -54,6 +54,8 @@ public class Robot extends TimedRobot {
 
     m_camera.cameraInit();
     Dashboard.init();
+    m_lift.resetSensors();
+    m_wrist.resetSensors();
   }
 
   /**

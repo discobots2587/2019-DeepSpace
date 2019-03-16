@@ -11,36 +11,36 @@ import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 import frc.robot.util.Constants;
 
-public class WristUp extends Command {
+public class RaiseLift extends Command {
   double motorPowerPercent;
-  int minEncoderPosThreshold; // Encoder values decrease when wrist goes up
+  int maxEncoderPosThreshold; // Encoder values decrease when lift goes down
   int midEncoderPosThreshold;
 
-  public WristUp() {
+  public RaiseLift() {
     // Use requires() here to declare subsystem dependencies
-    requires(Robot.m_wrist);
+    requires(Robot.m_lift);
 
-    this.motorPowerPercent = Constants.kMaxWristSpeed;
-    this.minEncoderPosThreshold = Constants.kMinWristPosThreshold;
-    this.midEncoderPosThreshold = Constants.kMidWristPosThreshold;
+    this.motorPowerPercent = -Constants.kMaxLiftSpeed;
+    this.maxEncoderPosThreshold = Constants.kMaxLiftPosThreshold;
+    this.midEncoderPosThreshold = Constants.kMidLiftPosThreshold;
   }
 
-  public WristUp(double motorPowerPercent) {
+  public RaiseLift(double motorPowerPercent) {
     // Use requires() here to declare subsystem dependencies
-    requires(Robot.m_wrist);
+    requires(Robot.m_lift);
 
     this.motorPowerPercent = motorPowerPercent;
-    this.minEncoderPosThreshold = Constants.kMinWristPosThreshold;
-    this.midEncoderPosThreshold = Constants.kMidWristPosThreshold;
+    this.maxEncoderPosThreshold = Constants.kMaxLiftPosThreshold;
+    this.midEncoderPosThreshold = Constants.kMidLiftPosThreshold;
   }
 
-  public WristUp(double motorPowerPercent, int minThreshold, int midThreshhold) {
+  public RaiseLift(double motorPowerPercent, int maxThreshold, int midThreshold) {
     // Use requires() here to declare subsystem dependencies
-    requires(Robot.m_wrist);
+    requires(Robot.m_lift);
 
     this.motorPowerPercent = motorPowerPercent;
-    this.minEncoderPosThreshold = minThreshold;
-    this.midEncoderPosThreshold = midThreshhold;
+    this.maxEncoderPosThreshold = maxThreshold;
+    this.midEncoderPosThreshold = midThreshold;
   }
 
   // Called just before this Command runs the first time
@@ -51,12 +51,14 @@ public class WristUp extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    if (Robot.m_wrist.getSmartMode() && Robot.m_wrist.getPos() < this.minEncoderPosThreshold) {
-      Robot.m_wrist.stop();
-    } else if (Robot.m_wrist.getSmartMode() && Robot.m_wrist.getPos() < this.midEncoderPosThreshold){
-      Robot.m_wrist.setMotor(motorPowerPercent / 4);
+    /* TODO: Check to see if encoder increases when lowering - update if not */
+    // Assumes encoder values increase as lift is lowered
+    if (Robot.m_lift.getSmartMode() && Robot.m_lift.getPos() > this.maxEncoderPosThreshold) {
+      Robot.m_lift.setMotor(Constants.kLiftHoldSpeed);
+    } else if (Robot.m_lift.getSmartMode() && Robot.m_lift.getPos() > this.midEncoderPosThreshold){
+      Robot.m_lift.setMotor(motorPowerPercent / 4);
     } else {
-      Robot.m_wrist.setMotor(motorPowerPercent);
+      Robot.m_lift.setMotor(motorPowerPercent);
     }
   }
 

@@ -11,32 +11,32 @@ import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 import frc.robot.util.Constants;
 
-public class WristUp extends Command {
+public class LowerLift extends Command {
   double motorPowerPercent;
-  int minEncoderPosThreshold; // Encoder values decrease when wrist goes up
+  int minEncoderPosThreshold; // Encoder values increase when lift goes up
   int midEncoderPosThreshold;
 
-  public WristUp() {
+  public LowerLift() {
     // Use requires() here to declare subsystem dependencies
-    requires(Robot.m_wrist);
+    requires(Robot.m_lift);
 
-    this.motorPowerPercent = Constants.kMaxWristSpeed;
-    this.minEncoderPosThreshold = Constants.kMinWristPosThreshold;
-    this.midEncoderPosThreshold = Constants.kMidWristPosThreshold;
+    this.motorPowerPercent = Constants.kMaxLiftSpeed;
+    this.minEncoderPosThreshold = Constants.kMinLiftPosThreshold;
+    this.midEncoderPosThreshold = Constants.kMidLiftPosThreshold;
   }
 
-  public WristUp(double motorPowerPercent) {
+  public LowerLift(double motorPowerPercent) {
     // Use requires() here to declare subsystem dependencies
-    requires(Robot.m_wrist);
+    requires(Robot.m_lift);
 
     this.motorPowerPercent = motorPowerPercent;
-    this.minEncoderPosThreshold = Constants.kMinWristPosThreshold;
-    this.midEncoderPosThreshold = Constants.kMidWristPosThreshold;
+    this.minEncoderPosThreshold = Constants.kMinLiftPosThreshold;
+    this.midEncoderPosThreshold = Constants.kMidLiftPosThreshold;
   }
 
-  public WristUp(double motorPowerPercent, int minThreshold, int midThreshhold) {
+  public LowerLift(double motorPowerPercent, int minThreshold, int midThreshhold) {
     // Use requires() here to declare subsystem dependencies
-    requires(Robot.m_wrist);
+    requires(Robot.m_lift);
 
     this.motorPowerPercent = motorPowerPercent;
     this.minEncoderPosThreshold = minThreshold;
@@ -51,12 +51,14 @@ public class WristUp extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    if (Robot.m_wrist.getSmartMode() && Robot.m_wrist.getPos() < this.minEncoderPosThreshold) {
-      Robot.m_wrist.stop();
-    } else if (Robot.m_wrist.getSmartMode() && Robot.m_wrist.getPos() < this.midEncoderPosThreshold){
-      Robot.m_wrist.setMotor(motorPowerPercent / 4);
+    /* TODO: Check to see if encoder decreases when raising - update if not */
+    // Assumes encoder values decrease as lift is raised
+    if (Robot.m_lift.getSmartMode() && Robot.m_lift.getPos() < this.minEncoderPosThreshold) {
+      Robot.m_lift.stop();
+    } else if (Robot.m_lift.getSmartMode() && Robot.m_lift.getPos() < this.midEncoderPosThreshold){
+      Robot.m_lift.setMotor(motorPowerPercent / 4);
     } else {
-      Robot.m_wrist.setMotor(motorPowerPercent);
+      Robot.m_lift.setMotor(motorPowerPercent);
     }
   }
 

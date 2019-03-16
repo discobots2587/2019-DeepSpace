@@ -10,10 +10,10 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 
-public class ToggleSmartIntake extends Command {
-  public ToggleSmartIntake() {
+public class ToggleOperatorControls extends Command {
+  public ToggleOperatorControls() {
     // Use requires() here to declare subsystem dependencies
-    requires(Robot.m_cargoIntake);
+    // eg. requires(chassis);
   }
 
   // Called just before this Command runs the first time
@@ -24,10 +24,7 @@ public class ToggleSmartIntake extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    Robot.m_cargoIntake.stopRollers();
-
-    boolean toggledSmartIntake = !Robot.m_cargoIntake.getSmartIntake();
-    Robot.m_cargoIntake.setSmartIntake(toggledSmartIntake);
+    Robot.m_oi.toggleDriverOperatorControls();
   }
 
   // Make this return true when this Command no longer needs to run execute()

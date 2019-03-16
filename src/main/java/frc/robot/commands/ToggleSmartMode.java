@@ -8,59 +8,47 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
-
 import frc.robot.Robot;
-import frc.robot.util.Constants;
 
-public class LaunchHatch extends Command {
-  private double timeCount;
-
-  public LaunchHatch() {
+public class ToggleSmartMode extends Command {
+  public ToggleSmartMode() {
     // Use requires() here to declare subsystem dependencies
-    requires(Robot.m_hatch);
-
-    //this timeCount is incremented by 0.02 every time excute() is called every 20ms
-    this.timeCount = 0.0;
+    requires(Robot.m_cargoIntake);
+    requires(Robot.m_lift);
+    requires(Robot.m_wrist);
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    Robot.m_hatch.disableLauncher();
-    this.timeCount = 0.0;
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    if (this.timeCount == 0.0) {
-      Robot.m_hatch.launchHatch();
-    }
-    this.timeCount += 0.02;
+    Robot.m_cargoIntake.stopRollers();
+    Robot.m_lift.stop();
+    Robot.m_wrist.stop();
+
+    Robot.m_cargoIntake.toggleSmartMode();
+    Robot.m_lift.toggleSmartMode();
+    Robot.m_wrist.toggleSmartMode();
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    if (this.timeCount > Constants.kHatchDelay) {
-      return true;
-    } else {
-      return false;
-    }
-}
+    return true;
+  }
 
   // Called once after isFinished returns true
   @Override
   protected void end() {
-    Robot.m_hatch.disableLauncher();
-    this.timeCount = 0.0;
   }
 
   // Called when another command which requires one or more of the same
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
-    Robot.m_hatch.disableLauncher();
-    this.timeCount = 0.0;
   }
 }
