@@ -9,7 +9,7 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
-
+import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import frc.robot.RobotMap;
 
 /**
@@ -30,6 +30,19 @@ public class Climb extends Subsystem {
   public Climb() {
     this.m_frontLegs = new DoubleSolenoid(RobotMap.m_frontLegsExtend,RobotMap.m_frontLegsRetract);
     this.m_backLegs = new DoubleSolenoid(RobotMap.m_backLegsExtend,RobotMap.m_backLegsRetract);
+  }
+
+  public void extendFront() { 
+    this.m_frontLegs.set(Value.kForward);
+  }
+
+  public void extendBack() {
+    this.m_frontLegs.set(Value.kReverse);
+  }
+
+  public void extendAll() { 
+    extendFront();
+    extendBack();
   }
 
 }
