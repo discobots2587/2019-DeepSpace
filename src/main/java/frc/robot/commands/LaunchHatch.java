@@ -26,6 +26,7 @@ public class LaunchHatch extends Command {
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
+    Robot.m_hatch.disableLauncher();
     this.timeCount = 0.0;
   }
 
@@ -59,5 +60,7 @@ public class LaunchHatch extends Command {
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
+    Robot.m_hatch.disableLauncher();
+    this.timeCount = 0.0;
   }
 }
