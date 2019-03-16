@@ -67,7 +67,7 @@ public class Lift extends Subsystem {
     this.resetSensors();
     this.manualWristControl = true;
     this.m_motorSpeed = 0.0;
-    this.m_smartMode = true;
+    this.m_smartMode = false;
   }
 
   @Override

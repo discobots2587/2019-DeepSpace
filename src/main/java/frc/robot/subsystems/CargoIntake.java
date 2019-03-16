@@ -34,7 +34,7 @@ public class CargoIntake extends Subsystem {
   // initializing IR sensor to detect when cargo is in place
   private AnalogInput m_rollerIR;
 
-  private boolean m_smartMode = true;
+  private boolean m_smartMode = false;
   private double m_rollerMotorPercent;
 
   public CargoIntake() {
