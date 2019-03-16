@@ -32,17 +32,30 @@ public class Climb extends Subsystem {
     this.m_backLegs = new DoubleSolenoid(RobotMap.m_backLegsExtend,RobotMap.m_backLegsRetract);
   }
 
-  public void extendFront() { 
+  public void extendFront() {
     this.m_frontLegs.set(Value.kForward);
   }
 
   public void extendBack() {
+    this.m_backLegs.set(Value.kForward);
+  }
+
+  public void extendAll() {
+    extendFront();
+    extendBack();
+  }
+
+  public void retractFront() {
     this.m_frontLegs.set(Value.kReverse);
   }
 
-  public void extendAll() { 
-    extendFront();
-    extendBack();
+  public void retractBack() {
+    this.m_backLegs.set(Value.kReverse);
+  }
+
+  public void retractAll() {
+    retractFront();
+    retractBack();
   }
 
 }
