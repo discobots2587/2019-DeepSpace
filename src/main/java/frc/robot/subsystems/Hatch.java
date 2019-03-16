@@ -76,8 +76,7 @@ public class Hatch extends Subsystem {
     if (Robot.m_drive.isFrontToHatch()){
       this.toggleSolenoid(this.m_hatchSideBeak);
     } else {
-      //this.toggleSolenoid(this.m_cargoSideBeak);
-      this.pneumaticsOff(this.m_cargoSideBeak);
+      this.toggleSolenoid(this.m_cargoSideBeak);
     }
   }
 
@@ -85,8 +84,7 @@ public class Hatch extends Subsystem {
     if (Robot.m_drive.isFrontToHatch()){
       this.pneumaticsOn(this.m_hatchSideBeak);
     } else {
-      //this.pneumaticsOn(this.m_cargoSideBeak);
-      this.pneumaticsOff(this.m_cargoSideBeak);
+      this.pneumaticsOn(this.m_cargoSideBeak);
     }
   }
 
@@ -103,8 +101,7 @@ public class Hatch extends Subsystem {
     if (Robot.m_drive.isFrontToHatch()){
       this.pneumaticsOn(this.m_hatchSideLauncher);
     } else {
-      //this.pneumaticsOn(this.m_cargoSideLauncher);
-      this.pneumaticsOff(this.m_cargoSideLauncher);
+      this.pneumaticsOn(this.m_cargoSideLauncher);
     }
   }
 
