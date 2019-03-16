@@ -10,6 +10,8 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 
+import frc.robot.RobotMap;
+
 /**
  * Add your docs here.
  */
@@ -24,4 +26,10 @@ public class Climb extends Subsystem {
     // Set the default command for a subsystem here.
     // setDefaultCommand(new MySpecialCommand());
   }
+
+  public Climb() {
+    this.m_frontLegs = new DoubleSolenoid(RobotMap.m_frontLegsExtend,RobotMap.m_frontLegsRetract);
+    this.m_backLegs = new DoubleSolenoid(RobotMap.m_backLegsExtend,RobotMap.m_backLegsRetract);
+  }
+
 }
