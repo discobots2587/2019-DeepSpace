@@ -221,6 +221,10 @@ public class DriveTrain extends Subsystem {
       rightMotorOutput = saveLeftMotorOutput;
     }
 
+    if (Math.abs(turn) < Constants.kPrecisionDrivingThreshold && Math.abs(throttle) < Constants.kPrecisionDrivingThreshold) {
+      turn *= Constants.kPrecisionTurningPercent;
+    }
+
     this.m_leftMaster.set(ControlMode.PercentOutput, leftMotorOutput);
     this.m_rightMaster.set(ControlMode.PercentOutput, rightMotorOutput);
 
