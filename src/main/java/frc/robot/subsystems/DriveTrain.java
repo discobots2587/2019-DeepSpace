@@ -44,6 +44,7 @@ public class DriveTrain extends Subsystem {
 
   private boolean isHatchSide;
   private boolean isLowGear;
+  private boolean isArcadeDrive;
 
   public DriveTrain() {
     this.m_leftMaster = new TalonSRX(RobotMap.m_leftMasterMotor);
@@ -127,6 +128,10 @@ public class DriveTrain extends Subsystem {
     } else {
       return 0.0;
     }
+  }
+
+  public boolean getIsArcadeDrive() {
+    return this.isArcadeDrive;
   }
 
   public boolean getRampingUsed() {
