@@ -134,6 +134,10 @@ public class DriveTrain extends Subsystem {
     return this.isArcadeDrive;
   }
 
+  public void toggleisArcadeDrive() {
+    this.isArcadeDrive = !this.isArcadeDrive;
+  }
+
   public boolean getRampingUsed() {
     return this.rampingUsed;
   }
