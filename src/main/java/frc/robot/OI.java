@@ -110,6 +110,7 @@ public class OI {
     //this.d_btn_B.whenPressed(new DriveToggleRampingUsed());
     this.d_btn_back.whenPressed(new ToggleOperatorControls());
     this.d_btn_start.whenPressed(new GearShift());
+    this.d_dpad_left.whenPressed(new ToggleCurvatureDrive());
     this.driverOperatorEnabled = false;
 
     /* TODO: (OPTIONAL) Add quick-turn to this.d_btn_LB (left 90 degres) and this.d_btn_RB (right 90 degrees) */
