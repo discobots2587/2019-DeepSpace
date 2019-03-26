@@ -21,6 +21,7 @@ import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import frc.robot.RobotMap;
 import frc.robot.util.Constants;
 import frc.robot.commands.ArcadeDrive;
+import frc.robot.commands.CurvatureDrive;
 
 /**
  * Contains objects and capabilities related to the drivetrain
@@ -109,6 +110,17 @@ public class DriveTrain extends Subsystem {
   @Override
   public void initDefaultCommand() {
     setDefaultCommand(new ArcadeDrive());
+  }
+
+
+  /* switch between arcade drive and curvature drive */
+  public void toggleDriveMode() {
+    this.isArcadeDrive = !this.isArcadeDrive;
+    if(this.isArcadeDrive) {
+      setDefaultCommand(new ArcadeDrive());
+    } else {
+      setDefaultCommand(new CurvatureDrive());
+    }
   }
 
   /* OI input-handling helper functions */
