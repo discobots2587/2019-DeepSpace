@@ -329,6 +329,9 @@ public class DriveTrain extends Subsystem {
       leftMotorOutput /= maxMagnitude;
       rightMotorOutput /= maxMagnitude;
     }
+
+    this.m_leftMaster.set(ControlMode.PercentOutput,leftMotorOutput);
+    this.m_rightMaster.set(ControlMode.PercentOutput,rightMotorOutput);
         
     if (this.rampingUsed) {
       this.lastInputs[0] = throttle;
