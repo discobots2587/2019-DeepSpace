@@ -82,10 +82,18 @@ public class Hatch extends Subsystem {
 
   public void extendBeak() {
     if (Robot.m_drive.isFrontToHatch()){
-      this.pneumaticsOn(this.m_hatchSideBeak);
+      extendHatchSideBeak();
     } else {
-      this.pneumaticsOn(this.m_cargoSideBeak);
+      extendCargoSideBeak();
     }
+  }
+
+  public void extendHatchSideBeak() {
+    this.pneumaticsOn(this.m_hatchSideBeak);
+  }
+
+  public void extendCargoSideBeak() {
+    this.pneumaticsOn(this.m_cargoSideBeak);
   }
 
   public void retractBeak() {
