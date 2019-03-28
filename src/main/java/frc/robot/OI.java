@@ -144,7 +144,8 @@ public class OI {
     this.o_btn_A.whenReleased(new StopRollers());
 
     /* Hatch-related Commands */
-    this.o_btn_X.whenPressed(new ToggleBeak());
+    this.o_btn_X.whenPressed(new ToggleHatchSideBeak());
+    this.o_btn_start.whenPressed(new ToggleCargoSideBeak());
     this.o_btn_B.whenPressed(new LaunchHatch());
 
     /* Elevator related commands */
