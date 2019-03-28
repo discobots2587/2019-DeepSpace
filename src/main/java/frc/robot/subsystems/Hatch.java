@@ -74,10 +74,18 @@ public class Hatch extends Subsystem {
   /* Beak actions */
   public void toggleBeak() {
     if (Robot.m_drive.isFrontToHatch()){
-      this.toggleSolenoid(this.m_hatchSideBeak);
+      toggleHatchSideBeak();
     } else {
-      this.toggleSolenoid(this.m_cargoSideBeak);
+      toggleCargoSideBeak();
     }
+  }
+
+  public void toggleCargoSideBeak() {
+    this.toggleSolenoid(this.m_cargoSideBeak);
+  }
+
+  public void toggleHatchSideBeak() {
+    this.toggleSolenoid(this.m_hatchSideBeak);
   }
 
   public void extendBeak() {
