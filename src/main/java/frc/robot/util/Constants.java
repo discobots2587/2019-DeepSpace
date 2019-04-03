@@ -3,6 +3,12 @@ package frc.robot.util;
 //Constants - useful numbers put into a place that makes them easy to change (no magic numbers!)
 public class Constants {
 
+	//kPrecisionDrivingThreshold - amount of turn or throttle below which precision driving kicks in
+	public static double kPrecisionDrivingThreshold = 0.1;
+
+	//kPrecisionTurningPercent - reduce turning to this percent below PrecisionDrivingThreshold to increase precision
+	public static double kPrecisionTurningPercent = 0.75;
+
 	//kRampingAdjust - multiply ramped value by this constant
 	public static double kRampingAdjust = 0.5;
 	

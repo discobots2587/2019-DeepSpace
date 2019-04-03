@@ -21,6 +21,7 @@ import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import frc.robot.RobotMap;
 import frc.robot.util.Constants;
 import frc.robot.commands.ArcadeDrive;
+import frc.robot.commands.CurvatureDrive;
 
 /**
  * Contains objects and capabilities related to the drivetrain
@@ -44,6 +45,7 @@ public class DriveTrain extends Subsystem {
 
   private boolean isHatchSide;
   private boolean isLowGear;
+  private boolean isArcadeDrive;
 
   public DriveTrain() {
     this.m_leftMaster = new TalonSRX(RobotMap.m_leftMasterMotor);
@@ -110,6 +112,17 @@ public class DriveTrain extends Subsystem {
     setDefaultCommand(new ArcadeDrive());
   }
 
+
+  /* switch between arcade drive and curvature drive */
+  public void toggleDriveMode() {
+    this.isArcadeDrive = !this.isArcadeDrive;
+    if(this.isArcadeDrive) {
+      setDefaultCommand(new ArcadeDrive());
+    } else {
+      setDefaultCommand(new CurvatureDrive());
+    }
+  }
+
   /* OI input-handling helper functions */
   /**
    * Returns 0.0 if the given value is within the specified range around zero. The remaining range
@@ -127,6 +140,14 @@ public class DriveTrain extends Subsystem {
     } else {
       return 0.0;
     }
+  }
+
+  public boolean getIsArcadeDrive() {
+    return this.isArcadeDrive;
+  }
+
+  public void toggleisArcadeDrive() {
+    this.isArcadeDrive = !this.isArcadeDrive;
   }
 
   public boolean getRampingUsed() {
@@ -221,6 +242,10 @@ public class DriveTrain extends Subsystem {
       rightMotorOutput = saveLeftMotorOutput;
     }
 
+    if (Math.abs(turn) < Constants.kPrecisionDrivingThreshold && Math.abs(throttle) < Constants.kPrecisionDrivingThreshold) {
+      turn *= Constants.kPrecisionTurningPercent;
+    }
+
     this.m_leftMaster.set(ControlMode.PercentOutput, leftMotorOutput);
     this.m_rightMaster.set(ControlMode.PercentOutput, rightMotorOutput);
 
@@ -304,6 +329,9 @@ public class DriveTrain extends Subsystem {
       leftMotorOutput /= maxMagnitude;
       rightMotorOutput /= maxMagnitude;
     }
+
+    this.m_leftMaster.set(ControlMode.PercentOutput,leftMotorOutput);
+    this.m_rightMaster.set(ControlMode.PercentOutput,rightMotorOutput);
         
     if (this.rampingUsed) {
       this.lastInputs[0] = throttle;
