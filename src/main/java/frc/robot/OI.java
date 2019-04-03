@@ -138,11 +138,11 @@ public class OI {
     this.o_btn_back.whenPressed(new ToggleSmartMode());
 
     /* Intake-related Commands */
-    this.o_btn_Y.whileHeld(new IntakeCargo());
-    this.o_btn_Y.whenReleased(new StopRollers());
-    this.o_btn_A.whenPressed(new EjectCargo());
+    this.o_axisBtn_RT.whenPressed(new IntakeCargo());
+    this.o_axisBtn_RT.whenReleased(new StopRollers());
+    this.o_btn_RB.whenPressed(new EjectCargo());
     //this.o_btn_A.whileHeld(new EjectCargo());
-    this.o_btn_A.whenReleased(new StopRollers());
+    this.o_btn_RB.whenReleased(new StopRollers());
 
     /* Hatch-related Commands */
     this.o_btn_X.whenPressed(new ToggleHatchSideBeak());
