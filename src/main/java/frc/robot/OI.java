@@ -111,11 +111,10 @@ public class OI {
     d_btn_B.whenPressed(new Feed());
     d_btn_B.whenReleased(new IntakeSet(0));
 
-    d_btn_Y.whenPressed(new ArmRaise());
-    d_btn_Y.whenReleased(new ArmStop());
-
-    d_btn_X.whenPressed(new ArmLower());
-    d_btn_X.whenReleased(new ArmStop());
+    d_btn_Y.whenPressed(new ArmPIDRaise());
+    d_btn_X.whenPressed(new ArmPIDLower());
+    d_dpad_up.whenPressed(new ArmPIDToggle());
+    d_btn_RB.whenPressed(new ArmPIDReset());
 
     d_btn_LB.whenPressed(new Grab());
 

@@ -4,7 +4,7 @@ package frc.robot.util;
 public class Constants {
 
 	//kMaxArmSpeed - maximum speed the arm can move
-	public static double kMaxArmSpeed = 1.0;
+	public static double kMaxArmSpeed = 0.75;
 	
 	//kDeadband - driving ignores this value and lower for the controller inputs
 	public static double kDeadband = 0.1;
@@ -36,4 +36,12 @@ public class Constants {
 	
 	//kIntakeSpeed - the speed that the intake motors operate at (both forward and backward)
 	public static double kIntakeSpeed = 0.75;
+
+	//PID values for ARMPID 
+	public static int kArmPID_P = 1;
+	public static int kArmPID_I = 2; 
+	public static int kArmPID_D = 3; 
+
+	//kScaleFactor - 
+	public static double kScaleFactor = 50;
  }
